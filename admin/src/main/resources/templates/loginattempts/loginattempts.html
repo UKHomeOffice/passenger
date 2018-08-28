@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+<head th:replace="layout/header::header"/>
+<body>
+
+<nav th:replace="layout/nav::nav"/>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h3>Enter time as e.g. "29/11/2017 12:45" to see login attempts</h3>
+
+        <form method="GET" th:action="@{/loginattempts}" enctype="multipart/form-data">
+            <label for="from">From</label> <input type="text" name="from" id="from"
+                                                  th:value="${#temporals.format(now.minusDays(1), 'dd/MM/yyyy HH:mm')}"/>
+            <label for="to">To</label> <input type="text" name="to" id="to"
+                                              th:value="${#temporals.format(now, 'dd/MM/yyyy HH:mm')}"/>
+            <input type="submit" value="Submit"/>
+        </form>
+    </div>
+
+    <div class="starter-template" th:if="${param.from != null AND param.to != null}">
+        <h3>Login attempts between <span th:remove="tag" th:text="${param.from[0]}"/> and <span th:remove="tag"
+                                                                                                th:text="${param.to[0]}"/>.
+        </h3>
+        <table>
+            <thead>
+            <tr>
+                <th>
+                    Passport Number
+                </th>
+                <th>
+                    Ip address
+                </th>
+                <th>
+                    Time
+                </th>
+                <th>
+                    Successful
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${attempts}">
+                <td th:text="${item.passportNumber}"/>
+                <td th:text="${item.ipAddress}"/>
+                <td th:text="${#temporals.format(item.time, 'dd/MM/yyyy HH:mm:ss')}"/>
+                <th th:if="${item.success}" th:text="Yes" class="success"/>
+                <th th:if="${!item.success}" th:text="No" class="error"/>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- /.container -->
+
+
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+ALTER TABLE crs_record ADD COLUMN updated_by VARCHAR(100);

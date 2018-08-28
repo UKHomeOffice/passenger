@@ -1,0 +1,32 @@
+<configuration>
+
+    <!-- Default location for the container log file -->
+    <property name="LOG_FILE" value="${java.io.tmpdir}/passenger.log" />
+
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+
+    <appender name="LOGSTASH" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+        <!-- Filter any log levels below INFO - This goes to LogStash (cannot contain sensitive log output!!) -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <!-- Log to logstash and local file -->
+    <logger name="org.gov.uk.homeoffice.digital.permissions.passenger" level="DEBUG" additivity="false">
+        <appender-ref ref="LOGSTASH" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <logger name="org.springframework.boot" level="INFO" additivity="false">
+        <appender-ref ref="LOGSTASH" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <!-- Default Log -->
+    <root level="INFO">
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>

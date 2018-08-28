@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+<head th:replace="layout/header::header"/>
+<body>
+
+<nav th:replace="layout/nav::nav"/>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h3>Upload participants data (<span th:text="${visaDataSource}" th:remove="tag" />)</h3>
+        <h6 th:if="${emailEnabled} == true">Email service is <strong>ENABLED</strong> and emails will be sent to participants</h6>
+        <h6 th:if="${emailEnabled} == false">Email service is <strong>DISABLED</strong> and emails will NOT be sent to participants</h6>
+        <form method="POST" th:action="@{/uploadParticipants}" enctype="multipart/form-data">
+            <input type="file" name="file"/><br/><br/>
+            <input type="submit" value="Submit"/>
+        </form>
+
+    </div>
+
+</div>
+<!-- /.container -->
+
+</body>
+</html>

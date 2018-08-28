@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+<head th:replace="layout/header::header"/>
+<body>
+<nav th:replace="layout/nav::nav"/>
+<div class="container">
+
+
+	<div class="starter-template">
+		<h3><span th:remove="tag" th:text="${status}"/> There was a problem with your request</h3>
+		<p>The application understood your request but was unable to respond.</p>
+		<p>Please check application logs for more details.</p>
+		<a href="/">Home</a>
+	</div>
+
+
+</div>
+<!-- /.container -->
+
+
+
+</body>
+</html>

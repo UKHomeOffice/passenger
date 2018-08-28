@@ -1,0 +1,114 @@
+<div th:fragment="participant (p)">
+    <table th:classappend="${p.updated} ? updated : unchanged">
+        <tr>
+            <th>Id</th>
+            <td><span th:text="${p.id}" th:remove="tag"/>
+                <form style="display: inline; margin-left: 5px" method="POST" th:action="'/deleteparticipant/' + ${p.passportNumber}">
+                    <input type="submit" value="Delete" onclick="return confirm('Delete this participant.\nAre you sure?');"/>
+                </form>
+            </td>
+        </tr>
+        <tr th:styleappend="${p.gwf == null} ? 'display:none':''">
+            <th>GWF</th>
+            <td th:text="${p.gwf}"/>
+        </tr>
+        <tr th:styleappend="${p.vaf == null} ? 'display:none':''">
+            <th>VAF</th>
+            <td th:text="${p.vaf}"/>
+        </tr>
+        <tr th:styleappend="${p.cas == null} ? 'display:none':''">
+            <th>CAS</th>
+            <td th:text="${p.cas}"/>
+        </tr>
+        <tr th:styleappend="${p.firstName == null} ? 'display:none':''">
+            <th>First name</th>
+            <td th:text="${p.firstName}"/>
+        </tr>
+        <tr th:styleappend="${p.middleName == null} ? 'display:none':''">
+            <th>Middle name</th>
+            <td th:text="${p.middleName}"/>
+        </tr>
+        <tr th:styleappend="${p.surName == null} ? 'display:none':''">
+            <th>Surname</th>
+            <td th:text="${p.surName}"/>
+        </tr>
+        <tr th:styleappend="${p.dateOfBirth == null} ? 'display:none':''">
+            <th>Date of birth</th>
+            <td th:text="${p.dateOfBirth}"/>
+        </tr>
+        <tr th:styleappend="${p.nationality == null} ? 'display:none':''">
+            <th>Nationality</th>
+            <td th:text="${p.nationality}"/>
+        </tr>
+        <tr th:styleappend="${p.passportNumber == null} ? 'display:none':''">
+            <th>Passport number</th>
+            <td th:text="${p.passportNumber}"/>
+        </tr>
+        <tr th:styleappend="${p.mobileNumber == null} ? 'display:none':''">
+            <th>Mobile number</th>
+            <td th:text="${p.mobileNumber}"/>
+        </tr>
+        <tr th:styleappend="${p.email == null} ? 'display:none':''">
+            <th>Email</th>
+            <td th:text="${p.email}"/>
+        </tr>
+        <tr th:styleappend="${p.validFrom == null} ? 'display:none':''">
+            <th>Visa valid from</th>
+            <td th:text="${p.validFrom}"/>
+        </tr>
+        <tr th:styleappend="${p.validTo == null} ? 'display:none':''">
+            <th>Visa valid until</th>
+            <td th:text="${p.validTo}"/>
+        </tr>
+        <tr th:styleappend="${p.visaStatus == null} ? 'display:none':''">
+            <th>Visa status</th>
+            <td th:text="${p.visaStatus}"/>
+        </tr>
+        <tr th:styleappend="${p.reason == null} ? 'display:none':''">
+            <th>Reason</th>
+            <td th:text="${p.reason}"/>
+        </tr>
+        <tr th:styleappend="${p.spx == null} ? 'display:none':''">
+            <th>SPX</th>
+            <td th:text="${p.spx}"/>
+        </tr>
+        <tr th:styleappend="${p.catDEndorsements == null} ? 'display:none':''">
+            <th>Endorsements</th>
+            <td th:text="${p.catDEndorsements}"/>
+        </tr>
+        <tr th:styleappend="${p.institutionAddress == null} ? 'display:none':''">
+            <th>Address</th>
+            <td th:text="${p.institutionAddress}"/>
+        </tr>
+        <tr th:styleappend="${p.visaEmailSent == null} ? 'display:none':''">
+            <th>Emails sent</th>
+            <td th:text="${p.visaEmailSent}"/>
+        </tr>
+        <tr th:styleappend="${p.created == null} ? 'display:none':''">
+            <th>Created</th>
+            <td th:text="${p.created}"/>
+        </tr>
+        <tr th:styleappend="${p.lastUpdated == null} ? 'display:none':''">
+            <th>Last updated</th>
+            <td th:text="${p.lastUpdated}"/>
+        </tr>
+        <tr th:styleappend="${p.updatedBy == null} ? 'display:none':''">
+            <th>Last updated by</th>
+            <td th:text="${p.updatedBy}"/>
+        </tr>
+    </table>
+    <hr/>
+</div>
+
+<div th:fragment="uploadError (error)">
+    <table class="error">
+        <tr th:styleappend="${error.csvRow == null} ? 'display:none':''">
+            <th>Row</th>
+            <td th:text="${error.csvRow}"/>
+        </tr>
+        <tr th:styleappend="${{error.exception == null} ? 'display:none':''">
+            <th>Error message</th>
+            <td th:text="${error.exception}"/>
+        </tr>
+    </table>
+</div>

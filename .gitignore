@@ -1,0 +1,25 @@
+logs
+target
+/.idea
+/.idea_modules
+/.classpath
+/.project
+/.settings
+/RUNNING_PID
+*.iml
+/.kube
+*.log
+.DS_Store
+
+# frontend stuff that shuld go in /target
+public/target/**/*
+
+rds.yaml
+admin/src/main/resources/static/govuk_template/visa/
+admin/src/test/resources/Digital_Permissions_test_upload.numbers
+admin/src/test/resources/TrialParticipantsStage1.numbers
+admin/src/test/resources/TrialParticipantsStage_no_email.xlsx
+admin/src/test/resources/test_upload_with_revoke.xlsx
+how-to-passenger.txt
+kube/accounts-db-prod-secrets.yaml
+passenger-admin.log.1

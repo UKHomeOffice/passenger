@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+<head th:replace="layout/header::header"/>
+<body>
+
+<nav th:replace="layout/nav::nav"/>
+
+<div class="container">
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Setup - add a text input to each footer cell
+            $('#downloadTable tfoot th').each( function () {
+                var title = $(this).text();
+                if (title) {
+                    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+                }
+            } );
+
+            // DataTable
+            var table = $('#downloadTable').DataTable({
+                "order": [ [0, "asc"] ]
+            });
+            // Apply the search
+            table.columns().every( function () {
+                var that = this;
+
+                $( 'input', this.footer() ).on( 'keyup change', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+
+            // Disable Generate Files button when clicked to avoid duplicate generates.
+            $('#generateForm').one('submit', function () {
+                $(this).find('input[type="submit"]').attr('disabled', 'disabled');
+            });
+        } );
+    </script>
+
+    <div class="starter-template">
+        <h3>Participants</h3>
+
+        <table id="downloadTable" class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>date of birth</th>
+                <th>nationality</th>
+                <th>passport number</th>
+                <th>email</th>
+                <th>visa status</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${participants}">
+                <td th:text="${p.id}"></td>
+                <td th:text="${p.firstName + ' ' + p.surName}"></td>
+                <td th:text="${p.dateOfBirth}"></td>
+                <td th:text="${p.nationality}"></td>
+                <td th:text="${p.passportNumber}"></td>
+                <td th:text="${p.email}"></td>
+                <td th:text="${p.visaStatus}"></td>
+                <td><a th:href="@{/participant(id=${p.id})}">details</a></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>date of birth</th>
+                <th>nationality</th>
+                <th>passport number</th>
+                <th>email</th>
+                <th>visa status</th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+
+        <h3 th:if="${errors != null  and not errors.isEmpty()}" id="errors">Upload errors</h3>
+        <th:block th:each="error : ${errors}">
+            <div th:replace="participants/participant :: uploadError (error=${error})"/>
+        </th:block>
+    </div>
+
+</div>
+<!-- /.container -->
+
+</body>
+</html>

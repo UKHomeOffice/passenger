@@ -1,0 +1,37 @@
+version: '2'
+
+services:
+
+  passenger_db:
+    image: quay.io/ukhomeofficedigital/postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: passenger
+      POSTGRES_USER: passenger
+      POSTGRES_PASSWORD: passenger
+    container_name: passenger-db
+    volumes:
+      - postgres-passenger-data:/var/lib/postgresql
+
+  accounts_db:
+    image: quay.io/ukhomeofficedigital/postgres
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: accounts
+      POSTGRES_USER: accounts
+      POSTGRES_PASSWORD: accounts
+    container_name: accounts-db
+    volumes:
+      - postgres-accounts-data:/var/lib/postgresql
+
+  app_sessions:
+    image: quay.io/ukhomeofficedigital/redis:latest
+    ports:
+      - 6379:6379
+    container_name: app_sessions
+
+volumes:
+ postgres-passenger-data:
+ postgres-accounts-data:

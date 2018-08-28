@@ -1,0 +1,1 @@
+UPDATE accounts SET code = '789424' WHERE email = 'digitalpermissions@digital.homeoffice.gov.uk' AND uuid IS NOT null;

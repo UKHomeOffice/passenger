@@ -1,0 +1,25 @@
+<!--  this is navigation -->
+<nav class="navbar navbar-inverse" th:fragment="nav" th:if="${authenticated}">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Passenger Administration</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li sec:authorize="hasRole('ADMIN')"><a href="/uploadParticipants">Upload participants</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/participants">Participants</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/loginattempts">Login attempts</a></li>
+            <li sec:authorize="hasRole('WICU') or hasRole('ADMIN')"><a href="/wicu">WICU</a></li>
+            <li sec:authorize="hasRole('ADMIN')" class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Rules Admin
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <!--<li><a href="/content">Content Editor</a></li>-->
+                    <li><a href="/debug">Debug</a></li>
+                </ul>
+            </li>
+        </ul>
+        <form style="position: absolute; display:inline; top: 8px; right: 8px;" th:action="@{/logout}" method="post">
+            <input class="btn btn-default" type="submit" value="Logout"/>
+        </form>
+    </div>
+</nav>

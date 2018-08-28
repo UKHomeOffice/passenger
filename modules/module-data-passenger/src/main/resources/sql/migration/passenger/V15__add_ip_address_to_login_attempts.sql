@@ -1,0 +1,1 @@
+ALTER TABLE login_attempts ADD ip_address VARCHAR(200);

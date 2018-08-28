@@ -1,0 +1,17 @@
+
+
+View your visa details
+Enter your passport number and date of birth to view your visa details.
+
+Passport number
+
+Date of birth
+For example, 31 3 1980
+
+<<View now>>
+
+Contact the Home Office if you need help logging on.
+Email: ukvisatrial@homeoffice.gov.uk 
+
+
+

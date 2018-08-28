@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+<head th:replace="layout/header::header"/>
+<body>
+<nav th:replace="layout/nav::nav"/>
+
+<div class="container">
+
+	<div class="starter-template">
+		<h3><span th:remove="tag" th:text="${status}"/> Error</h3>
+		<p>The application encountered an error whilst processing your request.</p>
+		<p>Please check application logs for more details.</p>
+		<a href="/">Home</a>
+	</div>
+
+
+</div>
+<!-- /.container -->
+
+<script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>

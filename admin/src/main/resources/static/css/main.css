@@ -1,0 +1,38 @@
+h1 {
+    color: #0000FF;
+}
+
+h2 {
+    color: #FF0000;
+}
+
+.error{
+    color: #cc0000;
+}
+
+.success{
+    color:  #006400;
+}
+table{
+    margin: 25px;
+}
+
+th, td{
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+table.updated {
+    color:  #006400;
+}
+
+table.unchanged{
+    color: #000000;
+}
+tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}

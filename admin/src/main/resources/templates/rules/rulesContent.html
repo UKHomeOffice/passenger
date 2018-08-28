@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head th:replace="layout/header::header"/>
+<body>
+<nav th:replace="layout/nav::nav"/>
+
+<div class="container">
+    <div class="container">
+        <h3>Edit Business Rule Content</h3>
+        <p>Edit the default content that is displayed on the visa page.</p>
+        <form action="#" class="form" id="updateRuleContent" method="POST" th:action="@{/updateRuleContent}" th:object="${ruleContentForm}">
+            <div class="container" th:if="${ruleContentForm != null}">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Rule Name</th>
+                        <th>Display Content</th>
+                        <th>Enabled</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <th:block th:each="rule, stat : ${ruleContentForm.visaRules}">
+                            <tr>
+                                <td style="width: 20em">
+                                    <label th:for="|visaRules[${stat.index}].name|" th:text="${rule.rule}" />
+                                    <input type="hidden"
+                                           th:name="|visaRules[${stat.index}].name|"
+                                           th:value="${rule.rule}"
+                                           th:field="*{visaRules[__${stat.index}__].rule}" />
+                                </td>
+                                <td>
+                                    <textarea style="width: 100%"
+                                                th:value="${rule.displayContent}"
+                                                th:field="*{visaRules[__${stat.index}__].displayContent}"></textarea>
+                                </td>
+                                <td style="width: 6em">
+                                    <input type="checkbox"
+                                           th:name="|visaRules[${stat.index}]|"
+                                           th:value="${rule.rule}"
+                                           th:checked="${rule.enabled}"
+                                           th:field="*{visaRules[__${stat.index}__].enabled}" />
+                                </td>
+                            </tr>
+                        </th:block>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <input type="submit" value="Update" class="btn btn-default" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

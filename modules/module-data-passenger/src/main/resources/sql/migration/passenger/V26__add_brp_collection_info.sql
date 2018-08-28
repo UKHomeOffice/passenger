@@ -1,0 +1,1 @@
+INSERT INTO visa_rule_lookup (rule) VALUES ('BRP_COLLECTION_INFO');

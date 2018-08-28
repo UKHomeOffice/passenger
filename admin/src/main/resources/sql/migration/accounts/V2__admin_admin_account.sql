@@ -1,0 +1,1 @@
+INSERT INTO accounts ( email, uuid) VALUES ('digitalpermissions@digital.homeoffice.gov.uk', 'e8e0ba3a-caba-11e7-abc4-cec278b6b50a');

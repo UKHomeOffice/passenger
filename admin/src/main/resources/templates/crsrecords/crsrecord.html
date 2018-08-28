@@ -1,0 +1,159 @@
+<div th:fragment="crsrecord (crs)">
+    <table th:classappend="${crs.updated} ? updated : unchanged">
+        <tr>
+            <th>Id</th>
+            <td><span th:text="${crs.id}" th:remove="tag"/>
+                <form style="display: inline; margin-left: 5px" method="POST" th:action="'/deletecrsrecord/' + ${crs.id}">
+                    <input type="submit" value="Delete" onclick="return confirm('Delete this crsRecord.\nAre you sure?');"/>
+                </form>
+            </td>
+        </tr>
+        <tr th:styleappend="${crs.gwfRef == null} ? 'display:none':''">
+            <th>GWF</th>
+            <td th:text="${crs.gwfRef}"/>
+        </tr>
+        <tr th:styleappend="${crs.vafNo == null} ? 'display:none':''">
+            <th>VAF</th>
+            <td th:text="${crs.vafNo}"/>
+        </tr>
+        <tr th:styleappend="${crs.casNo == null} ? 'display:none':''">
+            <th>CAS</th>
+            <td th:text="${crs.casNo}"/>
+        </tr>
+        <tr th:styleappend="${crs.cosNo == null} ? 'display:none':''">
+            <th>COS</th>
+            <td th:text="${crs.cosNo}"/>
+        </tr>
+        <tr th:styleappend="${crs.postName == null} ? 'display:none':''">
+            <th>POST of Visa Issue</th>
+            <td th:text="${crs.postName}"/>
+        </tr>
+        <tr th:styleappend="${crs.familyName == null} ? 'display:none':''">
+            <th>Surname</th>
+            <td th:text="${crs.familyName}"/>
+        </tr>
+        <tr th:styleappend="${crs.otherName == null} ? 'display:none':''">
+            <th>First Name</th>
+            <td th:text="${crs.otherName}"/>
+        </tr>
+        <tr th:styleappend="${crs.gender == null} ? 'display:none':''">
+            <th>Gender</th>
+            <td th:text="${crs.gender}"/>
+        </tr>
+        <tr th:styleappend="${crs.dateOfBirth == null} ? 'display:none':''">
+            <th>Date of birth</th>
+            <td th:text="${crs.dateOfBirth}"/>
+        </tr>
+        <tr th:styleappend="${crs.nationality == null} ? 'display:none':''">
+            <th>Nationality</th>
+            <td th:text="${crs.nationality}"/>
+        </tr>
+        <tr th:styleappend="${crs.passportNumber == null} ? 'display:none':''">
+            <th>Passport number</th>
+            <td th:text="${crs.passportNumber}"/>
+        </tr>
+        <tr th:styleappend="${crs.mobileNumber == null} ? 'display:none':''">
+            <th>Mobile number</th>
+            <td th:text="${crs.mobileNumber}"/>
+        </tr>
+        <tr th:styleappend="${crs.emailAddress == null} ? 'display:none':''">
+            <th>Email address</th>
+            <td th:text="${crs.emailAddress}"/>
+        </tr>
+        <tr th:styleappend="${crs.localAddress == null} ? 'display:none':''">
+            <th>Local address</th>
+            <td th:text="${crs.localAddress}"/>
+        </tr>
+        <tr th:styleappend="${crs.status == null} ? 'display:none':''">
+            <th>Reason</th>
+            <td th:text="${crs.status}"/>
+        </tr>
+        <tr th:styleappend="${crs.ecType == null} ? 'display:none':''">
+            <th>Status</th>
+            <td th:text="${crs.ecType}"/>
+        </tr>
+        <tr th:styleappend="${crs.entryType == null} ? 'display:none':''">
+            <th>Entry type</th>
+            <td th:text="${crs.entryType}"/>
+        </tr>
+        <tr th:styleappend="${crs.visaEndorsement == null} ? 'display:none':''">
+            <th>Visa endorsement</th>
+            <td th:text="${crs.visaEndorsement}"/>
+        </tr>
+        <tr th:styleappend="${crs.validFrom == null} ? 'display:none':''">
+            <th>Valid from</th>
+            <td th:text="${crs.validFrom}"/>
+        </tr>
+        <tr th:styleappend="${crs.brpCollectionInfo == null} ? 'display:none':''">
+            <th>Valid to</th>
+            <td th:text="${crs.validTo}"/>
+        </tr>
+        <tr th:styleappend="${crs.sponsorName == null} ? 'display:none':''">
+            <th>Sponsor name</th>
+            <td th:text="${crs.sponsorName}"/>
+        </tr>
+        <tr th:styleappend="${crs.sponsorType == null} ? 'display:none':''">
+            <th>Sponsor type</th>
+            <td th:text="${crs.sponsorType}"/>
+        </tr>        
+        <tr th:styleappend="${crs.sponsorAddress == null} ? 'display:none':''">
+            <th>Sponsor address</th>
+            <td th:text="${crs.sponsorAddress}"/>
+        </tr>
+        <tr th:styleappend="${crs.sponsorSpxNo == null} ? 'display:none':''">
+            <th>Spx number</th>
+            <td th:text="${crs.sponsorSpxNo}"/>
+        </tr>
+        <tr th:styleappend="${crs.additionalEndorsement1 == null} ? 'display:none':''">
+            <th>Additional endorsement 1</th>
+            <td th:text="${crs.additionalEndorsement1}"/>
+        </tr>
+        <tr th:styleappend="${crs.additionalEndorsement2 == null} ? 'display:none':''">
+            <th>Additional endorsement 2</th>
+            <td th:text="${crs.additionalEndorsement2}"/>
+        </tr>
+        <tr th:styleappend="${crs.catDEndors1 == null} ? 'display:none':''">
+            <th>CAT D endorsement 1</th>
+            <td th:text="${crs.catDEndors1}"/>
+        </tr>
+        <tr th:styleappend="${crs.catDEndors2 == null} ? 'display:none':''">
+            <th>CAT D endorsement 2</th>
+            <td th:text="${crs.catDEndors2}"/>
+        </tr>        
+        <tr th:styleappend="${crs.uniCollegeName == null} ? 'display:none':''">
+            <th>Uni College Name</th>
+            <td th:text="${crs.uniCollegeName}"/>
+        </tr>        
+        <tr th:styleappend="${crs.brpCollectionInfo == null} ? 'display:none':''">
+            <th>Brp collection info</th>
+            <td th:text="${crs.brpCollectionInfo}"/>
+        </tr>        
+        <tr th:styleappend="${crs.expectedTravelDate == null} ? 'display:none':''">
+            <th>Expected travel date</th>
+            <td th:text="${crs.expectedTravelDate}" />
+        </tr>
+        <tr th:styleappend="${crs.updated == null} ? 'display:none':''">
+            <th>Last updated</th>
+            <td th:text="${crs.updated}"/>
+        </tr>
+        <tr th:styleappend="${crs.updatedBy == null} ? 'display:none':''">
+            <th>Last updated by</th>
+            <td th:text="${crs.updatedBy}"/>
+        </tr>
+    </table>
+    <hr/>
+</div>
+
+<div th:fragment="uploadError (error)">
+    <table class="error">
+        <tr>
+            <th>Crs Row</th>
+            <td th:text="${error.crsRow}"/>
+        </tr>
+
+            <tr th:each="errorMessage : ${error.message}">
+            <th>Error message</th>
+                <td th:text="${errorMessage}"/>
+            </tr>
+    </table>
+</div>

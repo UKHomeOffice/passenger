@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+<head th:replace="layout/header::header"/>
+<body>
+
+<nav th:replace="layout/nav::nav"/>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h3>Participant(Crs Record) Details</h3>
+        <th:block th:each="crs : ${crsRecords}">
+            <div th:replace="crsrecords/crsrecord :: crsrecord (crs=${crs})"/>
+         </th:block>
+         <h3 th:if="${errors != null  and not errors.isEmpty()}" id="errors">Upload errors</h3>
+         <th:block th:each="error : ${errors}">
+             <div th:replace="crsrecords/crsrecord :: uploadError (error=${error})"/>
+         </th:block>
+        <hr>
+     </div>
+
+ </div>
+ <!-- /.container -->
+
+
+
+</body>
+</html>

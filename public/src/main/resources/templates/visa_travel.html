@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{govuk_template}">
+<head>
+    <title>Travel Details</title>
+</head>
+<div layout:fragment="content">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form th:action="@{/visa/arrive}" method="post">
+                <h1 class="govuk-heading-l">
+                    Travel to the UK
+                    <span class="govuk-caption-xl govuk-visually-hidden"></span>
+                </h1>
+
+                <table class="govuk-table">
+                    <caption class="govuk-table__caption govuk-heading-m">Your travel dates</caption>
+                    <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                        <th class="govuk-table__header" scope="col">From</th>
+                        <th class="govuk-table__header" scope="col">To</th>
+                    </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell "> <span th:text="${fromTravelDisplayDate}" th:remove="tag" /></td>
+                        <td class="govuk-table__cell "> <span th:text="${toTravelDisplayDate}" th:remove="tag" /></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p class="govuk-inset-text">
+                    You must travel to the UK between these dates only. If you can’t travel between these dates you must <a href="https://www.visa4uk.fco.gov.uk/home/welcome">apply for a replacement 30-day visa</a> (called a 30-day vignette application).
+                </p>
+                <h2 class="govuk-heading-m">
+                    About your visa
+                </h2>
+                <p class="govuk-body">Your visa is now paperless.  This means there won't be a visa sticker or vignette in your passport.  When you travel to the UK you'll need to take the passport you held when you applied for your visa.</p>
+                <h2 class="govuk-heading-m">
+                    At the airport
+                </h2>
+                <p class="govuk-body">Take your passport and all your travel documents with you. Show your documents when you travel to and from the UK.</p>
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+                <p class="govuk-inset-text">
+                    On arrival into the UK there are important things you must do.
+                </p>
+                <button type="submit" class="govuk-button">
+                    Continue
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

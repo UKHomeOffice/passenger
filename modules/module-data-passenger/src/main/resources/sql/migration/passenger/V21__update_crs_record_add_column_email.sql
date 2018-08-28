@@ -1,0 +1,1 @@
+ALTER TABLE crs_record ADD column emails_sent VARCHAR(1000);

@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+<head th:replace="layout/header::header"/>
+<body>
+
+<nav th:replace="layout/nav::nav"/>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h3>Upload CRS report</h3>
+
+        <form method="POST" th:action="@{/uploadCrsFile}" enctype="multipart/form-data">
+            <input type="file" name="file"/><br/><br/>
+            <input type="submit" value="Submit"/>
+        </form>
+
+    </div>
+
+</div>
+<!-- /.container -->
+
+
+</body>
+</html>
