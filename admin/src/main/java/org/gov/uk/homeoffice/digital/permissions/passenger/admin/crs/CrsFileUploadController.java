@@ -28,11 +28,10 @@ import static org.gov.uk.homeoffice.digital.permissions.passenger.utils.Catcher.
 public class CrsFileUploadController {
 
     @Autowired
-    CrsFileUploadService crsFileUploadService;
+    private CrsFileUploadService crsFileUploadService;
 
     @Autowired
-    @Qualifier("audit.admin")
-    private AuditService auditService;
+    private CrsAuditService crsAuditService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = {"/uploadCrsFile"}, method = RequestMethod.GET)
@@ -47,11 +46,13 @@ public class CrsFileUploadController {
             final File tempFile = Files.createTempFile("part", "csv").toFile();
             try {
                 FileUtils.writeByteArrayToFile(tempFile, file.getBytes());
+
                 final CrsParsedResult result = crsFileUploadService.process(tempFile, SecurityUtil.username());
+
                 redirectAttributes.addFlashAttribute("errors", result.getParseErrors());
                 redirectAttributes.addFlashAttribute("crsRecords", result.getUpdatedCrsRecords());
 
-                audit(file, SecurityUtil.username(), result);
+                crsAuditService.audit(file, SecurityUtil.username(), result);
 
                 return result.getParseErrors().isEmpty() ? "redirect:/crsrecords" : "redirect:/crsrecords#errors";
 
@@ -61,47 +62,7 @@ public class CrsFileUploadController {
         });
     }
 
-    private void audit(MultipartFile file, String username, CrsParsedResult result) {
-        final List<CrsRecord> crsRecords = result.getCrsRecords()
-                .stream()
-                .filter(crsRecord -> crsRecord.getId() != null && crsRecord.getId() > 0)
-                .collect(Collectors.toList());
 
-        int size = crsRecords.size();
-        long idFrom = 0;
-        long idTo = 0;
-        if (size > 0) {
-            idFrom = crsRecords.get(0).getId();
-            idTo = crsRecords.get(size - 1).getId();
-        }
-        auditService.audit(String.format("action='upload', entity='CrsRecord', fileName='%s', numberOfRecords='%s', idRange=[%s-%s]",
-                file.getOriginalFilename(), size, idFrom, idTo),
-                size > 0 ? "SUCCESS" : "FAILURE",
-                username);
 
-        result.getParseErrors()
-                .stream()
-                .forEach(parseError -> auditService.audit(
-                        String.format("action='upload', entity='CrsRecord', fileName='%s', row='%s', error='%s'",
-                                file.getOriginalFilename(),
-                                escape(parseError.crsRow),
-                                escape(parseError.message.stream().collect(Collectors.joining(",")))),
-                        "FAILURE", username));
-
-        String revokedIds = result.getCrsRecords()
-                .stream()
-                .filter(crsRecord -> crsRecord.getStatus() == VisaStatus.REVOKED)
-                .map(crsRecord -> String.valueOf(crsRecord.getId()))
-                .collect(Collectors.joining(","));
-
-        if (!StringUtils.isEmpty(revokedIds)) {
-            auditService.audit(String.format("action='upload', entity='CrsRecord', fileName='%s', revokedIds=[%s]",
-                    file.getOriginalFilename(), revokedIds), "SUCCESS", username);
-        }
-    }
-
-    private String escape(String s) {
-        return s.replaceAll("'", "\\\\'");
-    }
 
 }

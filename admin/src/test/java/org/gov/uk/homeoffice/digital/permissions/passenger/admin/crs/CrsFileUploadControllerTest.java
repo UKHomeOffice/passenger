@@ -45,8 +45,7 @@ public class CrsFileUploadControllerTest {
     CrsFileUploadService crsFileUploadServiceMock;
 
     @MockBean
-    @Qualifier("audit.admin")
-    private AuditService auditService;
+    CrsAuditService crsAuditServiceMock;
 
     @Autowired
     CrsFileUploadController testObject;
@@ -60,8 +59,9 @@ public class CrsFileUploadControllerTest {
     public void uploadEmptyList() {
         final ArgumentCaptor<File> captor = ArgumentCaptor.forClass(File.class);
 
+        final CrsParsedResult crsParsedResult = new CrsParsedResult(Collections.emptyList(), Collections.emptyList());
         when(crsFileUploadServiceMock.process(any(File.class), eq(CURRENT_USER)))
-                .thenReturn(new CrsParsedResult(Collections.emptyList(), Collections.emptyList()));
+                .thenReturn(crsParsedResult);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -73,9 +73,7 @@ public class CrsFileUploadControllerTest {
         testObject.uploadCrsRecords(FILE, mock(RedirectAttributes.class), authentication);
 
         verify(crsFileUploadServiceMock).process(captor.capture(), eq(CURRENT_USER));
-        verify(auditService).audit("action='upload', entity='CrsRecord', fileName='originalfilename.csv', numberOfRecords='0', idRange=[0-0]",
-                "FAILURE",
-                "test@test.com");
+        verify(crsAuditServiceMock).audit(FILE, CURRENT_USER, crsParsedResult);
 
         File tempFile = captor.getValue();
         assertThat(tempFile.exists(), is(false));
@@ -102,9 +100,7 @@ public class CrsFileUploadControllerTest {
         testObject.uploadCrsRecords(FILE, mock(RedirectAttributes.class), authentication);
 
         verify(crsFileUploadServiceMock).process(captor.capture(), eq(CURRENT_USER));
-        verify(auditService).audit("action='upload', entity='CrsRecord', fileName='originalfilename.csv', numberOfRecords='2', idRange=[1-2]",
-                "SUCCESS",
-                "test@test.com");
+        verify(crsAuditServiceMock).audit(any(), any(), any());
 
         File tempFile = captor.getValue();
         assertThat(tempFile.exists(), CoreMatchers.is(false));
@@ -135,11 +131,6 @@ public class CrsFileUploadControllerTest {
         testObject.uploadCrsRecords(FILE, mock(RedirectAttributes.class), authentication);
 
         verify(crsFileUploadServiceMock).process(captor.capture(), eq(CURRENT_USER));
-        verify(auditService).audit("action='upload', entity='CrsRecord', fileName='originalfilename.csv', numberOfRecords='2', idRange=[1-2]",
-                "SUCCESS",
-                "test@test.com");
-        verify(auditService).audit("action='upload', entity='CrsRecord', fileName='originalfilename.csv', row='2,row,with,error', error='message 21,message 22'", "FAILURE", CURRENT_USER);
-        verify(auditService).audit("action='upload', entity='CrsRecord', fileName='originalfilename.csv', row='4,row,with,error', error='message 41'", "FAILURE", CURRENT_USER);
 
         File tempFile = captor.getValue();
         assertThat(tempFile.exists(), CoreMatchers.is(false));
@@ -169,10 +160,6 @@ public class CrsFileUploadControllerTest {
         testObject.uploadCrsRecords(FILE, mock(RedirectAttributes.class), authentication);
 
         verify(crsFileUploadServiceMock).process(captor.capture(), eq(CURRENT_USER));
-        verify(auditService).audit("action='upload', entity='CrsRecord', fileName='originalfilename.csv', numberOfRecords='4', idRange=[1-4]",
-                "SUCCESS",
-                "test@test.com");
-        verify(auditService).audit("action='upload', entity='CrsRecord', fileName='originalfilename.csv', revokedIds=[2,4]", "SUCCESS", CURRENT_USER);
 
         File tempFile = captor.getValue();
         assertThat(tempFile.exists(), CoreMatchers.is(false));

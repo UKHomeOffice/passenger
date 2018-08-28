@@ -12,14 +12,20 @@ import java.util.List;
 
 @Data
 public class CrsParsedResult implements Serializable {
-    private  List<CrsRecord> crsRecords;
-    private  List<CrsRecord> updatedCrsRecords;
-    private  List<CrsParseErrors> parseErrors;
+    private List<CrsRecord> crsRecords;
+    private List<CrsRecord> updatedCrsRecords;
+    private List<CrsParseErrors> parseErrors;
+    private long numberOfSuccessfullyUpdatedRecords;
+    private long numberOfSuccessfullyCreatedRecords;
+    private long numberOfRecordsInError;
 
     public CrsParsedResult(List<CrsRecord> crsRecords, List<CrsParseErrors> parseErrors) {
         this.crsRecords = crsRecords;
         this.updatedCrsRecords = Collections.emptyList();
         this.parseErrors = parseErrors;
+        this.numberOfSuccessfullyUpdatedRecords = 0;
+        this.numberOfSuccessfullyCreatedRecords = 0;
+        this.numberOfRecordsInError = 0;
     }
 
     public CrsParsedResult withParticipants(List<CrsRecord> crsRecords) {

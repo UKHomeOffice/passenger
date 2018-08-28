@@ -1,5 +1,6 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.crs;
 
+import org.gov.uk.homeoffice.digital.permissions.passenger.admin.system.storage.StorageService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.system.storage.s3.S3StorageServiceBean;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.CrsRecord;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.CrsRecord.CrsRecordBuilder;
@@ -10,46 +11,55 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.CrsR
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRuleMatcher;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visarecord.CRSVisaRecordAdapter;
 import org.gov.uk.homeoffice.digital.permissions.passenger.email.NotifyService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CrsFileUploadServiceTest {
+
+    public static final String TEST_FILE = "testFile";
 
     @Mock
     private CrsFileParser crsFileParser;
 
     @Mock
-    private S3StorageServiceBean storageService;
+    private StorageService storageService;
 
     @Mock
     private CrsRecordRepository crsRecordRepository;
-
-    @Mock
-    private NotifyService notifyService;
 
     @Mock
     private VisaRuleMatcher visaRuleMatcher;
 
     @Mock
     private CRSVisaRecordAdapter crsVisaRecordAdapter;
+
+    @Mock
+    private CrsEmailService crsEmailService;
+
+    @Mock
+    private CrsUploadStatsService crsUploadStatsService;
+
+    @Mock
+    private File file;
+
+    @InjectMocks
+    private CrsFileUploadService testObject;
+
 
     private final String baseUrl = "base-url";
 
@@ -90,130 +100,61 @@ public class CrsFileUploadServiceTest {
             VisaType.createVisaType("visa-type"),
             Collections.emptySet());
 
-    @Test
-    public void withEmailDisabledNoEmailIsSent() throws Exception {
-
-        when(crsFileParser.parse(any(File.class)))
-                .thenReturn(new CrsParsedResult(List.of(aValidCrsRecord), List.of()));
-
-        when(crsVisaRecordAdapter.getVisaRecord(aValidCrsRecord))
-                .thenReturn(aValidVisaRecord);
-        when(visaRuleMatcher.hasVisaRule(eq(aValidVisaRecord), any(Consumer.class)))
-                .thenReturn(true);
-
-        crsFileUploadServiceWithEmailDisabled().process(aCrsFile(), "username");
-
-        verify(crsRecordRepository).save(aValidCrsRecord);
-        verify(notifyService, never()).sendVisaGrantedEmail("emailAddress", "otherName", "familyName", "base-url");
-        verify(notifyService, never()).sendVisaRevokedEmail("emailAddress", "otherName", "familyName", "base-url");
+    @Before
+    public void setUp() throws Exception {
+        when(file.getName()).thenReturn(TEST_FILE);
     }
 
     @Test
-    public void withEmailEnabledEmailIsSentForGrantedVisa() throws Exception {
+    public void testCrsFileUploadForAValidFile() throws IOException {
 
-        when(crsFileParser.parse(any(File.class)))
-                .thenReturn(new CrsParsedResult(List.of(aValidCrsRecord), List.of()));
+        CrsParsedResult crsParsedResult = new CrsParsedResult(Arrays.asList(aValidCrsRecord), Collections.emptyList());
 
-        when(crsVisaRecordAdapter.getVisaRecord(aValidCrsRecord))
-                .thenReturn(aValidVisaRecord);
-        when(visaRuleMatcher.hasVisaRule(eq(aValidVisaRecord), any(Consumer.class)))
-                .thenReturn(true);
+        when(crsFileParser.parse(file)).thenReturn(crsParsedResult);
+        when(crsVisaRecordAdapter.getVisaRecord(aValidCrsRecord)).thenReturn(aValidVisaRecord);
+        when(visaRuleMatcher.hasVisaRule(any(), any())).thenReturn(true);
 
-        when(crsRecordRepository.getByPassportNumber(aValidCrsRecord.getPassportNumber()))
-                .thenReturn(Optional.of(aValidCrsRecord));
+        testObject.process(file, "testUserName");
 
-        crsFileUploadServiceWithEmailEnabled().process(aCrsFile(), "username");
+        verify(crsUploadStatsService, times(1)).updateStats(crsParsedResult);
+        verify(crsVisaRecordAdapter, times(1)).getVisaRecord(aValidCrsRecord);
+        verify(crsRecordRepository, times(1)).save(aValidCrsRecord);
+        verify(crsEmailService, times(1)).sendVisaEmail(aValidCrsRecord);
 
-        verify(crsRecordRepository).save(aValidCrsRecord);
-        verify(notifyService).sendVisaGrantedEmail("emailAddress", "otherName", "familyName", baseUrl);
-        verify(notifyService, never()).sendVisaRevokedEmail(anyString(), anyString(), anyString(), anyString());
     }
 
     @Test
-    public void withEmailEnabledEmailIsNotSentForAlreadyNotifiedGrantedVisa() throws Exception {
+    public void testCrsFileUploadForARevokedVisa() throws IOException {
 
-        when(crsFileParser.parse(any(File.class)))
-                .thenReturn(new CrsParsedResult(List.of(aValidCrsRecord), List.of()));
+        CrsParsedResult crsParsedResult = new CrsParsedResult(Arrays.asList(aRevokedCrsRecord), Collections.emptyList());
 
-        when(crsVisaRecordAdapter.getVisaRecord(aValidCrsRecord))
-                .thenReturn(aValidVisaRecord);
-        when(visaRuleMatcher.hasVisaRule(eq(aValidVisaRecord), any(Consumer.class)))
-                .thenReturn(true);
+        when(crsFileParser.parse(file)).thenReturn(crsParsedResult);
+        when(visaRuleMatcher.hasVisaRule(any(), any())).thenReturn(true);
 
-        when(crsRecordRepository.getByPassportNumber(aValidCrsRecord.getPassportNumber()))
-                .thenReturn(Optional.of(aValidCrsRecordWithEmailSent));
+        testObject.process(file, "testUserName");
 
-        crsFileUploadServiceWithEmailEnabled().process(aCrsFile(), "username");
+        verify(crsUploadStatsService, times(1)).updateStats(crsParsedResult);
+        verify(crsVisaRecordAdapter, times(1)).getVisaRecord(aRevokedCrsRecord);
+        verify(crsRecordRepository, times(1)).save(aRevokedCrsRecord);
+        verify(crsEmailService, times(1)).sendVisaEmail(aRevokedCrsRecord);
 
-        verify(crsRecordRepository).save(aValidCrsRecord);
-        verify(notifyService, never()).sendVisaGrantedEmail(anyString(), anyString(), anyString(), anyString());
-        verify(notifyService, never()).sendVisaRevokedEmail(anyString(), anyString(), anyString(), anyString());
     }
 
     @Test
-    public void withEmailEnabledEmailIsSentForRevokedVisa() throws Exception {
+    public void testCrsFileUploadForanInvalidVisa() throws IOException {
 
-        when(crsFileParser.parse(any(File.class)))
-                .thenReturn(new CrsParsedResult(List.of(aRevokedCrsRecord), List.of()));
+        CrsParsedResult crsParsedResult = new CrsParsedResult(Arrays.asList(aRevokedCrsRecord), Collections.emptyList());
 
-        when(crsVisaRecordAdapter.getVisaRecord(aRevokedCrsRecord))
-                .thenReturn(aRevokedVisaRecord);
-        when(visaRuleMatcher.hasVisaRule(eq(aRevokedVisaRecord), any(Consumer.class)))
-                .thenReturn(true);
+        when(crsFileParser.parse(file)).thenReturn(crsParsedResult);
+        when(visaRuleMatcher.hasVisaRule(any(), any())).thenReturn(false); //invalid visa
 
-        when(crsRecordRepository.getByPassportNumber(aRevokedCrsRecord.getPassportNumber()))
-                .thenReturn(Optional.of(aRevokedCrsRecord));
+        testObject.process(file, "testUserName");
 
-        crsFileUploadServiceWithEmailEnabled().process(aCrsFile(), "username");
+        verify(crsUploadStatsService, times(1)).updateStats(crsParsedResult);
+        verify(crsVisaRecordAdapter, times(1)).getVisaRecord(aRevokedCrsRecord);
+        verifyNoMoreInteractions(crsRecordRepository);
+        verifyNoMoreInteractions(crsEmailService);
 
-        verify(crsRecordRepository).save(aRevokedCrsRecord);
-        verify(notifyService).sendVisaRevokedEmail("emailAddress", "otherName", "familyName", baseUrl);
-        verify(notifyService, never()).sendVisaGrantedEmail(anyString(), anyString(), anyString(), anyString());
     }
 
-    @Test
-    public void withEmailEnabledEmailIsNotSentForAlreadyNotifiedRevokedVisa() throws Exception {
-
-        when(crsFileParser.parse(any(File.class)))
-                .thenReturn(new CrsParsedResult(List.of(aRevokedCrsRecord), List.of()));
-
-        when(crsVisaRecordAdapter.getVisaRecord(aRevokedCrsRecord))
-                .thenReturn(aRevokedVisaRecord);
-        when(visaRuleMatcher.hasVisaRule(eq(aRevokedVisaRecord), any(Consumer.class)))
-                .thenReturn(true);
-
-        when(crsRecordRepository.getByPassportNumber(aRevokedCrsRecord.getPassportNumber()))
-                .thenReturn(Optional.of(aRevokedCrsRecordWithEmailSent));
-
-        crsFileUploadServiceWithEmailEnabled().process(aCrsFile(), "username");
-
-        verify(crsRecordRepository).save(aRevokedCrsRecord);
-        verify(notifyService, never()).sendVisaRevokedEmail(anyString(), anyString(), anyString(), anyString());
-        verify(notifyService, never()).sendVisaGrantedEmail(anyString(), anyString(), anyString(), anyString());
-    }
-
-    private File aCrsFile() throws IOException {
-        File file = File.createTempFile("crs_upload", null);
-        file.deleteOnExit();
-        return file;
-    }
-
-    private CrsFileUploadService crsFileUploadServiceWithEmailEnabled() {
-        return service(true);
-    }
-
-    private CrsFileUploadService crsFileUploadServiceWithEmailDisabled() {
-        return service(false);
-    }
-
-    private CrsFileUploadService service(boolean emailEnabled) {
-        return new CrsFileUploadService(crsFileParser,
-                storageService,
-                crsRecordRepository,
-                notifyService,
-                visaRuleMatcher,
-                crsVisaRecordAdapter,
-                emailEnabled,
-                baseUrl);
-    }
 }
