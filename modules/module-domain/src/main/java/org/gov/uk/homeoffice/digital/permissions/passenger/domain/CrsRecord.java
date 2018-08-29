@@ -46,5 +46,5 @@ public class CrsRecord implements Serializable {
     private LocalDateTime updated;
     private Set<String> emailsSent;
     private String updatedBy;
-
+    private boolean isCreated;
 }

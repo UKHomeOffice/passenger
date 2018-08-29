@@ -8,6 +8,25 @@
 <div class="container">
 
     <div class="starter-template">
+        <div class="starter-template">
+            <h3 th:if="${crsRecordsSuccessfullyCreated >  0  || crsRecordsSuccessfullyUpdated >  0  || crsRecordsInError >  0  }">Participant(Crs Record) Upload summary</h3>
+
+            <table id="downloadTable" class="table table-striped table-bordered">
+                <tbody>
+                <tr th:styleappend="${crsRecordsSuccessfullyCreated == null || crsRecordsSuccessfullyCreated == 0} ? 'display:none':''">
+                    <th>Number of CRS records successfully created</th>
+                    <td th:text="${crsRecordsSuccessfullyCreated}"/>
+                </tr>
+                <tr th:styleappend="${crsRecordsSuccessfullyUpdated == null || crsRecordsSuccessfullyUpdated == 0} ? 'display:none':''">
+                    <th>Number of CRS records successfully updated</th>
+                    <td th:text="${crsRecordsSuccessfullyUpdated}"/>
+                </tr>
+                <tr th:styleappend="${crsRecordsInError == null || crsRecordsInError == 0} ? 'display:none':''">
+                    <th>Number of CRS records in error</th>
+                    <td th:text="${crsRecordsInError}"/>
+                </tr>
+                </tbody>
+            </table>
         <h3>Participant(Crs Record) Details</h3>
         <th:block th:each="crs : ${crsRecords}">
             <div th:replace="crsrecords/crsrecord :: crsrecord (crs=${crs})"/>
@@ -21,8 +40,6 @@
 
  </div>
  <!-- /.container -->
-
-
 
 </body>
 </html>

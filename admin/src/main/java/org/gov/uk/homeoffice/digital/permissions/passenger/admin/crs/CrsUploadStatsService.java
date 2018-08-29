@@ -16,14 +16,8 @@ public class CrsUploadStatsService {
     }
 
     public void updateStats(CrsParsedResult parsedResult) {
-        final List<Long> listOfExistingVisas = parsedResult.getCrsRecords()
-                .stream()
-                .map(r -> crsRecordRepository.getByPassportNumberAndDateOfBirth(r.getPassportNumber(), r.getDateOfBirth()))
-                .filter(id -> id.isPresent())
-                .map(id -> id.get())
-                .collect(Collectors.toList());
 
-        final long updatedCount = parsedResult.getUpdatedCrsRecords().stream().filter(r -> listOfExistingVisas.contains(r.getId())).count();
+        final long updatedCount = parsedResult.getUpdatedCrsRecords().stream().filter(r -> r.isCreated() == false).count();
         final long createdCount = parsedResult.getUpdatedCrsRecords().size() - updatedCount;
         final long failedCount = parsedResult.getCrsRecords().size() - parsedResult.getUpdatedCrsRecords().size();
 

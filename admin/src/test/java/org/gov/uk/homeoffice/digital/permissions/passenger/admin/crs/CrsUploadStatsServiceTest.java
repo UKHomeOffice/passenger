@@ -22,9 +22,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class CrsUploadStatsServiceTest {
 
-    @Mock
-    CrsRecordRepository crsRecordRepository;
-
     @InjectMocks
     CrsUploadStatsService testObject;
 
@@ -39,8 +36,7 @@ public class CrsUploadStatsServiceTest {
     public void testStatsWhenOneVisaIsInserted() {
         crsParsedResult = new CrsParsedResult(Arrays.asList(aValidCrsRecord), Collections.EMPTY_LIST);
         crsParsedResult.setUpdatedCrsRecords(Arrays.asList(aValidCrsRecord));
-
-        when(crsRecordRepository.getByPassportNumberAndDateOfBirth(aRevokedCrsRecord.getPassportNumber(), aValidCrsRecord.getDateOfBirth())).thenReturn(Optional.empty());
+        aValidCrsRecord.setCreated(true);
 
         testObject.updateStats(crsParsedResult);
 
@@ -56,8 +52,6 @@ public class CrsUploadStatsServiceTest {
         crsParsedResult = new CrsParsedResult(Arrays.asList(aValidCrsRecord), Collections.EMPTY_LIST);
         crsParsedResult.setUpdatedCrsRecords(Arrays.asList(aValidCrsRecord));
 
-        when(crsRecordRepository.getByPassportNumberAndDateOfBirth(aRevokedCrsRecord.getPassportNumber(), aValidCrsRecord.getDateOfBirth())).thenReturn(Optional.of(1l));
-
         testObject.updateStats(crsParsedResult);
 
         assertThat(crsParsedResult.getNumberOfSuccessfullyCreatedRecords(), is(equalTo(0l)) );
@@ -69,8 +63,6 @@ public class CrsUploadStatsServiceTest {
     @Test
     public void testStatsWhenNoVisaIsUpdatedDueToError() {
         crsParsedResult = new CrsParsedResult(Arrays.asList(aValidCrsRecord), Collections.EMPTY_LIST);
-
-        when(crsRecordRepository.getByPassportNumberAndDateOfBirth(aRevokedCrsRecord.getPassportNumber(), aValidCrsRecord.getDateOfBirth())).thenReturn(Optional.empty());
 
         testObject.updateStats(crsParsedResult);
 

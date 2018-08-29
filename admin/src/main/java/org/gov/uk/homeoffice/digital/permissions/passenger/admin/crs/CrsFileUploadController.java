@@ -51,6 +51,9 @@ public class CrsFileUploadController {
 
                 redirectAttributes.addFlashAttribute("errors", result.getParseErrors());
                 redirectAttributes.addFlashAttribute("crsRecords", result.getUpdatedCrsRecords());
+                redirectAttributes.addFlashAttribute("crsRecordsSuccessfullyCreated", result.getNumberOfSuccessfullyCreatedRecords());
+                redirectAttributes.addFlashAttribute("crsRecordsSuccessfullyUpdated", result.getNumberOfSuccessfullyUpdatedRecords());
+                redirectAttributes.addFlashAttribute("crsRecordsInError", result.getNumberOfRecordsInError());
 
                 crsAuditService.audit(file, SecurityUtil.username(), result);
 

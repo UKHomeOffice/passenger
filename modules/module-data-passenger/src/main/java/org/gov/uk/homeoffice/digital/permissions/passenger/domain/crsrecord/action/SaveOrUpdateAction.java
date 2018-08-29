@@ -31,6 +31,7 @@ public class SaveOrUpdateAction implements HandleConsumer<JdbiException> {
                     return true;
                 }).orElseGet(() -> {
                     convert(() -> crsRecord.setId(dao.save(crsRecord)), exception);
+                    crsRecord.setCreated(true);
                     return true;
                 });
     }
