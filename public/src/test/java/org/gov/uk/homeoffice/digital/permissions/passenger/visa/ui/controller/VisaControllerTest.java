@@ -16,21 +16,16 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.mockito.ArgumentMatchers.contains;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class VisaControllerTest {
 
-    public static final String VALID_FROM = "20180610";
-    public static final String VALID_TO = "20180610";
-    public static final String ADDRESS = "Address, UC1 2AB";
+    private static final String VALID_FROM = "20180610";
+    private static final String ADDRESS = "Address, UC1 2AB";
 
     private final String defaultVisaEndorsement = "default-visa-endorsement";
 

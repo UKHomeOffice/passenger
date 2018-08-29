@@ -6,17 +6,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.flywaydb.core.Flyway;
 import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.EntryClearance;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.CrsRecordRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.CrsRecordRepositoryBean;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.entryclearance.EntryClearanceRepository;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.entryclearance.EntryClearanceRepositoryBean;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.loginattempt.LoginAttemptRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.loginattempt.LoginAttemptRepositoryBean;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.participant.ParticipantRepository;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.participant.ParticipantRepositoryBean;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRepository;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRepositoryBean;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.spring4.JdbiFactoryBean;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
@@ -31,7 +24,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-
 import java.sql.SQLException;
 
 import static java.util.Collections.singletonList;
@@ -83,23 +75,8 @@ public class PassengerJDBIConfig {
     }
 
     @Bean
-    public EntryClearanceRepository entryClearanceRepository(@Qualifier("passenger.db") final Jdbi jdbi) {
-        return new EntryClearanceRepositoryBean(jdbi);
-    }
-
-    @Bean
-    public VisaRepository visaRepository(@Qualifier("passenger.db") final Jdbi jdbi) {
-        return new VisaRepositoryBean(jdbi);
-    }
-
-    @Bean
     public CrsRecordRepository crsRecordRepository(@Qualifier("passenger.db") final Jdbi jdbi) {
         return new CrsRecordRepositoryBean(jdbi);
-    }
-
-    @Bean
-    public ParticipantRepository participantRepository(@Qualifier("passenger.db") final Jdbi jdbi, final VisaRepository visaRepository) {
-        return new ParticipantRepositoryBean(jdbi, visaRepository);
     }
 
     private void migrate(final String migrationsPath, DataSource dataSource) {

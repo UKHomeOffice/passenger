@@ -5,7 +5,6 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.acti
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.action.SelectByIdAction;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.action.SelectByPassportNumber;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.action.SelectValidWithinRange;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRepository;
 import org.jdbi.v3.core.Jdbi;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,15 +16,11 @@ import java.time.LocalDate;
 
 import static org.mockito.Mockito.verify;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class CrsRecordRepositoryBeanTest {
 
     @Mock
     private Jdbi mockJdbi;
-
-    @Mock
-    private VisaRepository mockVisaRepository;
 
     @InjectMocks
     private CrsRecordRepositoryBean underTest;

@@ -43,20 +43,6 @@ public class NotifyServiceImplTest {
     }
 
     @Test
-    public void shouldSendVisaGrantedEmail() throws NotificationClientException {
-        final SendEmailResponse mockSendEmailResponse = mock(SendEmailResponse.class);
-        final Map<String, String> personalisation = new HashMap<>();
-        personalisation.put("FullName", "Chuck Norris");
-        personalisation.put("VisaURL", BASE_URL + "/visa/status");
-
-        when(mockNotificationClient.sendEmail("visaGrantedTemplateId", EMAIL_ADDRESS, personalisation, "yourReferenceString")).thenReturn(mockSendEmailResponse);
-
-        underTest.sendVisaGrantedEmail(EMAIL_ADDRESS, visa(), participant(), BASE_URL);
-
-        verify(mockNotificationClient).sendEmail("visaGrantedTemplateId", EMAIL_ADDRESS, personalisation, "yourReferenceString");
-    }
-
-    @Test
     public void shouldSendAccountEmail() throws NotificationClientException {
         final SendEmailResponse mockSendEmailResponse = mock(SendEmailResponse.class);
         final String uuid = UUID.randomUUID().toString();
@@ -68,20 +54,6 @@ public class NotifyServiceImplTest {
         underTest.sendAccountEmail(EMAIL_ADDRESS, uuid, SELF_URL);
 
         verify(mockNotificationClient).sendEmail("accountTemplateId", EMAIL_ADDRESS, personalisation, "yourReferenceString");
-    }
-
-    @Test
-    public void shouldSendVisaRevokedEmail() throws NotificationClientException {
-        final SendEmailResponse mockSendEmailResponse = mock(SendEmailResponse.class);
-        final Map<String, String> personalisation = new HashMap<>();
-        personalisation.put("FullName", "Chuck Norris");
-        personalisation.put("VisaURL", BASE_URL + "/visa/status");
-
-        when(mockNotificationClient.sendEmail("visaRevokedTemplateId", EMAIL_ADDRESS, personalisation, "yourReferenceString")).thenReturn(mockSendEmailResponse);
-
-        underTest.sendVisaRevokedEmail(EMAIL_ADDRESS, visa(), participant(), BASE_URL);
-
-        verify(mockNotificationClient).sendEmail("visaRevokedTemplateId", EMAIL_ADDRESS, personalisation, "yourReferenceString");
     }
 
     @Test
@@ -98,13 +70,6 @@ public class NotifyServiceImplTest {
         personalisation.put("code", "code");
         underTest.sendTwoFactorSMS("phone", "code");
         verify(mockNotificationClient).sendSms("twoFactorTemplateId", "phone", personalisation, "reference");
-    }
-
-    private Participant participant() {
-        return new ParticipantBuilder().withDefaults()
-                .setFirstName("Chuck")
-                .setSurName("Norris")
-                .createParticipant();
     }
 
     private Visa visa() {

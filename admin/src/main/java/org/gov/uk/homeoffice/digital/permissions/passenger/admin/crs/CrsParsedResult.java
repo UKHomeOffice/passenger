@@ -2,11 +2,9 @@ package org.gov.uk.homeoffice.digital.permissions.passenger.admin.crs;
 
 
 import lombok.Data;
-import org.gov.uk.homeoffice.digital.permissions.passenger.admin.exceptions.ParseError;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.CrsRecord;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

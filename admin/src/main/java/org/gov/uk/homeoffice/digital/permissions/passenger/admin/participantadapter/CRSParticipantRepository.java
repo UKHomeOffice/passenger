@@ -1,24 +1,19 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.participantadapter;
 
-import org.gov.uk.homeoffice.digital.permissions.passenger.admin.crs.CrsFileUploadService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.CrsRecord;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Participant;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Visa;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.CrsRecordRepository;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.participant.ParticipantRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.utils.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
-import static java.util.Collections.emptySet;
 
 @Component
 public class CRSParticipantRepository implements ParticipantRecordRepository {

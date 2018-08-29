@@ -1,7 +1,7 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.participants.ui.controller;
 
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.authentication.SecurityUtil;
-import org.gov.uk.homeoffice.digital.permissions.passenger.admin.participantadapter.ParticipantRecordRepositoryBean;
+import org.gov.uk.homeoffice.digital.permissions.passenger.admin.participantadapter.ParticipantRecordRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.participants.ui.model.ParticipantModelAdapter;
 import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Participant;
@@ -28,14 +28,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @Controller
 public class ParticipantsController {
 
-    private final ParticipantRecordRepositoryBean participantRepository;
+    private final ParticipantRecordRepository participantRepository;
     private final ParticipantModelAdapter participantModelAdapter;
     private final AuditService auditService;
 
-    public ParticipantsController(final ParticipantRecordRepositoryBean participantRecordRepositoryBean,
+    public ParticipantsController(final ParticipantRecordRepository participantRecordRepository,
                                   final ParticipantModelAdapter participantModelAdapter,
                                   @Qualifier("audit.admin") final AuditService auditService) {
-        this.participantRepository = participantRecordRepositoryBean;
+        this.participantRepository = participantRecordRepository;
         this.participantModelAdapter = participantModelAdapter;
         this.auditService = auditService;
     }

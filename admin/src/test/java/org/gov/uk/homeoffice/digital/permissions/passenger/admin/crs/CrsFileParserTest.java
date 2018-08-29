@@ -1,7 +1,6 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.crs;
 
 import org.apache.commons.io.FileUtils;
-import org.gov.uk.homeoffice.digital.permissions.passenger.admin.participants.upload.ParticipantsParser;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.CrsRecord;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Gender;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaStatus;
@@ -22,7 +21,7 @@ import static org.hamcrest.Matchers.equalTo;
 @RunWith(MockitoJUnitRunner.class)
 public class CrsFileParserTest {
 
-    final String header = "GWF Ref," +
+    private final String header = "GWF Ref," +
             "VAF No," +
             "CAS No," +
             "COS No," +
@@ -53,9 +52,6 @@ public class CrsFileParserTest {
             "University/College name," +
             "BRP Collection information," +
             "Expected travel date";
-
-    @InjectMocks
-    ParticipantsParser participantsParser;
 
     @InjectMocks
     CrsFileParser testObject;
@@ -202,6 +198,5 @@ public class CrsFileParserTest {
         assertThat(crsRecord1.getBrpCollectionInfo(), equalTo(crsRecord.getBrpCollectionInfo()));
         assertThat(crsRecord1.getExpectedTravelDate(), equalTo(crsRecord.getExpectedTravelDate()));
     }
-
 
 }

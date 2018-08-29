@@ -2,7 +2,7 @@ package org.gov.uk.homeoffice.digital.permissions.passenger.admin.participants.u
 
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.WithKeycloakUser;
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.authentication.Role;
-import org.gov.uk.homeoffice.digital.permissions.passenger.admin.participantadapter.ParticipantRecordRepositoryBean;
+import org.gov.uk.homeoffice.digital.permissions.passenger.admin.participantadapter.ParticipantRecordRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.participants.ui.model.ParticipantModelAdapter;
 import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.ParticipantBuilder;
@@ -38,7 +38,7 @@ public class ParticipantsControllerTest {
     private AuditService auditService;
 
     @MockBean
-    private ParticipantRecordRepositoryBean participantRepository;
+    private ParticipantRecordRepository participantRepository;
 
     @Autowired
     private ParticipantsController controller;

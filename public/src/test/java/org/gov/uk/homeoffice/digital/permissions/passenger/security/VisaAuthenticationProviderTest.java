@@ -4,8 +4,6 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.authentication.RemoteIPThreadLocal;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.LoginAttempt;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.LoginAttemptBuilder;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Participant;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.ParticipantBuilder;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.loginattempt.LoginAttemptRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visarecord.VisaRecordService;
 import org.junit.Test;
@@ -52,16 +50,16 @@ public class VisaAuthenticationProviderTest {
     public void returnAuthenticationTokenIfParticipantAndVisaExistsForPassportAndDateOfBirthCombination() {
         final String passportNumber = "passportNumber";
         final String ipAddress = "123.123.123.123";
+        final String participantId = "1234";
         RemoteIPThreadLocal.set(ipAddress);
         final LocalDate dateOfBirth = LocalDate.of(1997, 2, 1);
         final Authentication authentication = getAuthentication(passportNumber, "1 2 1997");
-        final Participant participant = new ParticipantBuilder().withDefaults().setDateOfBirth(dateOfBirth).createParticipant();
-        when(visaRecordService.getVisaIdentifier(passportNumber, dateOfBirth)).thenReturn(Optional.of(String.valueOf(participant.getId())));
+        when(visaRecordService.getVisaIdentifier(passportNumber, dateOfBirth)).thenReturn(Optional.of(participantId));
 
         final Authentication authenticationToken = visaAuthenticationProvider.authenticate(authentication);
 
         assertThat(authenticationToken, is(instanceOf(UsernamePasswordAuthenticationToken.class)));
-        assertThat(authenticationToken.getPrincipal(), is(participant.getId()));
+        assertThat(authenticationToken.getPrincipal(), is(Long.valueOf(participantId)));
         assertThat(authenticationToken.isAuthenticated(), is(true));
 
         verify(loginAttemptRepository).logSuccessfulAttempt(passportNumber, ipAddress);
@@ -129,25 +127,6 @@ public class VisaAuthenticationProviderTest {
         }
 
         verify(loginAttemptRepository).logFailedAttempt(passportNumber, ipAddress);
-        verify(auditService).audit("action='login', passportNumber='passportNumber', IPAddress='123.123.123.123'", "FAILED", "PASSENGER");
-    }
-
-    @Test
-    public void throwBadCredentialsExceptionIfVisaDoesNotExist() {
-        final String passportNumber = "passportNumber";
-        final String ipAddress = "123.123.123.123";
-        RemoteIPThreadLocal.set(ipAddress);
-        final LocalDate dateOfBirth = LocalDate.of(1997, 12, 10);
-        final Authentication authentication = getAuthentication(passportNumber, "10 12 1997");
-        final Participant participant = new ParticipantBuilder().withDefaults().setDateOfBirth(dateOfBirth).createParticipant();
-        when(visaRecordService.getVisaIdentifier(passportNumber, dateOfBirth)).thenReturn(Optional.empty());
-
-        try {
-            visaAuthenticationProvider.authenticate(authentication);
-            fail("should not reach this");
-        } catch (BadCredentialsException e) {
-        }
-
         verify(auditService).audit("action='login', passportNumber='passportNumber', IPAddress='123.123.123.123'", "FAILED", "PASSENGER");
     }
 

@@ -1,7 +1,5 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.email;
 
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Participant;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Visa;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.service.notify.NotificationClient;
@@ -41,11 +39,6 @@ public class NotifyServiceImpl implements NotifyService {
     }
 
     @Override
-    public Optional<SendEmailResponse> sendVisaGrantedEmail(String emailAddress, Visa visa, Participant participant, String baseUrl) {
-        return sendMail(emailAddress, map(tpl("FullName", participant.getFirstName() + " " + participant.getSurName()), tpl("VisaURL", baseUrl + "/visa/status")), this.visaGrantedTemplateId);
-    }
-
-    @Override
     public Optional<SendEmailResponse> sendVisaGrantedEmail(String emailAddress, String fullName, String surName, String baseUrl) {
         return sendMail(emailAddress, map(tpl("FullName", fullName + " " + surName), tpl("VisaURL", baseUrl + "/visa/status")), this.visaGrantedTemplateId);
     }
@@ -61,11 +54,6 @@ public class NotifyServiceImpl implements NotifyService {
             LOGGER.warn("email sending failed", e);
             return Optional.empty();
         }
-    }
-
-    @Override
-    public Optional<SendEmailResponse> sendVisaRevokedEmail(String emailAddress, Visa visa, Participant participant, String baseUrl) {
-        return sendMail(emailAddress, map(tpl("FullName", participant.getFirstName() + " " + participant.getSurName()), tpl("VisaURL", baseUrl + "/visa/status")), this.visaRevokedTemplateId);
     }
 
     @Override
