@@ -5,7 +5,7 @@ function init() {
             every: [25]
         },
         elements: {
-            each: ['#details', '#conditions', '#contact']
+            each: ['#user', '#details', '#conditions', '#contact']
         }
     }, function(evt) {
         console.log(evt.data.label); // > "25%"
