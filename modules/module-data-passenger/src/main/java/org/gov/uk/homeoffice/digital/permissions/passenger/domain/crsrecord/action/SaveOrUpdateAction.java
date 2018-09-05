@@ -6,6 +6,7 @@ import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.HandleConsumer;
 import org.jdbi.v3.core.JdbiException;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ public class SaveOrUpdateAction implements HandleConsumer<JdbiException> {
     public void useHandle(final Handle handle) throws JdbiException {
         final RuntimeException exception = new RuntimeException("CrsRecord " + crsRecord + " could not be saved");
         final CrsRecordDAO dao = handle.attach(CrsRecordDAO.class);
+        crsRecord.setUpdated(LocalDateTime.now());
         Boolean result = ofNullable(dao.getByPassportNumberAndDateOfBirth(crsRecord.getPassportNumber(), crsRecord.getDateOfBirth()))
                 .map(storedCrsRecord -> {
                     crsRecord.setId(storedCrsRecord.getId());

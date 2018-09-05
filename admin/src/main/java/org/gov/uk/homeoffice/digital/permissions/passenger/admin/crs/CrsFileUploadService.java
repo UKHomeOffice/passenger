@@ -44,7 +44,9 @@ public class CrsFileUploadService {
                                 StorageService storageService,
                                 CrsRecordRepository crsRecordRepository,
                                 VisaRuleMatcher visaRuleMatcher,
-                                CRSVisaRecordAdapter crsVisaRecordAdapter, CrsEmailService crsEmailService, CrsUploadStatsService crsUploadStatsService) {
+                                CRSVisaRecordAdapter crsVisaRecordAdapter,
+                                CrsEmailService crsEmailService,
+                                CrsUploadStatsService crsUploadStatsService) {
         this.crsFileParser = crsFileParser;
         this.storageService = storageService;
         this.crsRecordRepository = crsRecordRepository;
