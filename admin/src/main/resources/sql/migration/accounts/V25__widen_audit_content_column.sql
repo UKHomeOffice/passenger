@@ -1,0 +1,1 @@
+ALTER TABLE "audit" alter column "content" type VARCHAR(5000);

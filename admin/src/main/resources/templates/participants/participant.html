@@ -88,9 +88,9 @@
             <th>Created</th>
             <td th:text="${p.created}"/>
         </tr>
-        <tr th:styleappend="${p.lastUpdated == null} ? 'display:none':''">
+        <tr th:styleappend="${p.updated == null} ? 'display:none':''">
             <th>Last updated</th>
-            <td th:text="${p.lastUpdated}"/>
+            <td th:text="${p.updated}"/>
         </tr>
         <tr th:styleappend="${p.updatedBy == null} ? 'display:none':''">
             <th>Last updated by</th>

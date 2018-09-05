@@ -35,7 +35,7 @@ public interface Query {
             "brp_collection_info = :brpCollectionInfo, " +
             "emails_sent = :emailsSent, " +
             "expected_travel_date = :expectedTravelDate, " +
-            "updated = now(), " +
+            "updated = :updated, " +
             "updated_by = :updatedBy " +
             "WHERE id = :id";
 
@@ -72,6 +72,7 @@ public interface Query {
             "brp_collection_info, " +
             "expected_travel_date," +
             "emails_sent," +
+            "updated," +
             "updated_by" +
             ") VALUES (" +
             ":gwfRef," +
@@ -106,6 +107,7 @@ public interface Query {
             ":brpCollectionInfo," +
             ":expectedTravelDate," +
             ":emailsSent," +
+            ":updated," +
             ":updatedBy" +
             ")";
 
