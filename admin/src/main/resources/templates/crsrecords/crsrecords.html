@@ -13,6 +13,10 @@
 
             <table id="downloadTable" class="table table-striped table-bordered">
                 <tbody>
+                <tr th:styleappend="${fileUploadError == null} ? 'display:none':''">
+                    <th>File upload error</th>
+                    <td th:text="${fileUploadError}"/>
+                </tr>
                 <tr th:styleappend="${crsRecordsSuccessfullyCreated == null || crsRecordsSuccessfullyCreated == 0} ? 'display:none':''">
                     <th>Number of CRS records successfully created</th>
                     <td th:text="${crsRecordsSuccessfullyCreated}"/>

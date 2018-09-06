@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,28 +45,36 @@ public class CrsFileUploadController {
     public String uploadCrsRecords(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Authentication authentication) {
         return convertToRuntime(() -> {
             final File tempFile = Files.createTempFile("part", "csv").toFile();
-            try {
-                FileUtils.writeByteArrayToFile(tempFile, file.getBytes());
-
-                final CrsParsedResult result = crsFileUploadService.process(tempFile, SecurityUtil.username());
-
-                redirectAttributes.addFlashAttribute("errors", result.getParseErrors());
-                redirectAttributes.addFlashAttribute("crsRecords", result.getUpdatedCrsRecords());
-                redirectAttributes.addFlashAttribute("crsRecordsSuccessfullyCreated", result.getNumberOfSuccessfullyCreatedRecords());
-                redirectAttributes.addFlashAttribute("crsRecordsSuccessfullyUpdated", result.getNumberOfSuccessfullyUpdatedRecords());
-                redirectAttributes.addFlashAttribute("crsRecordsInError", result.getNumberOfRecordsInError());
-
-                crsAuditService.audit(file, SecurityUtil.username(), result);
-
-                return result.getParseErrors().isEmpty() ? "redirect:/crsrecords" : "redirect:/crsrecords#errors";
-
-            } finally {
-                FileUtils.forceDelete(tempFile);
-            }
+            return file != null && file.getSize() > 0 ? processFileUpload(file, redirectAttributes, tempFile) : redirectToError(file, "Empty file uploaded", redirectAttributes);
         });
     }
 
+    private String redirectToError(MultipartFile file, String message, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("fileUploadError", message);
+        crsAuditService.audit(SecurityUtil.username(), "FAILURE", "Empty file uploaded");
+        return "redirect:/crsrecords#fileUploadError";
+    }
 
+    private String processFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, File tempFile) throws IOException {
+        try {
+            FileUtils.writeByteArrayToFile(tempFile, file.getBytes());
+
+            final CrsParsedResult result = crsFileUploadService.process(tempFile, SecurityUtil.username());
+
+            redirectAttributes.addFlashAttribute("errors", result.getParseErrors());
+            redirectAttributes.addFlashAttribute("crsRecords", result.getUpdatedCrsRecords());
+            redirectAttributes.addFlashAttribute("crsRecordsSuccessfullyCreated", result.getNumberOfSuccessfullyCreatedRecords());
+            redirectAttributes.addFlashAttribute("crsRecordsSuccessfullyUpdated", result.getNumberOfSuccessfullyUpdatedRecords());
+            redirectAttributes.addFlashAttribute("crsRecordsInError", result.getNumberOfRecordsInError());
+
+            crsAuditService.audit(file, SecurityUtil.username(), result);
+
+            return result.getParseErrors().isEmpty() ? "redirect:/crsrecords" : "redirect:/crsrecords#errors";
+
+        } finally {
+            FileUtils.forceDelete(tempFile);
+        }
+    }
 
 
 }

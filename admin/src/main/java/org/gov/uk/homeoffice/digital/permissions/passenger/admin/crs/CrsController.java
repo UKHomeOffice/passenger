@@ -21,7 +21,7 @@ public class CrsController {
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/crsrecords", method = RequestMethod.GET)
     public String viewCrsRecordsDetails(Map<String, Object> model) {
-        if(model.get("crsRecords") == null){
+        if(model.get("crsRecords") == null && (model.get("fileUploadError") == null)){
             model.put("crsRecords", crsRecordRepository.getAll().orElse(null));
         }
         return "crsrecords/crsrecords";
