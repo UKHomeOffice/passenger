@@ -78,6 +78,10 @@ public class CrsFileUploadService {
     }
 
     private boolean visaRuleMatchFound(CrsRecord crsRecord, CrsParsedResult parsedResult) {
+        if (crsRecord.isInvalid()) {
+            parsedResult.getParseErrors().add(new CrsParseErrors("Empty row", List.of("CRS record is invalid.")));
+            return false;
+        }
         final VisaRecord visaRecord = crsVisaRecordAdapter.getVisaRecord(crsRecord);
         return visaRuleMatcher.hasVisaRule(visaRecord, (visaRules) -> addErrors(crsRecord, parsedResult, visaRules));
     }

@@ -47,4 +47,14 @@ public class CrsRecord implements Serializable {
     private Set<String> emailsSent;
     private String updatedBy;
     private boolean isCreated;
+
+    public boolean isInvalid() {
+        return id == null ||
+                emailAddress == null ||
+                passportNumber == null ||
+                dateOfBirth == null ||
+                status == null ||
+                nationality == null;
+    }
+
 }
