@@ -20,6 +20,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -71,6 +72,11 @@ public class CrsFileUploadServiceTest {
             .familyName("familyName");
 
     private final CrsRecord aValidCrsRecord = crsRecordBuilder
+            .id(1L)
+            .emailAddress("emailAddress")
+            .passportNumber("passportNumber")
+            .dateOfBirth(LocalDate.of(1999, 1, 1))
+            .nationality("nationality")
             .status(VisaStatus.VALID)
             .emailsSent(Set.of())
             .build();
@@ -108,7 +114,7 @@ public class CrsFileUploadServiceTest {
     @Test
     public void testCrsFileUploadForAValidFile() throws IOException {
 
-        CrsParsedResult crsParsedResult = new CrsParsedResult(Arrays.asList(aValidCrsRecord), Collections.emptyList());
+        CrsParsedResult crsParsedResult = new CrsParsedResult(Arrays.asList(aValidCrsRecord), new ArrayList<>());
 
         when(crsFileParser.parse(file)).thenReturn(crsParsedResult);
         when(crsVisaRecordAdapter.getVisaRecord(aValidCrsRecord)).thenReturn(aValidVisaRecord);
@@ -126,7 +132,7 @@ public class CrsFileUploadServiceTest {
     @Test
     public void testCrsFileUploadForARevokedVisa() throws IOException {
 
-        CrsParsedResult crsParsedResult = new CrsParsedResult(Arrays.asList(aRevokedCrsRecord), Collections.emptyList());
+        CrsParsedResult crsParsedResult = new CrsParsedResult(Arrays.asList(aRevokedCrsRecord), new ArrayList<>());
 
         when(crsFileParser.parse(file)).thenReturn(crsParsedResult);
         when(visaRuleMatcher.hasVisaRule(any(), any())).thenReturn(true);
@@ -143,7 +149,7 @@ public class CrsFileUploadServiceTest {
     @Test
     public void testCrsFileUploadForanInvalidVisa() throws IOException {
 
-        CrsParsedResult crsParsedResult = new CrsParsedResult(Arrays.asList(aRevokedCrsRecord), Collections.emptyList());
+        CrsParsedResult crsParsedResult = new CrsParsedResult(Arrays.asList(aRevokedCrsRecord), new ArrayList<>());
 
         when(crsFileParser.parse(file)).thenReturn(crsParsedResult);
         when(visaRuleMatcher.hasVisaRule(any(), any())).thenReturn(false); //invalid visa
