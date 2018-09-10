@@ -56,6 +56,24 @@ public class CrsFileUploadControllerTest {
 
     @Test
     @WithKeycloakUser
+    public void uploadEmptyFile() {
+        final ArgumentCaptor<File> captor = ArgumentCaptor.forClass(File.class);
+
+        final CrsParsedResult crsParsedResult = new CrsParsedResult(Collections.emptyList(), Collections.emptyList());
+        when(crsFileUploadServiceMock.process(any(File.class), eq(CURRENT_USER)))
+                .thenReturn(crsParsedResult);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        MultipartFile FILE = new MockMultipartFile("file", "".getBytes());
+        testObject.uploadCrsRecords(FILE, mock(RedirectAttributes.class), authentication);
+
+        verify(crsAuditServiceMock).audit(CURRENT_USER, "FAILURE", "Empty file uploaded");
+
+    }
+
+    @Test
+    @WithKeycloakUser
     public void uploadEmptyList() {
         final ArgumentCaptor<File> captor = ArgumentCaptor.forClass(File.class);
 
@@ -84,11 +102,12 @@ public class CrsFileUploadControllerTest {
     public void uploadValidRecords() {
         final ArgumentCaptor<File> captor = ArgumentCaptor.forClass(File.class);
 
+        final CrsParsedResult crsParsedResult = new CrsParsedResult(
+                List.of(CrsRecord.builder().id(1L).build(),
+                        CrsRecord.builder().id(2L).build()),
+                Collections.emptyList());
         when(crsFileUploadServiceMock.process(any(File.class), eq(CURRENT_USER)))
-                .thenReturn(new CrsParsedResult(
-                        List.of(CrsRecord.builder().id(1L).build(),
-                                CrsRecord.builder().id(2L).build()),
-                        Collections.emptyList()));
+                .thenReturn(crsParsedResult);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -100,7 +119,7 @@ public class CrsFileUploadControllerTest {
         testObject.uploadCrsRecords(FILE, mock(RedirectAttributes.class), authentication);
 
         verify(crsFileUploadServiceMock).process(captor.capture(), eq(CURRENT_USER));
-        verify(crsAuditServiceMock).audit(any(), any(), any());
+        verify(crsAuditServiceMock).audit(FILE, CURRENT_USER, crsParsedResult);
 
         File tempFile = captor.getValue();
         assertThat(tempFile.exists(), CoreMatchers.is(false));

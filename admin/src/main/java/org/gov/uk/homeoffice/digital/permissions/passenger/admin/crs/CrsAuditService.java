@@ -2,6 +2,7 @@ package org.gov.uk.homeoffice.digital.permissions.passenger.admin.crs;
 
 import org.apache.commons.lang3.StringUtils;
 import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
+import org.gov.uk.homeoffice.digital.permissions.passenger.audit.domain.Audit;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.CrsRecord;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +20,10 @@ public class CrsAuditService {
     @Autowired
     @Qualifier("audit.admin")
     private AuditService auditService;
+
+    public void audit(String username, String result, String message) {
+        auditService.audit(new Audit(null, username, LocalDateTime.now(), result, message));
+    }
 
     public void audit(MultipartFile file, String username, CrsParsedResult result) {
         final List<CrsRecord> crsRecords = result.getCrsRecords()
