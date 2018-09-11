@@ -26,10 +26,21 @@ import static org.gov.uk.homeoffice.digital.permissions.passenger.utils.Tuple.tp
 
 @Component
 public class CrsFileParser {
+
     public CrsParsedResult parse(File tempFile) {
         return Catcher.convertToRuntime(() -> {
             final List<String> lines = FileUtils.readLines(tempFile, "UTF-8");
             final Map<CrsField, List<Integer>> fieldIndices = fieldIndices(lines.get(0));
+
+            // Validate this looks like a CRS file using the headers offsets.
+            final Optional<Map.Entry<CrsField, List<Integer>>> optMissingColumn = fieldIndices.entrySet().parallelStream()
+                    .filter(entry -> entry.getValue().size() == 0).findFirst();
+            if (optMissingColumn.isPresent()) {
+                return new CrsParsedResult(Collections.emptyList(),
+                        List.of(new CrsParseErrors("1",
+                                List.of(String.format("Invalid CRS file format. Missing column %s",
+                                        optMissingColumn.get().getKey())))));
+            }
 
             final List<Tuple<Optional<CrsRecord>, Optional<CrsParseErrors>>> tuples = lines.stream().skip(1).map(row -> parseRow(row, fieldIndices)).collect(toList());
             return new CrsParsedResult(

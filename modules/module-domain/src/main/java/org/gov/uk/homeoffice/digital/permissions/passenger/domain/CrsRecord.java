@@ -49,8 +49,7 @@ public class CrsRecord implements Serializable {
     private boolean isCreated;
 
     public boolean isInvalid() {
-        return id == null ||
-                emailAddress == null ||
+        return  emailAddress == null ||
                 passportNumber == null ||
                 dateOfBirth == null ||
                 status == null ||

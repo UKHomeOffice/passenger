@@ -7,7 +7,6 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaRecord;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.CrsRecordRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRuleMatcher;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visarecord.CRSVisaRecordAdapter;
-import org.gov.uk.homeoffice.digital.permissions.passenger.email.NotifyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,10 +14,10 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
-import static org.gov.uk.homeoffice.digital.permissions.passenger.utils.CollectionUtils.add;
 
 @Service
 public class CrsFileUploadService {
@@ -37,29 +36,23 @@ public class CrsFileUploadService {
 
     private final CrsEmailService crsEmailService;
 
-    private final CrsUploadStatsService crsUploadStatsService;
-
-
     public CrsFileUploadService(CrsFileParser crsFileParser,
                                 StorageService storageService,
                                 CrsRecordRepository crsRecordRepository,
                                 VisaRuleMatcher visaRuleMatcher,
                                 CRSVisaRecordAdapter crsVisaRecordAdapter,
-                                CrsEmailService crsEmailService,
-                                CrsUploadStatsService crsUploadStatsService) {
+                                CrsEmailService crsEmailService) {
         this.crsFileParser = crsFileParser;
         this.storageService = storageService;
         this.crsRecordRepository = crsRecordRepository;
         this.visaRuleMatcher = visaRuleMatcher;
         this.crsVisaRecordAdapter = crsVisaRecordAdapter;
         this.crsEmailService = crsEmailService;
-        this.crsUploadStatsService = crsUploadStatsService;
     }
 
 
     public CrsParsedResult process(File crsFile, String username) {
-        CrsParsedResult parsedResult = crsFileParser.parse(crsFile);
-
+        final CrsParsedResult parsedResult = crsFileParser.parse(crsFile);
 
         final List<CrsRecord> updatedRecords = parsedResult.getCrsRecords()
                                                     .stream()
@@ -70,11 +63,7 @@ public class CrsFileUploadService {
 
         storeFileInS3(crsFile);
 
-        parsedResult.setUpdatedCrsRecords(updatedRecords);
-
-        crsUploadStatsService.updateStats(parsedResult);
-
-        return parsedResult;
+        return parsedResult.withUpdatedCrsRecords(updatedRecords);
     }
 
     private boolean visaRuleMatchFound(CrsRecord crsRecord, CrsParsedResult parsedResult) {
@@ -87,7 +76,7 @@ public class CrsFileUploadService {
     }
 
     private boolean addErrors(CrsRecord crsRecord, CrsParsedResult parsedResult, List<String> visaRules) {
-        return visaRules != null && visaRules.stream().filter(r -> r != null).count() > 0 && parsedResult.getParseErrors().add(
+        return visaRules != null && visaRules.stream().anyMatch(Objects::nonNull) && parsedResult.getParseErrors().add(
                 new CrsParseErrors(crsRecord.toString(), visaRules));
     }
 

@@ -1,7 +1,6 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.crs;
 
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.system.storage.StorageService;
-import org.gov.uk.homeoffice.digital.permissions.passenger.admin.system.storage.s3.S3StorageServiceBean;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.CrsRecord;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.CrsRecord.CrsRecordBuilder;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaRecord;
@@ -10,7 +9,6 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaType;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.CrsRecordRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRuleMatcher;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visarecord.CRSVisaRecordAdapter;
-import org.gov.uk.homeoffice.digital.permissions.passenger.email.NotifyService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,12 +19,12 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -51,9 +49,6 @@ public class CrsFileUploadServiceTest {
 
     @Mock
     private CrsEmailService crsEmailService;
-
-    @Mock
-    private CrsUploadStatsService crsUploadStatsService;
 
     @Mock
     private File file;
@@ -122,7 +117,6 @@ public class CrsFileUploadServiceTest {
 
         testObject.process(file, "testUserName");
 
-        verify(crsUploadStatsService, times(1)).updateStats(crsParsedResult);
         verify(crsVisaRecordAdapter, times(1)).getVisaRecord(aValidCrsRecord);
         verify(crsRecordRepository, times(1)).save(aValidCrsRecord);
         verify(crsEmailService, times(1)).sendVisaEmail(aValidCrsRecord);
@@ -139,7 +133,6 @@ public class CrsFileUploadServiceTest {
 
         testObject.process(file, "testUserName");
 
-        verify(crsUploadStatsService, times(1)).updateStats(crsParsedResult);
         verify(crsVisaRecordAdapter, times(1)).getVisaRecord(aRevokedCrsRecord);
         verify(crsRecordRepository, times(1)).save(aRevokedCrsRecord);
         verify(crsEmailService, times(1)).sendVisaEmail(aRevokedCrsRecord);
@@ -156,7 +149,6 @@ public class CrsFileUploadServiceTest {
 
         testObject.process(file, "testUserName");
 
-        verify(crsUploadStatsService, times(1)).updateStats(crsParsedResult);
         verify(crsVisaRecordAdapter, times(1)).getVisaRecord(aRevokedCrsRecord);
         verifyNoMoreInteractions(crsRecordRepository);
         verifyNoMoreInteractions(crsEmailService);
