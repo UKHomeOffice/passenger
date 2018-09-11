@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,6 +58,21 @@ public class CrsFileUploadController {
 
     private String processFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, File tempFile) throws IOException {
         try {
+
+            final String fileName = file.getOriginalFilename();
+
+            // Validate file name
+            if (fileName == null || !fileName.matches("\\w{5}\\d{2}\\d{2}\\d{4}.csv")) {
+                redirectAttributes.addFlashAttribute("errors", List.of(
+                        new CrsParseErrors("1", List.of("File name is incorrect format. Should be in form 'xxxxxddmmyyyy.csv'"))));
+                redirectAttributes.addFlashAttribute("crsRecords", Collections.emptyList());
+                redirectAttributes.addFlashAttribute("crsRecordsSuccessfullyCreated", 0);
+                redirectAttributes.addFlashAttribute("crsRecordsSuccessfullyUpdated", 0);
+                redirectAttributes.addFlashAttribute("crsRecordsInError", 1);
+
+                return "redirect:/crsrecords#errors";
+            }
+
             FileUtils.writeByteArrayToFile(tempFile, file.getBytes());
 
             final CrsParsedResult result = crsFileUploadService.process(tempFile, SecurityUtil.username());

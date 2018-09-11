@@ -85,7 +85,7 @@ public class CrsFileUploadControllerTest {
 
         MultipartFile FILE = new MockMultipartFile(
                 "crsrecords.csv",
-                "originalfilename.csv",
+                "valid01012018.csv",
                 "text/csv",
                 "\"some\", \"text\"".getBytes());
         testObject.uploadCrsRecords(FILE, mock(RedirectAttributes.class), authentication);
@@ -113,7 +113,7 @@ public class CrsFileUploadControllerTest {
 
         MultipartFile FILE = new MockMultipartFile(
                 "crsrecords.csv",
-                "originalfilename.csv",
+                "valid01012018.csv",
                 "text/csv",
                 "\"some\", \"text\"".getBytes());
         testObject.uploadCrsRecords(FILE, mock(RedirectAttributes.class), authentication);
@@ -144,7 +144,7 @@ public class CrsFileUploadControllerTest {
 
         MultipartFile FILE = new MockMultipartFile(
                 "crsrecords.csv",
-                "originalfilename.csv",
+                "valid01012018.csv",
                 "text/csv",
                 "\"some\", \"text\"".getBytes());
         testObject.uploadCrsRecords(FILE, mock(RedirectAttributes.class), authentication);
@@ -173,7 +173,7 @@ public class CrsFileUploadControllerTest {
 
         MultipartFile FILE = new MockMultipartFile(
                 "crsrecords.csv",
-                "originalfilename.csv",
+                "valid01012018.csv",
                 "text/csv",
                 "\"some\", \"text\"".getBytes());
         testObject.uploadCrsRecords(FILE, mock(RedirectAttributes.class), authentication);
