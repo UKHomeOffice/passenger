@@ -26,22 +26,23 @@ public class PublicWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       http.csrf().disable()
+        http
                 .headers().frameOptions().disable().and()
+                .csrf().and()
                 .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                    .anyRequest().authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                    .loginPage("/login")
-                    .defaultSuccessUrl("/visa/2fa")
-                    .permitAll()
+                .loginPage("/login")
+                .defaultSuccessUrl("/visa/2fa")
+                .permitAll()
                 .and()
                 .logout()
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/")
-                    .addLogoutHandler(auditLogoutHandler)
-               .permitAll();
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .addLogoutHandler(auditLogoutHandler)
+                .permitAll();
 
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
