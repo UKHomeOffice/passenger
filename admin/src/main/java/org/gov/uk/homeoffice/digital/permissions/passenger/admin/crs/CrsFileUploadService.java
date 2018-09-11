@@ -81,9 +81,10 @@ public class CrsFileUploadService {
         if (crsRecord.isInvalid()) {
             parsedResult.getParseErrors().add(new CrsParseErrors("Empty row", List.of("CRS record is invalid.")));
             return false;
+        } else {
+            final VisaRecord visaRecord = crsVisaRecordAdapter.getVisaRecord(crsRecord);
+            return visaRuleMatcher.hasVisaRule(visaRecord, (visaRules) -> addErrors(crsRecord, parsedResult, visaRules));
         }
-        final VisaRecord visaRecord = crsVisaRecordAdapter.getVisaRecord(crsRecord);
-        return visaRuleMatcher.hasVisaRule(visaRecord, (visaRules) -> addErrors(crsRecord, parsedResult, visaRules));
     }
 
     private boolean addErrors(CrsRecord crsRecord, CrsParsedResult parsedResult, List<String> visaRules) {
