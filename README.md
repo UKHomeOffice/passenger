@@ -58,7 +58,7 @@ TBA.
 
 # General
 
-The source for this project can be found in [gitlab](https://gitlab.digital.homeoffice.gov.uk/digitalpermissions/passenger.git).
+The source for this project can be found on [GitHub](https://github.com/UKHomeOffice/passenger/passenger.git).
 
 It is hosted on the ```Docker``` and ```Kubernetes``` based Application Container Platform (ACP), much useful documentation for which can be found [here](https://github.com/UKHomeOffice/application-container-platform). 
 
@@ -95,17 +95,13 @@ in the root of the passenger project (make sure Docker is running first).
 ### Resetting the databases
 Flyway is used to manage database changes. The change scripts are run when the ```admin``` app starts.
 
-If you need to reset the state of the DBs locally, run the ```reset_db.sh``` script in the scripts folder, i.e.
+If you need to reset the state of the DBs locally, run ```docker-compose down -v``` on the root of the project
 ```
-./scripts/reset_db.sh
+docker-compose down -v
 ```
 followed by
 ```
 docker-compose up
-```
-alternately, you can manage this through the Docker compose file with
-```
-docker-compose down -v
 ```
 
 ### Run the apps in an IDE
@@ -145,7 +141,7 @@ Start the ```admin``` and ```public``` apps by executing
 java -jar admin/target/admin-0.0.1-SNAPSHOT.jar
 java -jar public/target/public-0.0.1-SNAPSHOT.jar
 ```
-in the root of the project, which will then make the apps availaible on 
+in the root of the project, which will then make the apps available on 
 ```
 http://localhost:8082
 http://localhost:8080
