@@ -25,6 +25,7 @@ public class ParticipantModel implements Serializable {
     private final String catDEndorsements;
     private final String visaEmailSent;
     private final VisaStatus visaStatus;
+    private final String action;
     private final String reason;
     private final boolean updated;
     private final String updatedBy;
@@ -50,6 +51,7 @@ public class ParticipantModel implements Serializable {
                      final String catDEndorsements,
                      final String visaEmailSent,
                      final VisaStatus visaStatus,
+                     final String action,
                      final String reason,
                      final boolean updated,
                      final String updatedBy,
@@ -74,6 +76,7 @@ public class ParticipantModel implements Serializable {
         this.catDEndorsements = catDEndorsements;
         this.visaEmailSent = visaEmailSent;
         this.visaStatus = visaStatus;
+        this.action = action;
         this.reason = reason;
         this.updated = updated;
         this.updatedBy = updatedBy;
@@ -159,6 +162,10 @@ public class ParticipantModel implements Serializable {
 
     public String getReason() {
         return reason;
+    }
+
+    public String getAction() {
+        return action;
     }
 
     public boolean isUpdated() {

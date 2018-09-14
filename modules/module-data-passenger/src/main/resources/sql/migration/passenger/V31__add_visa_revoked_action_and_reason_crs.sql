@@ -1,0 +1,2 @@
+ALTER TABLE crs_record ADD COLUMN action VARCHAR(255);
+ALTER TABLE crs_record ADD COLUMN reason TEXT;

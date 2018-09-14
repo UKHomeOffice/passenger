@@ -27,6 +27,8 @@ public class CrsRecord implements Serializable {
     private String emailAddress;
     private String localAddress;
     private VisaStatus status;
+    private String action;
+    private String reason;
     private String ecType;
     private String entryType;
     private String visaEndorsement;

@@ -78,6 +78,7 @@ public class ParticipantModelAdapterTest {
                 "spx",
                 Collections.singletonList("endorsement"),
                 VisaStatus.VALID,
+                "action",
                 "reason"
         );
     }

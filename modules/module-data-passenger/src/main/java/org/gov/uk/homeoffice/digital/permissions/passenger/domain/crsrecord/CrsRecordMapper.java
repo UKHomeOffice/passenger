@@ -37,6 +37,8 @@ public class CrsRecordMapper implements RowMapper<CrsRecord> {
                 .emailAddress(resultSet.getString("email_address"))
                 .localAddress(resultSet.getString("local_address"))
                 .status(VisaStatus.parse(resultSet.getString("status")))
+                .action(resultSet.getString("action"))
+                .reason(resultSet.getString("reason"))
                 .ecType(resultSet.getString("ec_type"))
                 .entryType(resultSet.getString("entry_type"))
                 .visaEndorsement(resultSet.getString("visa_endorsement"))

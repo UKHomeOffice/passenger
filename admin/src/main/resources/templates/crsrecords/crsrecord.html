@@ -68,6 +68,14 @@
             <th>Reason</th>
             <td th:text="${crs.status}"/>
         </tr>
+        <tr th:styleappend="${crs.action == null} ? 'display:none':''">
+            <th>Action</th>
+            <td th:text="${crs.action}"/>
+        </tr>
+        <tr th:styleappend="${crs.reason == null} ? 'display:none':''">
+            <th>Reason</th>
+            <td th:text="${crs.reason}"/>
+        </tr>
         <tr th:styleappend="${crs.ecType == null} ? 'display:none':''">
             <th>Status</th>
             <td th:text="${crs.ecType}"/>

@@ -88,6 +88,8 @@ public class CrsFileParser {
                     .emailAddress(fieldValue(fieldIndices, csvRecord, CrsField.EMAIL_ADDRESS, val -> val.get(0)))
                     .localAddress(fieldValue(fieldIndices, csvRecord, CrsField.LOCAL_ADDRESS, val -> val.get(0)))
                     .status(fieldValue(fieldIndices, csvRecord, CrsField.STATUS_DETAILS, val -> VisaStatus.parse(val.get(0))))
+                    .action(fieldValue(fieldIndices, csvRecord, CrsField.ACTION, val -> val.get(0)))
+                    .reason(fieldValue(fieldIndices, csvRecord, CrsField.REASON, val -> val.get(0)))
                     .ecType(fieldValue(fieldIndices, csvRecord, CrsField.EC_TYPE, val -> val.get(0)))
                     .entryType(fieldValue(fieldIndices, csvRecord, CrsField.ENTRY_TYPE, val -> val.get(0)))
                     .visaEndorsement(fieldValue(fieldIndices, csvRecord, CrsField.VISA_ENDORSEMENT, val -> val.get(0)))

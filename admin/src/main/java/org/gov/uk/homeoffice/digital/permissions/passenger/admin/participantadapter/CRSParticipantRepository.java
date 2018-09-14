@@ -50,7 +50,8 @@ public class CRSParticipantRepository implements ParticipantRecordRepository {
 
     private Tuple<Participant, Visa> getParticipantVisaTuple(CrsRecord crsRecord) {
         Participant participant = getParticipant(crsRecord);
-        Visa visa = new Visa(null, crsRecord.getPassportNumber(), crsRecord.getValidFrom(), crsRecord.getValidTo(), crsRecord.getSponsorSpxNo(), Arrays.asList(crsRecord.getCatDEndors1(), crsRecord.getCatDEndors2()), crsRecord.getStatus(), null);
+        Visa visa = new Visa(null, crsRecord.getPassportNumber(), crsRecord.getValidFrom(), crsRecord.getValidTo(),
+                crsRecord.getSponsorSpxNo(), Arrays.asList(crsRecord.getCatDEndors1(), crsRecord.getCatDEndors2()), crsRecord.getStatus(), crsRecord.getAction(), crsRecord.getReason());
         return new Tuple<>(participant, visa);
     }
 

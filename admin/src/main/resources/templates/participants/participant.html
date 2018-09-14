@@ -64,6 +64,10 @@
             <th>Visa status</th>
             <td th:text="${p.visaStatus}"/>
         </tr>
+        <tr th:styleappend="${p.action == null} ? 'display:none':''">
+            <th>Action</th>
+            <td th:text="${p.action}"/>
+        </tr>
         <tr th:styleappend="${p.reason == null} ? 'display:none':''">
             <th>Reason</th>
             <td th:text="${p.reason}"/>

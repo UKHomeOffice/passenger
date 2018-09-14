@@ -31,7 +31,9 @@ public enum CrsField {
     CAT_D_ENDORSEMENT_2("Cat D endorsement 2"),
     UNIVERSITY_COLLEGE_NAME("University/College name"),
     BRP_COLLECTION_INFORMATION("BRP Collection information"),
-    EXPECTED_TRAVEL_DATE("Expected travel date");
+    EXPECTED_TRAVEL_DATE("Expected travel date"),
+    ACTION("action"),
+    REASON("reason");
 
     String description;
 

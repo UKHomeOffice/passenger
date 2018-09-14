@@ -11,6 +11,7 @@ public class VisaBuilder {
     private String spx;
     private List<String> catDEndorsements;
     private VisaStatus status;
+    private String action;
     private String reason;
 
     public VisaBuilder setId(Long id) {
@@ -53,8 +54,13 @@ public class VisaBuilder {
         return this;
     }
 
+    public VisaBuilder setAction(String action) {
+        this.action = action;
+        return this;
+    }
+
     public Visa createVisa() {
-        return new Visa(id, passportNumber, validFrom, validTo, spx, catDEndorsements, status, reason);
+        return new Visa(id, passportNumber, validFrom, validTo, spx, catDEndorsements, status, action, reason);
 
     }
 

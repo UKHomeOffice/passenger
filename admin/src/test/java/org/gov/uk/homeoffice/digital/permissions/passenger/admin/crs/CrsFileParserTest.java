@@ -51,15 +51,17 @@ public class CrsFileParserTest {
             "Cat D endorsement 2," +
             "University/College name," +
             "BRP Collection information," +
-            "Expected travel date";
+            "Expected travel date," +
+            "action," +
+            "reason";
 
     @InjectMocks
     CrsFileParser testObject;
 
     @Test
     public void parseWellFormedRows() throws IOException {
-        String row1 = "GWF046284828,143757,E4G9XI0F39W0VX,SOMECOSNUMBER,MADR,SMITH,JOHN,M,08/11/1996,CHN,234567891,123-456-7890,JOHN.SMITH@DUMMY.AC.UK,1 STREET LANE,ISSUED,D,MULT,TIER 4 (GENERAL) STUDENT,06/06/2018,05/07/2018,Lancaster University,UNIVERSITY,Bailrigg LANCASTER LANCASHIRE LA1 4YW UNITED KINGDOM,RGRCCJNF8,Additional 1,Additional 2,T4 G Student SPX* Work limit 20 hrs,p/w term time. No Public Funds.Police Registration,Lancaster University,Bailrigg LANCASTER LANCASHIRE LA1 4YW UNITED KINGDOM,";
-        String row2 = "GWF046284829,143756,E4G9XI0F41W0VX,,BGC,APPLE,BARRY,M,22/10/1996,USA,234567892,123-456-7891,BARRY.APPLE@DUMMY.AC.UK,2 STREET LANE,ISSUED,D,SINGLE,TIER 4 (GENERAL) STUDENT,01/01/2018,30/06/2018,Manchester University ,UNIVERSITY,Manc Uni MA1 4YW UNITED KINGDOM,RGRCCJNF9,Additional 3,Additional 4,T4 G Student SPX*,p/w term time. No Public Funds.Police Registration,Manchester University ,Manchester Univeristy MA1 4YW UNITED KINGDOM,";
+        String row1 = "GWF046284828,143757,E4G9XI0F39W0VX,SOMECOSNUMBER,MADR,SMITH,JOHN,M,08/11/1996,CHN,234567891,123-456-7890,JOHN.SMITH@DUMMY.AC.UK,1 STREET LANE,ISSUED,D,MULT,TIER 4 (GENERAL) STUDENT,06/06/2018,05/07/2018,Lancaster University,UNIVERSITY,Bailrigg LANCASTER LANCASHIRE LA1 4YW UNITED KINGDOM,RGRCCJNF8,Additional 1,Additional 2,T4 G Student SPX* Work limit 20 hrs,p/w term time. No Public Funds.Police Registration,Lancaster University,Bailrigg LANCASTER LANCASHIRE LA1 4YW UNITED KINGDOM,,,";
+        String row2 = "GWF046284829,143756,E4G9XI0F41W0VX,,BGC,APPLE,BARRY,M,22/10/1996,USA,234567892,123-456-7891,BARRY.APPLE@DUMMY.AC.UK,2 STREET LANE,ISSUED,D,SINGLE,TIER 4 (GENERAL) STUDENT,01/01/2018,30/06/2018,Manchester University ,UNIVERSITY,Manc Uni MA1 4YW UNITED KINGDOM,RGRCCJNF9,Additional 3,Additional 4,T4 G Student SPX*,p/w term time. No Public Funds.Police Registration,Manchester University ,Manchester Univeristy MA1 4YW UNITED KINGDOM,,,";
 
         File file = new File("test.csv");
         file.deleteOnExit();
@@ -110,8 +112,8 @@ public class CrsFileParserTest {
 
     @Test
     public void parseRowsWithErrors() throws IOException {
-        String row1 = "GWF046284828,143757,E4G9XI0F39W0VX,SOMECOSNUMBER,MADR,SMITH,JOHN,M,08/11/1996,CHN,234567891,123-456-7890,JOHN.SMITH@DUMMY.AC.UK,1 STREET LANE,ISSUED,D,MULT,TIER 4 (GENERAL) STUDENT,06/06/2018,05/07/2018,Lancaster University,UNIVERSITY,Bailrigg LANCASTER LANCASHIRE LA1 4YW UNITED KINGDOM,RGRCCJNF8,Additional 1,Additional 2,T4 G Student SPX* Work limit 20 hrs,p/w term time. No Public Funds.Police Registration,Lancaster University,Bailrigg LANCASTER LANCASHIRE LA1 4YW UNITED KINGDOM,";
-        String badRowWithWrongDateFormat = "GWF046284828,143757,E4G9XI0F39W0VX,SOMECOSNUMBER,MADR,M,08/11/ds,CHN,234567891,123-456-7890,JOHN.SMITH@DUMMY.AC.UK,1 STREET LANE,ISSUED,D,MULT,TIER 4 (GENERAL) STUDENT,06/06/2018,05/07/2018,Lancaster University,UNIVERSITY,Bailrigg LANCASTER LANCASHIRE LA1 4YW UNITED KINGDOM,RGRCCJNF8,,,T4 G Student SPX* Work limit 20 hrs,p/w term time. No Public Funds.Police Registration,Lancaster University,Bailrigg LANCASTER LANCASHIRE LA1 4YW UNITED KINGDOM,";
+        String row1 = "GWF046284828,143757,E4G9XI0F39W0VX,SOMECOSNUMBER,MADR,SMITH,JOHN,M,08/11/1996,CHN,234567891,123-456-7890,JOHN.SMITH@DUMMY.AC.UK,1 STREET LANE,ISSUED,D,MULT,TIER 4 (GENERAL) STUDENT,06/06/2018,05/07/2018,Lancaster University,UNIVERSITY,Bailrigg LANCASTER LANCASHIRE LA1 4YW UNITED KINGDOM,RGRCCJNF8,Additional 1,Additional 2,T4 G Student SPX* Work limit 20 hrs,p/w term time. No Public Funds.Police Registration,Lancaster University,Bailrigg LANCASTER LANCASHIRE LA1 4YW UNITED KINGDOM,,,";
+        String badRowWithWrongDateFormat = "GWF046284828,143757,E4G9XI0F39W0VX,SOMECOSNUMBER,MADR,M,08/11/ds,CHN,234567891,123-456-7890,JOHN.SMITH@DUMMY.AC.UK,1 STREET LANE,ISSUED,D,MULT,TIER 4 (GENERAL) STUDENT,06/06/2018,05/07/2018,Lancaster University,UNIVERSITY,Bailrigg LANCASTER LANCASHIRE LA1 4YW UNITED KINGDOM,RGRCCJNF8,,,T4 G Student SPX* Work limit 20 hrs,p/w term time. No Public Funds.Police Registration,Lancaster University,Bailrigg LANCASTER LANCASHIRE LA1 4YW UNITED KINGDOM,,,";
 
         File file = new File("test.csv");
         file.deleteOnExit();
@@ -181,6 +183,8 @@ public class CrsFileParserTest {
         assertThat(crsRecord1.getEmailAddress(), equalTo(crsRecord.getEmailAddress()));
         assertThat(crsRecord1.getLocalAddress(), equalTo(crsRecord1.getLocalAddress()));
         assertThat(crsRecord1.getStatus(), equalTo(crsRecord.getStatus()));
+        assertThat(crsRecord1.getAction(), equalTo(crsRecord.getAction()));
+        assertThat(crsRecord1.getReason(), equalTo(crsRecord.getReason()));
         assertThat(crsRecord1.getEcType(), equalTo(crsRecord.getEcType()));
         assertThat(crsRecord1.getEntryType(), equalTo(crsRecord.getEntryType()));
         assertThat(crsRecord1.getVisaEndorsement(), equalTo(crsRecord.getVisaEndorsement()));

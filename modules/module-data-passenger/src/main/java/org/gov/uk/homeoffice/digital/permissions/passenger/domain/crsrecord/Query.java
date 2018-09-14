@@ -18,6 +18,8 @@ public interface Query {
             "email_address = :emailAddress, " +
             "local_address = :localAddress, " +
             "status = :status, " +
+            "action = :action, " +
+            "reason = :reason, " +
             "ec_type = :ecType, " +
             "entry_type = :entryType, " +
             "visa_endorsement = :visaEndorsement, " +
@@ -55,6 +57,8 @@ public interface Query {
             "email_address, " +
             "local_address, " +
             "status, " +
+            "action, " +
+            "reason, " +
             "ec_type, " +
             "entry_type, " +
             "visa_endorsement, " +
@@ -90,6 +94,8 @@ public interface Query {
             ":emailAddress," +
             ":localAddress," +
             ":status," +
+            ":action," +
+            ":reason," +
             ":ecType," +
             ":entryType," +
             ":visaEndorsement," +

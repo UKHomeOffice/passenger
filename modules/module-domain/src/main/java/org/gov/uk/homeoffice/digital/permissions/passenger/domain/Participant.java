@@ -33,7 +33,8 @@ public class Participant implements Serializable {
     private LocalDateTime updated;
 
     public Participant(Long id, String gwf, String vaf, String cas, String firstName, String middleName, String surName, LocalDate dateOfBirth,
-                       String nationality, String passportNumber, String mobileNumber, String email, String institutionAddress, Set<String> emailsSent, String updatedBy, LocalDateTime created, LocalDateTime updated) {
+                       String nationality, String passportNumber, String mobileNumber, String email, String institutionAddress,
+                       Set<String> emailsSent, String updatedBy, LocalDateTime created, LocalDateTime updated) {
         this.id = notNull(id, "id must be provided");
         this.gwf =  gwf;
         this.vaf = vaf;
