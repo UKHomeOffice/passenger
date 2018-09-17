@@ -54,7 +54,8 @@
 
 ### prod
 
-TBA.
+* https://view-your-visa.beta.homeoffice.gov.uk
+* https://admin.digitalpermissions.homeoffice.gov.uk
 
 # General
 
