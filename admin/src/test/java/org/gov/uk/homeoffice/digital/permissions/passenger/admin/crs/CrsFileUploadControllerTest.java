@@ -1,7 +1,6 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.crs;
 
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.WithKeycloakUser;
-import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.CrsRecord;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
@@ -9,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -29,7 +27,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.gov.uk.homeoffice.digital.permissions.passenger.admin.WithKeycloakUser.CURRENT_USER;
-import static org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaStatus.REVOKED;
+import static org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaStatus.REFUSED;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -164,9 +162,9 @@ public class CrsFileUploadControllerTest {
                 .thenReturn(
                         new CrsParsedResult(List.of(
                                 CrsRecord.builder().id(1L).build(),
-                                CrsRecord.builder().id(2L).status(REVOKED).build(),
+                                CrsRecord.builder().id(2L).status(REFUSED).build(),
                                 CrsRecord.builder().id(3L).build(),
-                                CrsRecord.builder().id(4L).status(REVOKED).build()),
+                                CrsRecord.builder().id(4L).status(REFUSED).build()),
                                 List.of()));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

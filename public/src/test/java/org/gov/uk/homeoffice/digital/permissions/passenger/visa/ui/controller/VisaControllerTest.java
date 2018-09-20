@@ -95,7 +95,7 @@ public class VisaControllerTest {
     @Test
     public void getVisaStatus(){
         VisaRecord visaRecord = new VisaRecord(
-                VisaStatus.VALID,
+                VisaStatus.ISSUED,
                 VisaType.createVisaType(defaultVisaEndorsement),
                 expectedCommonRules);
 
@@ -120,7 +120,7 @@ public class VisaControllerTest {
     @Test
     public void getVisaTravelDates(){
         VisaRecord visaRecord = new VisaRecord(
-                VisaStatus.VALID,
+                VisaStatus.ISSUED,
                 VisaType.createVisaType(defaultVisaEndorsement),
                 expectedCommonRules);
 
@@ -135,7 +135,7 @@ public class VisaControllerTest {
     @Test
     public void getWhenYouArriveInUk(){
         VisaRecord visaRecord = new VisaRecord(
-                VisaStatus.VALID,
+                VisaStatus.ISSUED,
                 VisaType.createVisaType(defaultVisaEndorsement),
                 expectedCommonRules);
 
@@ -150,7 +150,7 @@ public class VisaControllerTest {
     @Test
     public void expectedRulesWithPoliceRegistration(){
         VisaRecord visaRecord = new VisaRecord(
-                VisaStatus.VALID,
+                VisaStatus.ISSUED,
                 VisaType.createVisaType(defaultVisaEndorsement),
                 expectedRulesWithPoliceRegistration);
 

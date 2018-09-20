@@ -77,7 +77,7 @@ public class NotifyServiceImplTest {
                 .setId(1L)
                 .setSpx("spx")
                 .setReason("reason")
-                .setStatus(VisaStatus.VALID)
+                .setStatus(VisaStatus.ISSUED)
                 .createVisa();
     }
 

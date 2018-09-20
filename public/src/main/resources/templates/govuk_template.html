@@ -109,9 +109,9 @@
                 Check your visa
             </a>
             <span th:if="${authenticated}">
-                <a href="/logout" class="govuk-header__link govuk-header__navigation-item"  style="float:right" >
-                    <strong>Sign Out</strong>
-                </a>
+                <form class="govuk-header__link govuk-header__navigation-item" action="#" th:action="@{/logout}" method="POST" style="float:right">
+                    <input type="submit" value="Sign Out" style="color:inherit;background:none;border:none;cursor:pointer;padding:0;font:inherit;" />
+                </form>
             </span>
         </div>
 

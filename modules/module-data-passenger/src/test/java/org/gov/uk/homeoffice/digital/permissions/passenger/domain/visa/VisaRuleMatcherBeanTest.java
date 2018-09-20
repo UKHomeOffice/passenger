@@ -29,7 +29,7 @@ public class VisaRuleMatcherBeanTest {
 
     @Test
     public void shouldReturnTrueWhenMatchingBusinessRule() {
-        final VisaRecord visaRecord = new VisaRecord(VisaStatus.VALID, VisaType.createVisaType("test"), Collections.emptyList());
+        final VisaRecord visaRecord = new VisaRecord(VisaStatus.ISSUED, VisaType.createVisaType("test"), Collections.emptyList());
         final Optional<VisaTypeRule> visaTypeRuleOpt = Optional.of(new VisaTypeRule(VisaType.createVisaType("test"), Collections.emptyList()));
 
         when(mockVisaTypeService.findVisaTypeRule(visaRecord)).thenReturn(Tuple.tpl(visaTypeRuleOpt, Collections.emptyList()));
@@ -39,7 +39,7 @@ public class VisaRuleMatcherBeanTest {
 
     @Test
     public void shouldReturnFalseWhenNotMatchingBusinessRule() {
-        final VisaRecord visaRecord = new VisaRecord(VisaStatus.VALID, VisaType.createVisaType("test"), Collections.emptyList());
+        final VisaRecord visaRecord = new VisaRecord(VisaStatus.ISSUED, VisaType.createVisaType("test"), Collections.emptyList());
         final Optional<VisaTypeRule> visaTypeRuleOpt = Optional.empty();
 
         when(mockVisaTypeService.findVisaTypeRule(visaRecord)).thenReturn(Tuple.tpl(visaTypeRuleOpt, Collections.emptyList()));

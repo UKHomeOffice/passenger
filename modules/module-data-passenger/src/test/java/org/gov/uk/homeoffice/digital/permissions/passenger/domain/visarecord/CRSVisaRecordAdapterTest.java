@@ -53,7 +53,7 @@ public class CRSVisaRecordAdapterTest extends VisaRecordAdapterTest {
     );
 
     private CrsRecord.CrsRecordBuilder commonPropertiesCrsRecordBuilder = CrsRecord.builder()
-            .status(VisaStatus.VALID)
+            .status(VisaStatus.ISSUED)
             .postName("place-of-issue")
             .validFrom(LocalDate.of(2018, 6, 10))
             .validTo(LocalDate.of(2018, 12, 20))
@@ -89,7 +89,7 @@ public class CRSVisaRecordAdapterTest extends VisaRecordAdapterTest {
         VisaRecord visaRecord = crsVisaRecordAdapter.getVisaRecord(crsRecord);
 
         assertThat(visaRecord, is(new VisaRecord(
-                VisaStatus.VALID,
+                VisaStatus.ISSUED,
                 VisaType.createVisaType("visa-type"),
                 expectedCommonRules)));
     }
@@ -174,7 +174,7 @@ public class CRSVisaRecordAdapterTest extends VisaRecordAdapterTest {
         VisaRecord visaRecord = crsVisaRecordAdapter.getVisaRecord(crsRecord);
 
         assertThat(visaRecord, is(new VisaRecord(
-                VisaStatus.VALID,
+                VisaStatus.ISSUED,
                 VisaType.createVisaType("visa-type"),
                 merge(expectedCommonRules, tuple))));
     }
@@ -191,7 +191,7 @@ public class CRSVisaRecordAdapterTest extends VisaRecordAdapterTest {
         VisaRecord visaRecord = crsVisaRecordAdapter.getVisaRecord(crsRecord);
 
         assertThat(visaRecord, is(new VisaRecord(
-                VisaStatus.VALID,
+                VisaStatus.ISSUED,
                 VisaType.createVisaType("visa-type"),
                 merge(expectedCommonRules, tuples))));
     }

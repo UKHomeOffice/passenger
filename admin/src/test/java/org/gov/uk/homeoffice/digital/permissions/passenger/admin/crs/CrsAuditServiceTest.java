@@ -13,9 +13,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import java.util.Collections;
 import java.util.List;
 
-import static org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaStatus.REVOKED;
+import static org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaStatus.REFUSED;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.verify;
 
@@ -74,9 +73,9 @@ public class CrsAuditServiceTest {
     public void testAuditForFileWithRevokedParticipants() {
         final CrsParsedResult crsParsedResult = new CrsParsedResult(List.of(
                 CrsRecord.builder().id(1L).build(),
-                CrsRecord.builder().id(2L).status(REVOKED).build(),
+                CrsRecord.builder().id(2L).status(REFUSED).build(),
                 CrsRecord.builder().id(3L).build(),
-                CrsRecord.builder().id(4L).status(REVOKED).build()),
+                CrsRecord.builder().id(4L).status(REFUSED).build()),
                 List.of());
 
 

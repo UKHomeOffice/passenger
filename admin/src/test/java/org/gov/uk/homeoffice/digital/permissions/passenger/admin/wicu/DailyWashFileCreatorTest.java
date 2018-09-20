@@ -15,7 +15,6 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -40,10 +39,10 @@ public class DailyWashFileCreatorTest {
     public void whenRecordsArePresentFilesAreCreated() throws Exception {
         Instant now = Instant.parse("2017-12-03T10:15:30.00Z");
 
-        VisaRecord visaRecord1 = new VisaRecord(VisaStatus.VALID, VisaType.createVisaType("test"),
+        VisaRecord visaRecord1 = new VisaRecord(VisaStatus.ISSUED, VisaType.createVisaType("test"),
                 Set.of(Tuple.tpl(new VisaRule(VisaRuleConstants.PASSPORT_NUMBER),
                         List.of(new VisaRuleContent(-1L, "PASSPORT_NUMBER", "passport-number-1", true, RuleType.USER_DATA)))));
-        VisaRecord visaRecord2 = new VisaRecord(VisaStatus.VALID, VisaType.createVisaType("test"),
+        VisaRecord visaRecord2 = new VisaRecord(VisaStatus.ISSUED, VisaType.createVisaType("test"),
                 Set.of(Tuple.tpl(new VisaRule(VisaRuleConstants.PASSPORT_NUMBER),
                         List.of(new VisaRuleContent(-1L, "PASSPORT_NUMBER", "passport-number-2", true, RuleType.USER_DATA)))));
 

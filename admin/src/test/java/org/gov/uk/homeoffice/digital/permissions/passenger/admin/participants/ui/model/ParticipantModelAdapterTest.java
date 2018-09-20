@@ -41,7 +41,7 @@ public class ParticipantModelAdapterTest {
         assertThat(model.getValidTo(), is("10 January 2014"));
         assertThat(model.getSpx(), is("spx"));
         assertThat(model.getCatDEndorsements(), is("endorsement"));
-        assertThat(model.getVisaStatus(), is(VisaStatus.VALID));
+        assertThat(model.getVisaStatus(), is(VisaStatus.ISSUED));
         assertThat(model.getReason(), is("reason"));
         assertThat(model.isUpdated(), is(true));
         assertThat(model.getUpdatedBy(), is("updatedBy"));
@@ -77,7 +77,7 @@ public class ParticipantModelAdapterTest {
                 LocalDate.of(2014, 1, 10),
                 "spx",
                 Collections.singletonList("endorsement"),
-                VisaStatus.VALID,
+                VisaStatus.ISSUED,
                 "action",
                 "reason"
         );

@@ -15,10 +15,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -53,32 +51,32 @@ public class CrsEmailServiceTest {
             .familyName("familyName");
 
     private final CrsRecord aValidCrsRecord = crsRecordBuilder
-            .status(VisaStatus.VALID)
+            .status(VisaStatus.ISSUED)
             .emailsSent(Set.of())
             .build();
 
     private final CrsRecord aValidCrsRecordWithEmailSent = crsRecordBuilder
-            .status(VisaStatus.VALID)
+            .status(VisaStatus.ISSUED)
             .emailsSent(Set.of("GRANTED"))
             .build();
 
     private final CrsRecord aRevokedCrsRecord = crsRecordBuilder
-            .status(VisaStatus.REVOKED)
+            .status(VisaStatus.REFUSED)
             .emailsSent(Set.of())
             .build();
 
     private final CrsRecord aRevokedCrsRecordWithEmailSent = crsRecordBuilder
-            .status(VisaStatus.REVOKED)
-            .emailsSent(Set.of("REVOKED"))
+            .status(VisaStatus.REFUSED)
+            .emailsSent(Set.of("REFUSED"))
             .build();
 
     private final VisaRecord aValidVisaRecord = new VisaRecord(
-            VisaStatus.VALID,
+            VisaStatus.ISSUED,
             VisaType.createVisaType("visa-type"),
             Collections.emptySet());
 
     private final VisaRecord aRevokedVisaRecord = new VisaRecord(
-            VisaStatus.REVOKED,
+            VisaStatus.REFUSED,
             VisaType.createVisaType("visa-type"),
             Collections.emptySet());
 

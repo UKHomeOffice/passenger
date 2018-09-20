@@ -59,7 +59,7 @@ public class CrsRecordDAOIT {
                 .passportNumber("passport_no")
                 .validTo(LocalDate.now().plusDays(31))
                 .validFrom(validFrom)
-                .status(VisaStatus.VALID)
+                .status(VisaStatus.ISSUED)
                 .build();
     }
 

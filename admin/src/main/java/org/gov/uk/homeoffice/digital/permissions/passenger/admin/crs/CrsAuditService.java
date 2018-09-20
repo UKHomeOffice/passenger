@@ -55,7 +55,7 @@ public class CrsAuditService {
 
         String revokedIds = result.getCrsRecords()
                 .stream()
-                .filter(crsRecord -> crsRecord.getStatus() == VisaStatus.REVOKED)
+                .filter(crsRecord -> crsRecord.getStatus() == VisaStatus.REFUSED)
                 .map(crsRecord -> String.valueOf(crsRecord.getId()))
                 .collect(Collectors.joining(","));
 

@@ -5,7 +5,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.*;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRuleConstants;
-import org.gov.uk.homeoffice.digital.permissions.passenger.utils.Tuple;
 import org.gov.uk.homeoffice.digital.permissions.passenger.visa.rule.DynamicContentProcessor;
 
 import java.io.Serializable;
@@ -41,11 +40,11 @@ public class VisaStatusModel implements Serializable {
     }
 
     public boolean isRevoked() {
-        return record.getVisaStatus().equals(VisaStatus.REVOKED);
+        return record.getVisaStatus().equals(VisaStatus.REFUSED);
     }
 
     public boolean isGranted() {
-        return record.getVisaStatus().equals(VisaStatus.VALID) && !isExpired();
+        return record.getVisaStatus().equals(VisaStatus.ISSUED) && !isExpired();
     }
 
     public boolean isLongTerm() {

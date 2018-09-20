@@ -36,7 +36,7 @@ public class AuditLogoutHandlerTest {
     @WithMockUser(username = "12345")
     public void logout() {
         when(visaRecordService.get("12345"))
-                .thenReturn(new VisaRecord(VisaStatus.VALID,
+                .thenReturn(new VisaRecord(VisaStatus.ISSUED,
                         VisaType.createVisaType("test", ""), visaRules()));
 
         RemoteIPThreadLocal.set("123.123.123.123");

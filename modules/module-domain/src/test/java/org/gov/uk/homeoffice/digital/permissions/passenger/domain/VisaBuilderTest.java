@@ -21,7 +21,7 @@ public class VisaBuilderTest {
                 .setValidTo(date)
                 .setSpx("spx")
                 .setCatDEndorsements(Collections.singletonList("catDEndorsements"))
-                .setStatus(VisaStatus.VALID)
+                .setStatus(VisaStatus.ISSUED)
                 .setReason("reason")
                 .createVisa();
 
@@ -31,7 +31,7 @@ public class VisaBuilderTest {
         assertThat(visa.getValidTo(), is(date));
         assertThat(visa.getSpx(), is("spx"));
         assertThat(visa.getCatDEndorsements(), is(Collections.singletonList("catDEndorsements")));
-        assertThat(visa.getStatus(), is(VisaStatus.VALID));
+        assertThat(visa.getStatus(), is(VisaStatus.ISSUED));
         assertThat(visa.getReason(), is("reason"));
     }
 

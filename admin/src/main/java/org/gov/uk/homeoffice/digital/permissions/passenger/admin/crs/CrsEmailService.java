@@ -49,7 +49,7 @@ public class CrsEmailService {
             if (visaRevokedToBeSend(crsRecord, emailsSent)) {
                 final Optional<SendEmailResponse> response = notifyService.sendVisaRevokedEmail(crsRecord.getEmailAddress(), crsRecord.getOtherName(), crsRecord.getFamilyName(), baseUrl);
                 if (response.isPresent()) {
-                    crsRecord.setEmailsSent(add(emailsSent, "REVOKED"));
+                    crsRecord.setEmailsSent(add(emailsSent, "REFUSED"));
                     crsRecordRepository.save(crsRecord);
                 }
             }
@@ -58,10 +58,10 @@ public class CrsEmailService {
     }
 
     private boolean visaGrantedToBeSend(CrsRecord crsRecord, Set<String> emailsSent) {
-        return crsRecord.getStatus() == VisaStatus.VALID && !emailsSent.contains("GRANTED");
+        return crsRecord.getStatus() == VisaStatus.ISSUED && !emailsSent.contains("GRANTED");
     }
 
     private boolean visaRevokedToBeSend(CrsRecord crsRecord, Set<String> emailsSent) {
-        return crsRecord.getStatus() == VisaStatus.REVOKED && !emailsSent.contains("REVOKED");
+        return crsRecord.getStatus() == VisaStatus.REFUSED && !emailsSent.contains("REFUSED");
     }
 }

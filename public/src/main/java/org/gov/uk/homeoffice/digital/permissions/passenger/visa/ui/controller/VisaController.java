@@ -1,13 +1,11 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.visa.ui.controller;
 
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaRecord;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaRule;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaStatus;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRuleConstants;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaTypeService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visarecord.VisaRecordService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.utils.DateTimeUtils;
-import org.gov.uk.homeoffice.digital.permissions.passenger.utils.Tuple;
 import org.gov.uk.homeoffice.digital.permissions.passenger.visa.rule.DynamicContentProcessor;
 import org.gov.uk.homeoffice.digital.permissions.passenger.visa.ui.model.VisaStatusModel;
 import org.slf4j.Logger;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
@@ -27,7 +24,6 @@ import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 import static org.gov.uk.homeoffice.digital.permissions.passenger.utils.DateTimeUtils.fromDisplayDate;
 import static org.gov.uk.homeoffice.digital.permissions.passenger.utils.DateTimeUtils.parse;
-import static org.gov.uk.homeoffice.digital.permissions.passenger.utils.DateTimeUtils.toDisplayDate;
 
 @Controller
 public class VisaController {
@@ -55,7 +51,7 @@ public class VisaController {
     @RequestMapping(value = "/visa/details", method =  RequestMethod.GET)
     public String visaDetails(final Map<String, Object> model, final Authentication authentication) {
         final Optional<VisaRecord> visaRecord = getVisaRecord(authentication);
-        if(visaRecord.isPresent() && visaRecord.get().getVisaStatus().equals(VisaStatus.VALID)){
+        if(visaRecord.isPresent() && visaRecord.get().getVisaStatus().equals(VisaStatus.ISSUED)){
             visaTypeService.findVisaTypeRule(visaRecord.get()).get_1().
                     ifPresentOrElse(visaTypeRule -> model.put("visa", new VisaStatusModel(dynamicContentProcessor, visaRecord.get(), visaTypeRule))
                             , () -> LOGGER.error("Unable to find a valid status."));
@@ -63,7 +59,7 @@ public class VisaController {
         } else {
             LOGGER.error("Unable to find a valid visa.");
         }
-        return "visa_revoked";
+        return "visa_refused";
     }
 
     private Optional<VisaRecord> getVisaRecord(Authentication authentication) {

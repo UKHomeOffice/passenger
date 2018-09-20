@@ -70,8 +70,8 @@ public class WicuServiceTest {
         when(rangeCalculator.calculate(LocalDate.parse("2017-12-03"))).thenReturn(tpl(lowerLimit, upperLimit));
 
         List<VisaRecord> visaRecords = asList(
-                new VisaRecord(VisaStatus.VALID, VisaType.createVisaType("test"), Collections.emptyList()),
-                new VisaRecord(VisaStatus.VALID, VisaType.createVisaType("test"), Collections.emptyList())
+                new VisaRecord(VisaStatus.ISSUED, VisaType.createVisaType("test"), Collections.emptyList()),
+                new VisaRecord(VisaStatus.ISSUED, VisaType.createVisaType("test"), Collections.emptyList())
         );
         when(mockVisaRecordService.getValidWithinRange(lowerLimit, upperLimit)).thenReturn(visaRecords);
 

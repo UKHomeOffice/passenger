@@ -36,7 +36,7 @@ public class VisaTypeServiceBeanTest {
 
     @Test
     public void noVisaRuleFound() {
-        VisaRecord visaRecord = new VisaRecord(VisaStatus.VALID, VisaType.createVisaType("None"), tier4GeneralStudentRules());
+        VisaRecord visaRecord = new VisaRecord(VisaStatus.ISSUED, VisaType.createVisaType("None"), tier4GeneralStudentRules());
 
         when(mockVisaTypeRepository.findAll()).thenReturn(visaTypeCollection());
 
@@ -47,7 +47,7 @@ public class VisaTypeServiceBeanTest {
 
     @Test
     public void shouldFindSingleVisaRule() {
-        VisaRecord visaRecord = new VisaRecord(VisaStatus.VALID, VisaType.createVisaType("Tier 4 (General) Student"), tier4GeneralStudentRules());
+        VisaRecord visaRecord = new VisaRecord(VisaStatus.ISSUED, VisaType.createVisaType("Tier 4 (General) Student"), tier4GeneralStudentRules());
 
         when(mockVisaTypeRepository.findAll()).thenReturn(visaTypeCollection());
         when(mockVisaRuleLookupRepository.findByVisaType(1L)).thenReturn(toVisaRules(tier4GeneralStudentRules()));
@@ -58,7 +58,7 @@ public class VisaTypeServiceBeanTest {
 
     @Test
     public void shouldResolveMultipleVisaRules() {
-        final VisaRecord visaRecord = new VisaRecord(VisaStatus.VALID, VisaType.createVisaType("Tier 4 (General) Dependent Child"),
+        final VisaRecord visaRecord = new VisaRecord(VisaStatus.ISSUED, VisaType.createVisaType("Tier 4 (General) Dependent Child"),
                 tier4GeneralDependentChild12MonthsMinusRules());
 
         when(mockVisaTypeRepository.findAll()).thenReturn(visaTypeCollection());

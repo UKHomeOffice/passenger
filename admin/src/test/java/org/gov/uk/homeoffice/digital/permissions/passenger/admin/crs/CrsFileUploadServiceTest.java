@@ -72,32 +72,32 @@ public class CrsFileUploadServiceTest {
             .passportNumber("passportNumber")
             .dateOfBirth(LocalDate.of(1999, 1, 1))
             .nationality("nationality")
-            .status(VisaStatus.VALID)
+            .status(VisaStatus.ISSUED)
             .emailsSent(Set.of())
             .build();
 
     private final CrsRecord aValidCrsRecordWithEmailSent = crsRecordBuilder
-            .status(VisaStatus.VALID)
+            .status(VisaStatus.ISSUED)
             .emailsSent(Set.of("GRANTED"))
             .build();
 
     private final CrsRecord aRevokedCrsRecord = crsRecordBuilder
-            .status(VisaStatus.REVOKED)
+            .status(VisaStatus.REFUSED)
             .emailsSent(Set.of())
             .build();
 
     private final CrsRecord aRevokedCrsRecordWithEmailSent = crsRecordBuilder
-            .status(VisaStatus.REVOKED)
-            .emailsSent(Set.of("REVOKED"))
+            .status(VisaStatus.REFUSED)
+            .emailsSent(Set.of("REFUSED"))
             .build();
 
     private final VisaRecord aValidVisaRecord = new VisaRecord(
-            VisaStatus.VALID,
+            VisaStatus.ISSUED,
             VisaType.createVisaType("visa-type"),
             Collections.emptySet());
 
     private final VisaRecord aRevokedVisaRecord = new VisaRecord(
-            VisaStatus.REVOKED,
+            VisaStatus.REFUSED,
             VisaType.createVisaType("visa-type"),
             Collections.emptySet());
 

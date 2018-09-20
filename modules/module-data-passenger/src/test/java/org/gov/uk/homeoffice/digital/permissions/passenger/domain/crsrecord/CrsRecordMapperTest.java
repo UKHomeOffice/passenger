@@ -16,8 +16,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.HashSet;
 
 import static java.sql.Date.valueOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -60,7 +58,7 @@ public class CrsRecordMapperTest {
         when(mockResultSet.getString("mobile_no")).thenReturn("mobile_number");
         when(mockResultSet.getString("email_address")).thenReturn("email");
         when(mockResultSet.getString("local_address")).thenReturn("local_address");
-        when(mockResultSet.getString("status")).thenReturn("status");
+        when(mockResultSet.getString("status")).thenReturn("issued");
         when(mockResultSet.getString("ec_type")).thenReturn("ec_type");
         when(mockResultSet.getString("entry_type")).thenReturn("entry_type");
         when(mockResultSet.getString("visa_endorsement")).thenReturn("visa_endorsement");
@@ -99,7 +97,7 @@ public class CrsRecordMapperTest {
         assertThat(result.getMobileNumber(), is("mobile_number"));
         assertThat(result.getEmailAddress(), is("email"));
         assertThat(result.getLocalAddress(), is("local_address"));
-        assertThat(result.getStatus(), is(VisaStatus.VALID));
+        assertThat(result.getStatus(), is(VisaStatus.ISSUED));
         assertThat(result.getEcType(), is("ec_type"));
         assertThat(result.getEntryType(), is("entry_type"));
         assertThat(result.getVisaEndorsement(), is("visa_endorsement"));
