@@ -6,7 +6,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.servlet.http.HttpServletRequest;
 
 public class PassportDOBAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private static final String PASSPORT_NUMBER_PARAMETER = "passportNumber";
+    private static final String PASSPORT_NUMBER_PARAMETER = "passport-number";
     private static final String DOB_DAY_PARAMETER = "dob-day";
     private static final String DOB_MONTH_PARAMETER = "dob-month";
     private static final String DOB_YEAR_PARAMETER = "dob-year";
