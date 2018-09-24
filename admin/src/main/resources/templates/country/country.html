@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+<head th:replace="layout/header::header"/>
+<body>
+<nav th:replace="layout/nav::nav"/>
+
+<div class="container">
+    <h3>Valid Visa Countries</h3>
+    <p>Any selected countries from this list will be processed as part of the data upload file. Other nationalities will be rejected.</p>
+    <form action="#" class="form" id="selectCountries" method="POST" th:action="@{/countries}" th:object="${form}">
+        <div class="container" th:if="${form != null}">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Country Name</th>
+                        <th>Enabled</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="country, stat : ${form.countries}">
+                    <tr>
+                        <td th:text="${country.getDisplay()}"></td>
+                        <td style="width: 6em">
+                            <input type="hidden"
+                                   th:name="|countries[${stat.index}].id|"
+                                   th:value="${country.id}"
+                                   th:field="*{countries[__${stat.index}__].id}" />
+                            <input type="checkbox"
+                                   th:name="|countries[${stat.index}].id|"
+                                   th:value="${country.id}"
+                                   th:checked="${country.enabled}"
+                                   th:field="*{countries[__${stat.index}__].enabled}"/>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <input type="submit" value="Update" class="btn btn-default" />
+                        </td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </form>
+</div>
+</body>
+</html>
