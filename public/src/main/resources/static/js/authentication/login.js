@@ -3,7 +3,7 @@ $(() => {
     function validate(event) {
 
         event.preventDefault();
-
+        $('.govuk-error-summary').hide();
         $('#error-list').empty();
         let passportError = false;
         let dobError = false;
