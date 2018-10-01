@@ -13,8 +13,6 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaStatus;
 import org.gov.uk.homeoffice.digital.permissions.passenger.utils.Catcher;
 import org.gov.uk.homeoffice.digital.permissions.passenger.utils.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -31,16 +29,13 @@ import static java.util.stream.Collectors.toMap;
 import static org.gov.uk.homeoffice.digital.permissions.passenger.utils.Tuple.tpl;
 
 @Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class CrsFileParser {
 
-    private final Collection<Country> enabledCountries;
+    private final CountryService countryService;
 
     @Autowired
     public CrsFileParser(final CountryService countryService) {
-        this.enabledCountries = countryService.getCountries().stream()
-                .filter(Country::getEnabled)
-                .collect(Collectors.toList());
+        this.countryService = countryService;
     }
 
     public CrsParsedResult parse(File tempFile) {
@@ -58,7 +53,11 @@ public class CrsFileParser {
                                         optMissingColumn.get().getKey())))));
             }
 
-            final List<Tuple<Optional<CrsRecord>, Optional<CrsParseErrors>>> tuples = lines.stream().skip(1).map(row -> parseRow(row, fieldIndices)).collect(toList());
+            final Collection<Country> enabledCountries = countryService.getCountries().stream()
+                    .filter(Country::getEnabled)
+                    .collect(Collectors.toList());
+            final List<Tuple<Optional<CrsRecord>, Optional<CrsParseErrors>>> tuples = lines.stream().skip(1)
+                    .map(row -> parseRow(row, fieldIndices, enabledCountries)).collect(toList());
             return new CrsParsedResult(
                     tuples.stream().filter(tpl -> tpl.get_1().isPresent()).map(tpl -> tpl.get_1().get()).collect(toList()),
                     tuples.stream().filter(tpl1 -> tpl1.get_2().isPresent()).map(tpl1 -> tpl1.get_2().get()).collect(toList())
@@ -81,7 +80,9 @@ public class CrsFileParser {
                 .filter(index -> csvRecord.get(index).trim().equalsIgnoreCase(field.description)).mapToObj(index -> index).collect(toList());
     }
 
-    private Tuple<Optional<CrsRecord>, Optional<CrsParseErrors>> parseRow(String row, Map<CrsField, List<Integer>> fieldIndices) {
+    private Tuple<Optional<CrsRecord>, Optional<CrsParseErrors>> parseRow(final String row,
+                                                                          final Map<CrsField, List<Integer>> fieldIndices,
+                                                                          final Collection<Country> enabledCountries) {
         try {
             final CSVRecord csvRecord = CSVParser.parse(row, CSVFormat.DEFAULT).getRecords().get(0);
 

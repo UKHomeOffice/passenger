@@ -6,9 +6,11 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Country;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.CrsRecord;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Gender;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaStatus;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,8 +24,9 @@ import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class CrsFileParserTest {
 
     private final String header = "GWF Ref," +
@@ -60,17 +63,15 @@ public class CrsFileParserTest {
             "action," +
             "reason";
 
+    @Mock
+    private CountryService mockCountryService;
+
+    @InjectMocks
     private CrsFileParser testObject;
 
     private static List<Country> countries = newArrayList(
             new Country(Locale.CHINA, true, "CHN", LocalDateTime.now(), LocalDateTime.now())
     );
-
-    @Before
-    public void before() {
-        this.testObject = new CrsFileParser(mock(CountryService.class));
-        ReflectionTestUtils.setField(testObject, "enabledCountries", countries);
-    }
 
     @Test
     public void parseWellFormedRows() throws IOException {
@@ -116,6 +117,8 @@ public class CrsFileParserTest {
                 .brpCollectionInfo("Bailrigg LANCASTER LANCASHIRE LA1 4YW UNITED KINGDOM")
                 .expectedTravelDate(null)
                 .build();
+
+        when(mockCountryService.getCountries()).thenReturn(countries);
 
         CrsParsedResult parsedResult = testObject.parse(file);
 
@@ -166,6 +169,8 @@ public class CrsFileParserTest {
                 .brpCollectionInfo("Bailrigg LANCASTER LANCASHIRE LA1 4YW UNITED KINGDOM")
                 .expectedTravelDate(null)
                 .build();
+
+        when(mockCountryService.getCountries()).thenReturn(countries);
 
         CrsParsedResult parsedResult = testObject.parse(file);
 
