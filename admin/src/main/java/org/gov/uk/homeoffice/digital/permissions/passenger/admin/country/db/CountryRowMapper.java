@@ -17,6 +17,7 @@ public class CountryRowMapper implements RowMapper<Country> {
         return new Country(
                 new Locale("", rs.getString("iso_country_code")),
                 rs.getBoolean("enabled"),
+                rs.getString("export_country"),
                 Optional.ofNullable(rs.getTimestamp("created")).map(Timestamp::toLocalDateTime).orElse(null),
                 Optional.ofNullable(rs.getTimestamp("updated")).map(Timestamp::toLocalDateTime).orElse(null)
         );

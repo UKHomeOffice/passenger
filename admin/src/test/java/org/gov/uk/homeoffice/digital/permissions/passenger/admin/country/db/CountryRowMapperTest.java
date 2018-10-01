@@ -27,6 +27,7 @@ public class CountryRowMapperTest {
 
         when(mockResultSet.getString("iso_country_code")).thenReturn(Locale.UK.getCountry());
         when(mockResultSet.getBoolean("enabled")).thenReturn(Boolean.TRUE);
+        when(mockResultSet.getString("export_country")).thenReturn("GBR");
         when(mockResultSet.getTimestamp("created")).thenReturn(created);
         when(mockResultSet.getTimestamp("updated")).thenReturn(updated);
 
@@ -35,6 +36,7 @@ public class CountryRowMapperTest {
         assertThat(country.getCountry().getCountry(), is("GB"));
         assertThat(country.getId(), is("GB"));
         assertThat(country.getEnabled(), is(true));
+        assertThat(country.getExportCountry(), is("GBR"));
         assertThat(country.getCreated(), is(created.toLocalDateTime()));
         assertThat(country.getUpdated(), is(updated.toLocalDateTime()));
     }

@@ -15,7 +15,7 @@ public class SaveCountryTest {
 
     @Test
     public void shouldUpdateCountry() {
-        final Country country = new Country(Locale.CANADA, Boolean.TRUE,
+        final Country country = new Country(Locale.CANADA, Boolean.TRUE, "CAN",
                 LocalDateTime.now(), LocalDateTime.now());
 
         final SaveCountry underTest = new SaveCountry(country);
@@ -33,7 +33,7 @@ public class SaveCountryTest {
 
     @Test
     public void shouldInsertCountry() {
-        final Country country = new Country(Locale.CANADA, Boolean.TRUE,
+        final Country country = new Country(Locale.CANADA, Boolean.TRUE,"CAN",
                 LocalDateTime.now(), LocalDateTime.now());
 
         final SaveCountry underTest = new SaveCountry(country);

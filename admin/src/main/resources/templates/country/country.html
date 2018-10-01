@@ -7,12 +7,14 @@
 <div class="container">
     <h3>Valid Visa Countries</h3>
     <p>Any selected countries from this list will be processed as part of the data upload file. Other nationalities will be rejected.</p>
+    <p>The exported country name must match the name exported in the upload file.</p>
     <form action="#" class="form" id="selectCountries" method="POST" th:action="@{/countries}" th:object="${form}">
         <div class="container" th:if="${form != null}">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Country Name</th>
+                        <th>Country</th>
+                        <th>Exported Country Name</th>
                         <th>Enabled</th>
                     </tr>
                 </thead>
@@ -20,6 +22,12 @@
                 <th:block th:each="country, stat : ${form.countries}">
                     <tr>
                         <td th:text="${country.getDisplay()}"></td>
+                        <td>
+                            <input type="text"
+                                   th:name="|countries[${stat.index}].exportCountry|"
+                                   th:value="${country.exportCountry}"
+                                   th:field="*{countries[__${stat.index}__].exportCountry}" />
+                        </td>
                         <td style="width: 6em">
                             <input type="hidden"
                                    th:name="|countries[${stat.index}].id|"
@@ -39,6 +47,7 @@
                         <td>
                             <input type="submit" value="Update" class="btn btn-default" />
                         </td>
+                        <td></td>
                         <td></td>
                     </tr>
                 </tfoot>

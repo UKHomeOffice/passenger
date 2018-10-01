@@ -42,7 +42,7 @@ public class CountryControllerTest {
     @Test
     public void shouldUpdateCountries() {
         final Model mockModel = Mockito.mock(Model.class);
-        final Country country = new Country(Locale.UK, Boolean.TRUE, null, null);
+        final Country country = new Country(Locale.UK, Boolean.TRUE, "GBR", null, null);
         final CountryListForm countryListForm = new CountryListForm();
         countryListForm.setCountries(List.of(country));
         when(mockCountryService.getCountryByCountryCode("GB")).thenReturn(Optional.of(country));

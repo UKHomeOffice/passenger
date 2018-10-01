@@ -5,11 +5,14 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.gov.uk.homeoffice.digital.permissions.passenger.admin.country.service.CountryService;
+import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Country;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.CrsRecord;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Gender;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaStatus;
 import org.gov.uk.homeoffice.digital.permissions.passenger.utils.Catcher;
 import org.gov.uk.homeoffice.digital.permissions.passenger.utils.Tuple;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -17,6 +20,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.util.Optional.*;
@@ -26,6 +30,15 @@ import static org.gov.uk.homeoffice.digital.permissions.passenger.utils.Tuple.tp
 
 @Component
 public class CrsFileParser {
+
+    private final Collection<Country> enabledCountries;
+
+    @Autowired
+    public CrsFileParser(final CountryService countryService) {
+        this.enabledCountries = countryService.getCountries().stream()
+                .filter(Country::getEnabled)
+                .collect(Collectors.toList());
+    }
 
     public CrsParsedResult parse(File tempFile) {
         return Catcher.convertToRuntime(() -> {
@@ -48,7 +61,6 @@ public class CrsFileParser {
                     tuples.stream().filter(tpl1 -> tpl1.get_2().isPresent()).map(tpl1 -> tpl1.get_2().get()).collect(toList())
             );
         });
-
     }
 
     private Map<CrsField, List<Integer>> fieldIndices(String header) {
@@ -65,7 +77,6 @@ public class CrsFileParser {
         return IntStream.range(0, csvRecord.size())
                 .filter(index -> csvRecord.get(index).trim().equalsIgnoreCase(field.description)).mapToObj(index -> index).collect(toList());
     }
-
 
     private Tuple<Optional<CrsRecord>, Optional<CrsParseErrors>> parseRow(String row, Map<CrsField, List<Integer>> fieldIndices) {
         try {
@@ -108,6 +119,8 @@ public class CrsFileParser {
                     .expectedTravelDate(fieldValue(fieldIndices, csvRecord, CrsField.EXPECTED_TRAVEL_DATE, val -> LocalDate.parse(val.get(0), DateTimeFormatter.ofPattern("dd/MM/yyyy"))))
                     .build();
 
+            if (enabledCountries.stream().noneMatch(c -> c.matches(crsRecord.getNationality())))
+                throw new Exception(String.format("Nationality %s is not currently supported.", crsRecord.getNationality()));
 
             return tpl(of(crsRecord), empty());
         } catch (Exception e) {

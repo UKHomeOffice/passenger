@@ -11,6 +11,7 @@ public class Country implements Serializable {
 
     private String id;
     private Locale country;
+    private String exportCountry;
     private Boolean enabled;
     private LocalDateTime created;
     private LocalDateTime updated;
@@ -19,9 +20,10 @@ public class Country implements Serializable {
         super();
     }
 
-    public Country(Locale locale, Boolean enabled, LocalDateTime created, LocalDateTime updated) {
+    public Country(Locale locale, Boolean enabled, String exportCountry, LocalDateTime created, LocalDateTime updated) {
         this.id = (locale == null) ? null : locale.getCountry();
         this.country = locale;
+        this.exportCountry = exportCountry;
         this.enabled = enabled;
         this.created = created;
         this.updated = updated;
@@ -29,6 +31,10 @@ public class Country implements Serializable {
 
     public String getDisplay() {
         return country == null ? null : country.getDisplayCountry();
+    }
+
+    public boolean matches(final String identifier) {
+        return identifier.equalsIgnoreCase(exportCountry);
     }
 
 }
