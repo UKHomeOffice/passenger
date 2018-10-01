@@ -13,6 +13,8 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaStatus;
 import org.gov.uk.homeoffice.digital.permissions.passenger.utils.Catcher;
 import org.gov.uk.homeoffice.digital.permissions.passenger.utils.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -29,6 +31,7 @@ import static java.util.stream.Collectors.toMap;
 import static org.gov.uk.homeoffice.digital.permissions.passenger.utils.Tuple.tpl;
 
 @Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class CrsFileParser {
 
     private final Collection<Country> enabledCountries;
