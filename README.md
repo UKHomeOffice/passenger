@@ -430,7 +430,7 @@ drone secret add --image=docker digitalpermissions/passenger ARTIFACTORY_TOKEN <
 On deployment to the various ```Kubernetes``` namespaces, ```Kubernetes``` needs authorisation to pull our webapp images from ```Artifactory```. To this end, a ```Kubernetes``` secret has been created as per [here](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-secret-docker-registry-em-)
 
 ```
-kubectl create secret docker-registry artifactory-ro --docker-server=docker.digital.homeoffice.gov.uk --docker-username=digperms --docker-password=<token> --docker-email=karen.paludan@digital.homeoffice.gov.uk
+kubectl create secret docker-registry artifactory-ro --docker-server=docker.digital.homeoffice.gov.uk --docker-username=digperms --docker-password=<token> --docker-email=user@digital.homeoffice.gov.uk
 ```
 
 This, together with the following snippet added to the app's ```deployment.yaml``` files
