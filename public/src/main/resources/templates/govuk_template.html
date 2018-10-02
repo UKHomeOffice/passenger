@@ -14,6 +14,8 @@
     <link rel="apple-touch-icon" sizes="152x152" th:href="@{/assets/images/govuk-apple-touch-icon-152x152.png}">
     <link rel="apple-touch-icon" th:href="@{/assets/images/govuk-apple-touch-icon.png}">
 
+    <link th:href="@{/css/govuk-template.css}" rel="stylesheet" />
+
     <!--[if !IE 8]><!-->
     <link th:href="@{/css/govuk-frontend-1.2.0.min.css}" rel="stylesheet" />
     <!--<![endif]-->
@@ -71,6 +73,9 @@
     document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
 
 </script>
+<div id="global-cookie-message" class="global-cookie-message">
+    <p>GOV.UK uses cookies to make the site simpler. <a href="https://visas-immigration.service.gov.uk/cookies">Find out more about cookies</a></p>
+</div>
 
 <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
 
@@ -118,6 +123,8 @@
     </div>
 </header>
 
+
+
 <div class="govuk-width-container">
     <div class="govuk-phase-banner">
         <p class="govuk-phase-banner__content"><strong class="govuk-tag govuk-phase-banner__content__tag ">beta</strong>
@@ -161,6 +168,7 @@
 <script>
     window.GOVUKFrontend.initAll()
 </script>
+<script type="text/javascript" th:src="@{/js/govuk-template.js}"></script>
 </body>
 
 </html>
