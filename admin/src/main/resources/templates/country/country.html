@@ -6,10 +6,16 @@
 
 <div class="container">
     <h3>Valid Visa Countries</h3>
-    <p>Any selected countries from this list will be processed as part of the data upload file. Other nationalities will be rejected.</p>
-    <p>The exported country name must match the name exported in the upload file.</p>
+    <p>
+        Any selected countries from this list will be processed as part of the data upload file. Other nationalities will be rejected.
+        The exported country name must match the name exported in the upload file.
+    </p>
     <form action="#" class="form" id="selectCountries" method="POST" th:action="@{/countries}" th:object="${form}">
         <div class="container" th:if="${form != null}">
+            <div style="background-color: #eeeeee; padding: 0 10px 6px 10px; width: 210px; float: right">
+                <h4>Country Filters</h4>
+                <span><a href="/countries?filter=all">Show all</a> | <a href="/countries?filter=selected">Show selected</a></span>
+            </div>
             <table class="table table-striped">
                 <thead>
                     <tr>

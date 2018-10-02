@@ -8,11 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class CountryController implements Serializable {
@@ -25,10 +27,14 @@ public class CountryController implements Serializable {
     }
 
     @RequestMapping(value = "/countries", method = RequestMethod.GET)
-    public String show(final Model model) {
+    public String show(@RequestParam(name = "filter", defaultValue = "all") final String filterString,
+                       final Model model) {
+        final String filter = filterString.equalsIgnoreCase("selected") ? "selected" : "all";
         final CountryListForm form = new CountryListForm();
-        final List<Country> countryList = new ArrayList<>(countryService.getCountries());
-        countryList.sort(Comparator.comparing(Country::getDisplay));
+        final List<Country> countryList = new ArrayList<>(countryService.getCountries()).stream()
+                .filter(c -> (filter.equals("all")) ? true : c.getEnabled())
+                .sorted(Comparator.comparing(Country::getDisplay))
+                .collect(Collectors.toList());
         form.setCountries(countryList);
         model.addAttribute("form", form);
         return "country/country";

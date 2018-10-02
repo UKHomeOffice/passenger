@@ -34,7 +34,7 @@ public class CountryControllerTest {
     public void shouldShowCountries() {
         final Model mockModel = Mockito.mock(Model.class);
         when(mockCountryService.getCountries()).thenReturn(List.of(new Country()));
-        final String ui = underTest.show(mockModel);
+        final String ui = underTest.show("all", mockModel);
         verify(mockModel).addAttribute(eq("form"), any(CountryListForm.class));
         Assert.assertThat(ui, is("country/country"));
     }
