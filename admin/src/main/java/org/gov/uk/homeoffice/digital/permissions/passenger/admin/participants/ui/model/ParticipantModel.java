@@ -31,6 +31,7 @@ public class ParticipantModel implements Serializable {
     private final String updatedBy;
     private final String created;
     private final String lastUpdated;
+    private final String visaEndorsement;
 
     ParticipantModel(long id,
                      final String gwf,
@@ -56,7 +57,8 @@ public class ParticipantModel implements Serializable {
                      final boolean updated,
                      final String updatedBy,
                      final String created,
-                     final String lastUpdated) {
+                     final String lastUpdated,
+                     final String visaEndorsement) {
         this.id = id;
         this.gwf = gwf;
         this.vaf = vaf;
@@ -82,6 +84,7 @@ public class ParticipantModel implements Serializable {
         this.updatedBy = updatedBy;
         this.created = created;
         this.lastUpdated = lastUpdated;
+        this.visaEndorsement = visaEndorsement;
     }
 
     public long getId() {
@@ -182,6 +185,10 @@ public class ParticipantModel implements Serializable {
 
     public String getLastUpdated() {
         return lastUpdated;
+    }
+
+    public String getVisaEndorsement() {
+        return visaEndorsement;
     }
 
 }

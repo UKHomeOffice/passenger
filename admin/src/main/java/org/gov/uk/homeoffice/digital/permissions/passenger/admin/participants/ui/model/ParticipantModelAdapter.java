@@ -36,7 +36,8 @@ public class ParticipantModelAdapter {
                 uploaded,
                 participant.getUpdatedBy(),
                 ofNullable(participant.getCreated()).map(val -> parse(val, "dd MMMM yyyy HH:mm:ss")).orElse(null),
-                ofNullable(participant.getUpdated()).map(val -> parse(val, "dd MMMM yyyy HH:mm:ss")).orElse(null)
+                ofNullable(participant.getUpdated()).map(val -> parse(val, "dd MMMM yyyy HH:mm:ss")).orElse(null),
+                visa.getVisaEndorsement()
         );
     }
 

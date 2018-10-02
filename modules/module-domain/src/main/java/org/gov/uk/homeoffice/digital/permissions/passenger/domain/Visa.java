@@ -14,8 +14,18 @@ public class Visa  implements Serializable {
     private VisaStatus status;
     private String action;
     private String reason;
+    private String visaEndorsement;
 
-    public Visa(Long id, String passportNumber, LocalDate validFrom, LocalDate validTo, String spx, List<String> catDEndorsements, VisaStatus status, String action, String reason) {
+    public Visa(Long id,
+                String passportNumber,
+                LocalDate validFrom,
+                LocalDate validTo,
+                String spx,
+                List<String> catDEndorsements,
+                VisaStatus status,
+                String action,
+                String reason,
+                String visaEndorsement) {
         this.id = id;
         this.passportNumber = passportNumber;
         this.validFrom = validFrom;
@@ -25,6 +35,7 @@ public class Visa  implements Serializable {
         this.status = status;
         this.action = action;
         this.reason = reason;
+        this.visaEndorsement = visaEndorsement;
     }
 
     public boolean isEmpty() {
@@ -32,27 +43,27 @@ public class Visa  implements Serializable {
     }
 
     public Visa withId(Long id) {
-        return new Visa(id, passportNumber, validFrom, validTo, spx, catDEndorsements, status, action, reason);
+        return new Visa(id, passportNumber, validFrom, validTo, spx, catDEndorsements, status, action, reason, visaEndorsement);
     }
 
     public Visa withCatDEndorsements(List<String> endorsements) {
-        return new Visa(id, passportNumber, validFrom, validTo, spx, endorsements, status, action, reason);
+        return new Visa(id, passportNumber, validFrom, validTo, spx, endorsements, status, action, reason, visaEndorsement);
     }
 
     public Visa withSpx(String spx) {
-        return new Visa(id, passportNumber, validFrom, validTo, spx, catDEndorsements, status, action, reason);
+        return new Visa(id, passportNumber, validFrom, validTo, spx, catDEndorsements, status, action, reason, visaEndorsement);
     }
 
     public Visa withStatus(VisaStatus status) {
-        return new Visa(id, passportNumber, validFrom, validTo, spx, catDEndorsements, status, action, reason);
+        return new Visa(id, passportNumber, validFrom, validTo, spx, catDEndorsements, status, action, reason, visaEndorsement);
     }
 
     public Visa withReason(String reason) {
-        return new Visa(id, passportNumber, validFrom, validTo, spx, catDEndorsements, status, action, reason);
+        return new Visa(id, passportNumber, validFrom, validTo, spx, catDEndorsements, status, action, reason, visaEndorsement);
     }
 
     public Visa withAction(String action) {
-        return new Visa(id, passportNumber, validFrom, validTo, spx, catDEndorsements, status, action, reason);
+        return new Visa(id, passportNumber, validFrom, validTo, spx, catDEndorsements, status, action, reason, visaEndorsement);
     }
 
     @Override
@@ -84,6 +95,7 @@ public class Visa  implements Serializable {
         result = 31 * result + (catDEndorsements != null ? catDEndorsements.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (reason != null ? reason.hashCode() : 0);
+        result = 31 * result + (visaEndorsement != null ? visaEndorsement.hashCode() : 0);
         return result;
     }
 
@@ -99,6 +111,7 @@ public class Visa  implements Serializable {
                 ", catDEndorsements=" + catDEndorsements +
                 ", status=" + status +
                 ", reason='" + reason + '\'' +
+                ", visaEndorsement='" + visaEndorsement + '\'' +
                 '}';
     }
 
@@ -137,4 +150,9 @@ public class Visa  implements Serializable {
     public String getAction() {
         return action;
     }
+
+    public String getVisaEndorsement() {
+        return visaEndorsement;
+    }
+
 }

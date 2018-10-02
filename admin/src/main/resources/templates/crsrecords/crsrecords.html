@@ -14,20 +14,20 @@
             <table id="downloadTable" class="table table-striped table-bordered">
                 <tbody>
                 <tr th:styleappend="${fileUploadError == null} ? 'display:none':''">
-                    <th>File upload error</th>
-                    <td th:text="${fileUploadError}"/>
+                    <th style="color: red">File upload error</th>
+                    <td style="color: red" th:text="${fileUploadError}"/>
                 </tr>
                 <tr th:styleappend="${crsRecordsSuccessfullyCreated == null || crsRecordsSuccessfullyCreated == 0} ? 'display:none':''">
-                    <th>Number of records successfully created</th>
-                    <td th:text="${crsRecordsSuccessfullyCreated}"/>
+                    <th style="color: green">Number of records successfully created</th>
+                    <td style="color: green" th:text="${crsRecordsSuccessfullyCreated}"/>
                 </tr>
                 <tr th:styleappend="${crsRecordsSuccessfullyUpdated == null || crsRecordsSuccessfullyUpdated == 0} ? 'display:none':''">
-                    <th>Number of records successfully updated</th>
-                    <td th:text="${crsRecordsSuccessfullyUpdated}"/>
+                    <th style="color: green">Number of records successfully updated</th>
+                    <td style="color: green" th:text="${crsRecordsSuccessfullyUpdated}"/>
                 </tr>
                 <tr th:styleappend="${crsRecordsInError == null || crsRecordsInError == 0} ? 'display:none':''">
-                    <th>Number of records in error</th>
-                    <td th:text="${crsRecordsInError}"/>
+                    <th style="color: red">Number of records in error</th>
+                    <td style="color: red" th:text="${crsRecordsInError}"/>
                 </tr>
                 </tbody>
             </table>

@@ -79,7 +79,8 @@ public class ParticipantModelAdapterTest {
                 Collections.singletonList("endorsement"),
                 VisaStatus.ISSUED,
                 "action",
-                "reason"
+                "reason",
+                "Tier 4 Visa"
         );
     }
 

@@ -60,6 +60,10 @@
             <th>Visa valid until</th>
             <td th:text="${p.validTo}"/>
         </tr>
+        <tr th:styleappend="${p.visaEndorsement == null} ? 'display:none':''">
+            <th>Visa Type</th>
+            <td th:text="${p.visaEndorsement}"/>
+        </tr>
         <tr th:styleappend="${p.visaStatus == null} ? 'display:none':''">
             <th>Visa status</th>
             <td th:text="${p.visaStatus}"/>

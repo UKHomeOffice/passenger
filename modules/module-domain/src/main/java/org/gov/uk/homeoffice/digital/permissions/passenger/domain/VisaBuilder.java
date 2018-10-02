@@ -13,6 +13,7 @@ public class VisaBuilder {
     private VisaStatus status;
     private String action;
     private String reason;
+    private String visaEndorsement;
 
     public VisaBuilder setId(Long id) {
         this.id = id;
@@ -59,8 +60,13 @@ public class VisaBuilder {
         return this;
     }
 
+    public VisaBuilder setVisaEndorsement(String visaEndorsement) {
+        this.visaEndorsement = visaEndorsement;
+        return this;
+    }
+
     public Visa createVisa() {
-        return new Visa(id, passportNumber, validFrom, validTo, spx, catDEndorsements, status, action, reason);
+        return new Visa(id, passportNumber, validFrom, validTo, spx, catDEndorsements, status, action, reason, visaEndorsement);
 
     }
 
