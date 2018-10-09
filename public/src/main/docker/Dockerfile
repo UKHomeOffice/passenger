@@ -24,4 +24,6 @@ RUN chmod a+x /app/*.sh
 RUN chmod a+x /app/public.jar
 RUN /bin/bash -c /app/import-cacerts.sh && echo "certificate import done"
 
+USER 1000
+
 EXPOSE 8080
