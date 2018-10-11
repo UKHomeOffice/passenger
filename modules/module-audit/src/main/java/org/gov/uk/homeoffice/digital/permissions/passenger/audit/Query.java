@@ -2,7 +2,7 @@ package org.gov.uk.homeoffice.digital.permissions.passenger.audit;
 
 public class Query {
 
-    static final String QUERY_INSERT_AUDIT = "INSERT INTO audit (user_name,content,result,date_time) VALUES (:userName, :content, :result, :dateTime)";
+    static final String QUERY_INSERT_AUDIT = "INSERT INTO audit (user_name, content, result, date_time, passenger_email, passenger_passport_no, passenger_name) VALUES (:userName, :content, :result, :dateTime, :passengerEmail, :passengerPassportNumber, :passengerName)";
 
     static final String QUERY_COUNT = "SELECT COUNT (id) FROM audit";
 

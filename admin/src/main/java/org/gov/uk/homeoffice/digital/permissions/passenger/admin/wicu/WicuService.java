@@ -95,7 +95,8 @@ public class WicuService {
         auditService.audit(String.format("action='WICU daily wash file generation', documentCheckFileName='%s', nameCheckFileName='%s', numberOfRecords='%s'",
                 files._1.map(File::getName).orElse(""),
                 files._2.map(File::getName).orElse(""),
-                files._3), "SUCCESS", username
+                files._3), "SUCCESS",
+                null, null, null
         );
     }
 
@@ -131,7 +132,10 @@ public class WicuService {
             auditService.audit(String.format("action='WICU daily wash file download', fileName='%s', numberOfRecords='%s', id=[%s]",
                     fileName,
                     listIds.size(),
-                    listIds.stream().collect(Collectors.joining(","))), "SUCCESS", username
+                    listIds.stream().collect(Collectors.joining(","))), "SUCCESS",
+                    null,
+                    null,
+                    null
             );
         } catch (Exception e){
             LOGGER.debug(e.getMessage());

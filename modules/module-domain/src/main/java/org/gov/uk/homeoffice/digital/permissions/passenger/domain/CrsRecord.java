@@ -58,4 +58,8 @@ public class CrsRecord implements Serializable {
                 nationality == null;
     }
 
+    public String getFullName() {
+        return (postName + " " + familyName).trim();
+    }
+
 }

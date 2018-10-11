@@ -29,6 +29,6 @@ public class AdminLogoutHandlerTest {
 
         adminLogoutHandler.logout(null, null, authentication);
 
-        verify(auditService).audit("action='logout'", "SUCCESS", CURRENT_USER);
+        verify(auditService).audit("action='logout'", "SUCCESS", null, null, null);
     }
 }

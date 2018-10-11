@@ -67,7 +67,7 @@ public class ParticipantsController {
         participantRepository.deleteParticipantWithPassportNumber(passportNumber);
         auditService.audit(
                 String.format("action='delete', entity='Participant', id='%s'", participant.map(p -> p.getId()).orElse(null)),
-                "SUCCESS", SecurityUtil.username());
+                "SUCCESS", null, null, null);
 
         return "redirect:/participants";
     }

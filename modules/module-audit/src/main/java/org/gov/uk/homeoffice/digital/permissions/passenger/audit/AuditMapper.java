@@ -18,7 +18,10 @@ public class AuditMapper implements RowMapper<Audit> {
                 resultSet.getString("user_name"),
                 safeDateTime(resultSet.getTimestamp("date_time")),
                 resultSet.getString("result"),
-                resultSet.getString("content")
+                resultSet.getString("content"),
+                resultSet.getString("passenger_name"),
+                resultSet.getString("passenger_email"),
+                resultSet.getString("passenger_passport_no")
         );
     }
 

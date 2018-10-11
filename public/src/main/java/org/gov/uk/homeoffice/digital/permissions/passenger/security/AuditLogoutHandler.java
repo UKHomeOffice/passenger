@@ -3,6 +3,7 @@ package org.gov.uk.homeoffice.digital.permissions.passenger.security;
 import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.authentication.RemoteIPThreadLocal;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaRecord;
+import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaRule;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRuleConstants;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visarecord.VisaRecordService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,13 +33,16 @@ public class AuditLogoutHandler implements LogoutHandler {
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         if (authentication == null) return; // logout clicked when the session had expired
-
-        String passengerId = authentication.getName();
-        String passportNumber = getVisaRecord(authentication).map(
-                visaRecord -> visaRecord.firstValueAsStringFor(VisaRuleConstants.PASSPORT_NUMBER))
-                .orElse("passengerId:" + passengerId);
-        String ipAddress = RemoteIPThreadLocal.get();
-        auditService.audit(String.format("action='logout', passportNumber='%s', IPAddress='%s'", passportNumber, ipAddress), "SUCCESS", "PASSENGER");
+        final VisaRecord visaRecord = getVisaRecord(authentication).orElse(null);
+        if (visaRecord != null) {
+            String passportNumber = visaRecord.firstValueAsStringFor(VisaRuleConstants.PASSPORT_NUMBER);
+            String ipAddress = RemoteIPThreadLocal.get();
+            auditService.audit(String.format("action='logout', passportNumber='%s', IPAddress='%s'", passportNumber, ipAddress), "SUCCESS",
+                    visaRecord.firstValueAsStringFor(VisaRuleConstants.FULL_NAME),
+                    visaRecord.firstValueAsStringFor(VisaRuleConstants.EMAIL_ADDRESS),
+                    visaRecord.firstValueAsStringFor(VisaRuleConstants.PASSPORT_NUMBER)
+            );
+        }
     }
 
     private Optional<VisaRecord> getVisaRecord(Authentication authentication) {

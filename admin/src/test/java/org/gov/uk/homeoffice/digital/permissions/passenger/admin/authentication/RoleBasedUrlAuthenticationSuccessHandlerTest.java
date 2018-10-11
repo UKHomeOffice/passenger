@@ -38,7 +38,7 @@ public class RoleBasedUrlAuthenticationSuccessHandlerTest {
 
         successHandler.onAuthenticationSuccess(req, res, authentication);
 
-        verify(auditService).audit("action='login'", "SUCCESS", "test@test.com");
+        verify(auditService).audit("action='login'", "SUCCESS", "test@test.com",null, null, null);
     }
 
     @Configuration

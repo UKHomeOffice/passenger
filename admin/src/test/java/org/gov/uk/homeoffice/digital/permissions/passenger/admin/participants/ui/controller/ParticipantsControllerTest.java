@@ -84,7 +84,7 @@ public class ParticipantsControllerTest {
         assertThat(view, is("redirect:/participants"));
         verify(participantRepository).deleteParticipantWithPassportNumber(passportNumber);
         verify(auditService).audit("action='delete', entity='Participant', id='9876'",
-                "SUCCESS", "admin@example.gov.uk");
+                "SUCCESS", null, null, null);
     }
 
     @Test
@@ -100,7 +100,7 @@ public class ParticipantsControllerTest {
         assertThat(view, is("redirect:/participants"));
         verify(participantRepository).deleteParticipantWithPassportNumber(passportNumber);
         verify(auditService).audit("action='delete', entity='Participant', id='null'",
-                "SUCCESS", "admin@example.gov.uk");
+                "SUCCESS", null, null, null);
     }
 
     @Test(expected = AccessDeniedException.class)

@@ -37,8 +37,9 @@ public class RoleBasedUrlAuthenticationSuccessHandler
             throws IOException, ServletException {
 
         handle(request, response, authentication);
+        auditService.audit("action='login'", "SUCCESS", authentication.getPrincipal().toString(),
+                null, null, null);
         clearAuthenticationAttributes(request);
-        auditService.audit("action='login'", "SUCCESS", SecurityUtil.username());
     }
 
     protected void handle(HttpServletRequest request, HttpServletResponse response,

@@ -1,6 +1,5 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.crs;
 
-import org.apache.commons.lang3.StringUtils;
 import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.audit.domain.Audit;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.CrsRecord;
@@ -22,47 +21,47 @@ public class CrsAuditService {
     private AuditService auditService;
 
     public void audit(String username, String result, String message) {
-        auditService.audit(new Audit(null, username, LocalDateTime.now(), result, message));
+        auditService.audit(new Audit(null, username, LocalDateTime.now(), result, message, null, null, null));
     }
 
-    public void audit(MultipartFile file, String username, CrsParsedResult result) {
+    public void audit(MultipartFile file, CrsParsedResult result) {
         final List<CrsRecord> crsRecords = result.getCrsRecords()
                 .stream()
                 .filter(crsRecord -> crsRecord.getId() != null && crsRecord.getId() > 0)
                 .collect(Collectors.toList());
 
         int size = crsRecords.size();
-        long idFrom = 0;
-        long idTo = 0;
-        if (size > 0) {
-            idFrom = crsRecords.get(0).getId();
-            idTo = crsRecords.get(size - 1).getId();
+
+        final long idFrom = (size > 0) ? crsRecords.get(0).getId() : 0;
+        final long idTo = (size > 0) ? crsRecords.get(size - 1).getId() : 0;
+
+        if (size == 0) {
+            auditService.audit(String.format("action='upload', entity='CrsRecord', fileName='%s', numberOfRecords='%s', idRange=[%s-%s]",
+                    file.getOriginalFilename(), size, idFrom, idTo),
+                    "FAILURE", null, null, null);
         }
 
-        auditService.audit(String.format("action='upload', entity='CrsRecord', fileName='%s', numberOfRecords='%s', idRange=[%s-%s]",
+        crsRecords.forEach(record ->
+            auditService.audit(String.format("action='upload', entity='CrsRecord', fileName='%s', numberOfRecords='%s', idRange=[%s-%s]",
                 file.getOriginalFilename(), size, idFrom, idTo),
                 size > 0 ? "SUCCESS" : "FAILURE",
-                username);
+                record.getFullName(), record.getEmailAddress(), record.getPassportNumber()));
 
         result.getParseErrors()
-                .stream()
                 .forEach(parseError -> auditService.audit(
                         String.format("action='upload', entity='CrsRecord', fileName='%s', row='%s', error='%s'",
                                 file.getOriginalFilename(),
                                 escape(parseError.crsRow),
-                                escape(parseError.message.stream().collect(Collectors.joining(",")))),
-                        "FAILURE", username));
+                                escape(String.join(",", parseError.message))),
+                        "FAILURE", null, null, null));
 
-        String revokedIds = result.getCrsRecords()
-                .stream()
-                .filter(crsRecord -> crsRecord.getStatus() == VisaStatus.REFUSED)
-                .map(crsRecord -> String.valueOf(crsRecord.getId()))
-                .collect(Collectors.joining(","));
-
-        if (!StringUtils.isEmpty(revokedIds)) {
-            auditService.audit(String.format("action='upload', entity='CrsRecord', fileName='%s', revokedIds=[%s]",
-                    file.getOriginalFilename(), revokedIds), "SUCCESS", username);
-        }
+        result.getCrsRecords().stream()
+                .filter(crsRecord -> crsRecord.getStatus().equals(VisaStatus.REFUSED))
+                .forEach(record -> {
+                    auditService.audit(String.format("action='upload', entity='CrsRecord', fileName='%s', revokedId=%s",
+                            file.getOriginalFilename(), record.getId()), "SUCCESS",
+                            record.getFullName(), record.getEmailAddress(), record.getPassportNumber());
+                });
     }
 
     private String escape(String s) {

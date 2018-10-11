@@ -1,7 +1,5 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.crs;
 
-import org.gov.uk.homeoffice.digital.permissions.passenger.admin.audit.annotation.Audit;
-import org.gov.uk.homeoffice.digital.permissions.passenger.admin.audit.annotation.AuditAction;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.CrsRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,7 +25,6 @@ public class CrsController {
         return "crsrecords/crsrecords";
     }
 
-    @Audit(auditAction = AuditAction.DELETE, message = "Deleting participant")
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/deletecrsrecord/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable("id") String id) {

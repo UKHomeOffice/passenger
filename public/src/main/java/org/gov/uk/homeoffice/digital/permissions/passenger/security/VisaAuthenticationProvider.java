@@ -3,7 +3,9 @@ package org.gov.uk.homeoffice.digital.permissions.passenger.security;
 import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.authentication.RemoteIPThreadLocal;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.LoginAttempt;
+import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaRecord;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.loginattempt.LoginAttemptRepository;
+import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRuleConstants;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visarecord.VisaRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +49,8 @@ public class VisaAuthenticationProvider implements AuthenticationProvider {
         String passportNumber = authentication.getName();
         if (isLocked(passportNumber)) {
             auditService.audit(String.format("action='login', passportNumber='%s', IPAddress='%s', reason='locked'",
-                    passportNumber, RemoteIPThreadLocal.get()), "FAILED", "PASSENGER");
+                    passportNumber, RemoteIPThreadLocal.get()), "FAILED",  null, null,
+                    passportNumber);
             throw new LockedException("account locked");
         }
 
@@ -85,13 +88,18 @@ public class VisaAuthenticationProvider implements AuthenticationProvider {
 
     private UsernamePasswordAuthenticationToken success(final Long passengerId, final String passportNumber, final LocalDate dateOfBirth) {
         loginAttemptRepository.logSuccessfulAttempt(passportNumber, RemoteIPThreadLocal.get());
-        auditService.audit(String.format("action='login', passportNumber='%s', IPAddress='%s'", passportNumber, RemoteIPThreadLocal.get()), "SUCCESS", "PASSENGER");
+        VisaRecord record = visaRecordService.get(String.valueOf(passengerId));
+        String passengerName = record.firstValueAsStringFor(VisaRuleConstants.FULL_NAME);
+        String passengerEmail = record.firstValueAsStringFor(VisaRuleConstants.EMAIL_ADDRESS);
+        auditService.audit(String.format("action='login', passportNumber='%s', IPAddress='%s'",
+                passportNumber, RemoteIPThreadLocal.get()), "SUCCESS", passengerEmail, passengerName, passengerEmail, passportNumber);
         return new UsernamePasswordAuthenticationToken(passengerId, dateOfBirth, Collections.emptyList());
     }
 
     private UsernamePasswordAuthenticationToken failure(String passportNumber) {
         loginAttemptRepository.logFailedAttempt(passportNumber, RemoteIPThreadLocal.get());
-        auditService.audit(String.format("action='login', passportNumber='%s', IPAddress='%s'", passportNumber, RemoteIPThreadLocal.get()), "FAILED", "PASSENGER");
+        auditService.audit(String.format("action='login', passportNumber='%s', IPAddress='%s'", passportNumber, RemoteIPThreadLocal.get()), "FAILED",
+                "unknown", null, null, passportNumber);
         if (isLocked(passportNumber)) throw new LockedException("account locked");
         throw new BadCredentialsException("Invalid passport/dob combination");
     }

@@ -20,6 +20,6 @@ public class AdminLogoutHandler implements LogoutHandler {
 
     @Override
     public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
-        auditService.audit("action='logout'", "SUCCESS", SecurityUtil.username());
+        auditService.audit("action='logout'", "SUCCESS", null, null, null);
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.thymeleaf.spring5.SpringTemplateEngine;
 import uk.gov.service.notify.NotificationClient;
 
 import javax.servlet.ServletRequestEvent;

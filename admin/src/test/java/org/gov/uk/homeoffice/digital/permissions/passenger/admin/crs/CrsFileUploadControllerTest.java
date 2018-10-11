@@ -89,7 +89,7 @@ public class CrsFileUploadControllerTest {
         testObject.uploadCrsRecords(FILE, mock(RedirectAttributes.class), authentication);
 
         verify(crsFileUploadServiceMock).process(captor.capture(), eq(CURRENT_USER));
-        verify(crsAuditServiceMock).audit(FILE, CURRENT_USER, crsParsedResult);
+        verify(crsAuditServiceMock).audit(FILE, crsParsedResult);
 
         File tempFile = captor.getValue();
         assertThat(tempFile.exists(), is(false));
@@ -117,7 +117,7 @@ public class CrsFileUploadControllerTest {
         testObject.uploadCrsRecords(FILE, mock(RedirectAttributes.class), authentication);
 
         verify(crsFileUploadServiceMock).process(captor.capture(), eq(CURRENT_USER));
-        verify(crsAuditServiceMock).audit(FILE, CURRENT_USER, crsParsedResult);
+        verify(crsAuditServiceMock).audit(FILE, crsParsedResult);
 
         File tempFile = captor.getValue();
         assertThat(tempFile.exists(), CoreMatchers.is(false));

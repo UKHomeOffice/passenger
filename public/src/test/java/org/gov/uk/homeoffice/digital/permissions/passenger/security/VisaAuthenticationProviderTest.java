@@ -2,10 +2,11 @@ package org.gov.uk.homeoffice.digital.permissions.passenger.security;
 
 import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.authentication.RemoteIPThreadLocal;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.LoginAttempt;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.LoginAttemptBuilder;
+import org.gov.uk.homeoffice.digital.permissions.passenger.domain.*;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.loginattempt.LoginAttemptRepository;
+import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRuleConstants;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visarecord.VisaRecordService;
+import org.gov.uk.homeoffice.digital.permissions.passenger.utils.Tuple;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -19,6 +20,7 @@ import org.springframework.security.core.AuthenticationException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static java.util.Arrays.asList;
@@ -54,6 +56,12 @@ public class VisaAuthenticationProviderTest {
         RemoteIPThreadLocal.set(ipAddress);
         final LocalDate dateOfBirth = LocalDate.of(1997, 2, 1);
         final Authentication authentication = getAuthentication(passportNumber, "1 2 1997");
+
+        when(visaRecordService.get(participantId)).thenReturn(new VisaRecord(VisaStatus.ISSUED, VisaType.createVisaType("VisaType"),
+                List.of(
+                        new Tuple<>(new VisaRule(VisaRuleConstants.FULL_NAME), List.of(new VisaRuleContent(1L, VisaRuleConstants.EMAIL_ADDRESS, "Jim SMITH", true, RuleType.USER_DATA))),
+                        new Tuple<>(new VisaRule(VisaRuleConstants.EMAIL_ADDRESS), List.of(new VisaRuleContent(1L, VisaRuleConstants.EMAIL_ADDRESS, "jimsmith@test.com", true, RuleType.USER_DATA)))
+                )));
         when(visaRecordService.getVisaIdentifier(passportNumber, dateOfBirth)).thenReturn(Optional.of(participantId));
 
         final Authentication authenticationToken = visaAuthenticationProvider.authenticate(authentication);
@@ -63,7 +71,8 @@ public class VisaAuthenticationProviderTest {
         assertThat(authenticationToken.isAuthenticated(), is(true));
 
         verify(loginAttemptRepository).logSuccessfulAttempt(passportNumber, ipAddress);
-        verify(auditService).audit("action='login', passportNumber='passportNumber', IPAddress='123.123.123.123'", "SUCCESS", "PASSENGER");
+        verify(auditService).audit("action='login', passportNumber='passportNumber', IPAddress='123.123.123.123'", "SUCCESS",
+                "jimsmith@test.com", "Jim SMITH", "jimsmith@test.com", passportNumber);
     }
 
     @Test
@@ -82,7 +91,9 @@ public class VisaAuthenticationProviderTest {
         } catch (BadCredentialsException expected) {
         }
 
-        verify(auditService).audit("action='login', passportNumber='passportNumber', IPAddress='123.123.123.123'", "FAILED", "PASSENGER");
+        verify(auditService)
+                .audit("action='login', passportNumber='passportNumber', IPAddress='123.123.123.123'", "FAILED", "unknown",null,
+                        null, passportNumber);
     }
 
     @Test
@@ -107,7 +118,9 @@ public class VisaAuthenticationProviderTest {
         } catch (LockedException expected) {
         }
 
-        verify(auditService).audit("action='login', passportNumber='passportNumber', IPAddress='123.123.123.123', reason='locked'", "FAILED", "PASSENGER");
+        verify(auditService)
+                .audit("action='login', passportNumber='passportNumber', IPAddress='123.123.123.123', reason='locked'", "FAILED",
+                        null, null, passportNumber);
     }
 
     @Test
@@ -127,7 +140,8 @@ public class VisaAuthenticationProviderTest {
         }
 
         verify(loginAttemptRepository).logFailedAttempt(passportNumber, ipAddress);
-        verify(auditService).audit("action='login', passportNumber='passportNumber', IPAddress='123.123.123.123'", "FAILED", "PASSENGER");
+        verify(auditService).audit("action='login', passportNumber='passportNumber', IPAddress='123.123.123.123'", "FAILED",
+                "unknown", null, null, passportNumber);
     }
 
     @Test
@@ -144,7 +158,8 @@ public class VisaAuthenticationProviderTest {
         }
 
         verify(loginAttemptRepository).logFailedAttempt(passportNumber, ipAddress);
-        verify(auditService).audit("action='login', passportNumber='passportNumber', IPAddress='123.123.123.123'", "FAILED", "PASSENGER");
+        verify(auditService).audit("action='login', passportNumber='passportNumber', IPAddress='123.123.123.123'", "FAILED",
+                "unknown", null, null, passportNumber);
     }
 
     private Authentication getAuthentication(String name, String credentials) {

@@ -90,7 +90,7 @@ public class WicuServiceTest {
         verify(auditService).audit("action='WICU daily wash file generation', " +
                 String.format("documentCheckFileName='%s', ", docWash.get().getName()) +
                 String.format("nameCheckFileName='%s', ", nameWash.get().getName()) +
-                "numberOfRecords='2'", "SUCCESS", "user@example.com"
+                "numberOfRecords='2'", "SUCCESS", null, null, null
         );
         // it would be nice to consume and verify the input stream on the saveContent() call,
         // but the stream is already closed by the mockito call inside the try-with-resource
@@ -114,7 +114,7 @@ public class WicuServiceTest {
         verify(auditService).audit("action='WICU daily wash file generation', " +
                 "documentCheckFileName='', " +
                 "nameCheckFileName='', " +
-                "numberOfRecords='0'", "SUCCESS", "user@example.com"
+                "numberOfRecords='0'", "SUCCESS", null, null, null
         );
     }
 
@@ -146,7 +146,7 @@ public class WicuServiceTest {
         verify(wicuRepository).log(new DailyWashDownload(creationId, NAME, username, fullName, now));
 
         verify(auditService).audit(String.format("action='WICU daily wash file download', fileName='%s', numberOfRecords='%d', id=[123,4567]",
-                fileName, numberOfRecords), "SUCCESS", username
+                fileName, numberOfRecords), "SUCCESS", null, null, null
         );
     }
 
