@@ -1,6 +1,5 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.visa.controller;
 
-import org.gov.uk.homeoffice.digital.permissions.passenger.admin.exceptions.NotFoundException;
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.visa.model.Passenger;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaRecord;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaRule;
@@ -20,6 +19,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Controller
 public class DebugController {
@@ -49,12 +49,10 @@ public class DebugController {
 
     @RequestMapping(value = "/evaluatePassenger", method = RequestMethod.POST)
     public String evaluatePassenger(@ModelAttribute(value = "passenger") final Passenger passenger, final Model model) {
-        Optional<String> visaIdentifier = visaRecordService.getVisaIdentifier(
-                passenger.getPassportNumber(),
-                LocalDate.of(
-                        Integer.valueOf(passenger.getYear()),
-                        Integer.valueOf(passenger.getMonth()),
-                        Integer.valueOf(passenger.getDay())));
+        if(invalidInput(passenger)){
+            return notFound(model);
+        }
+        Optional<String> visaIdentifier = visaRecordService.getVisaIdentifier(passenger.getPassportNumber(), getDate(passenger));
 
         return visaIdentifier.map(id -> {
             final VisaRecord record = visaRecordService.get(id);
@@ -71,6 +69,22 @@ public class DebugController {
 
             return "rules/debug";
         }).orElseGet(() -> notFound(model));
+    }
+
+    private LocalDate getDate(Passenger passenger) {
+        try {
+            return LocalDate.of(
+                    Integer.valueOf(passenger.getYear()),
+                    Integer.valueOf(passenger.getMonth()),
+                    Integer.valueOf(passenger.getDay()));
+        } catch (Exception e) {
+
+        }
+        return null;
+    }
+
+    private boolean invalidInput(Passenger passenger) {
+        return isEmpty(passenger.getPassportNumber()) || getDate(passenger) == null;
     }
 
     private String notFound(Model model) {
