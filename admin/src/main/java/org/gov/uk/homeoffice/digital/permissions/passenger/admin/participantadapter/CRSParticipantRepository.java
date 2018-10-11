@@ -61,6 +61,7 @@ public class CRSParticipantRepository implements ParticipantRecordRepository {
                 crsRecord.getGwfRef(),
                 crsRecord.getVafNo(),
                 crsRecord.getCasNo(),
+                crsRecord.getCosNo(),
                 crsRecord.getOtherName(),
                 null,
                 crsRecord.getFamilyName(),

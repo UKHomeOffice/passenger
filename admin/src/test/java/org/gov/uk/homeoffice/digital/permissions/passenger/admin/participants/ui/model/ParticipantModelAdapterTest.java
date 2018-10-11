@@ -53,6 +53,7 @@ public class ParticipantModelAdapterTest {
                 "gwf",
                 "vaf",
                 "cas",
+                null,
                 "firstName",
                 "middleName",
                 "surName",

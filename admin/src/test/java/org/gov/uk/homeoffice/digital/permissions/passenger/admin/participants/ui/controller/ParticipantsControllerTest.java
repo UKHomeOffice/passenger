@@ -5,7 +5,7 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.admin.authentication.
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.participantadapter.ParticipantRecordRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.participants.ui.model.ParticipantModelAdapter;
 import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.ParticipantBuilder;
+import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Participant;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -74,10 +76,7 @@ public class ParticipantsControllerTest {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         when(participantRepository.getByPassportNumber(passportNumber))
-                .thenReturn(Optional.of(new ParticipantBuilder()
-                        .withDefaults()
-                        .setId(9876L)
-                        .setPassportNumber(passportNumber).createParticipant()));
+                .thenReturn(Optional.of(getParticipantWithDefaults(passportNumber)));
 
         String view = controller.delete(passportNumber, authentication);
 
@@ -85,6 +84,13 @@ public class ParticipantsControllerTest {
         verify(participantRepository).deleteParticipantWithPassportNumber(passportNumber);
         verify(auditService).audit("action='delete', entity='Participant', id='9876'",
                 "SUCCESS", null, null, null);
+    }
+
+    private Participant getParticipantWithDefaults(String passportNumber) {
+        return Participant.builder()
+                .id(9876L)
+                .passportNumber(passportNumber)
+                .build();
     }
 
     @Test
@@ -121,4 +127,15 @@ public class ParticipantsControllerTest {
     @Import(ParticipantsController.class)
     public static class Config {
     }
+
+
+    public Participant withDefaults(Participant participant) {
+        participant.setId(1L);
+        participant.setEmailsSent(Collections.emptySet());
+        participant.setPassportNumber("passportNumber");
+        participant.setDateOfBirth(LocalDate.of(1997, 1, 1));
+        participant.setSurName("surname");
+        return participant;
+    }
+
 }

@@ -16,6 +16,7 @@ public class ParticipantModelAdapter {
                 participant.getGwf(),
                 participant.getVaf(),
                 participant.getCas(),
+                participant.getCos(),
                 participant.getFirstName(),
                 participant.getMiddleName(),
                 participant.getSurName(),

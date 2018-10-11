@@ -20,6 +20,10 @@
             <th>CAS</th>
             <td th:text="${p.cas}"/>
         </tr>
+        <tr th:styleappend="${p.cos == null} ? 'display:none':''">
+            <th>COS</th>
+            <td th:text="${p.cos}"/>
+        </tr>
         <tr th:styleappend="${p.firstName == null} ? 'display:none':''">
             <th>First name</th>
             <td th:text="${p.firstName}"/>
