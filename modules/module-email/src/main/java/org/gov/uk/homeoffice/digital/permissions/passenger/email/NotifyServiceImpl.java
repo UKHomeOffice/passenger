@@ -40,7 +40,7 @@ public class NotifyServiceImpl implements NotifyService {
 
     @Override
     public Optional<SendEmailResponse> sendVisaGrantedEmail(String emailAddress, String fullName, String surName, String baseUrl) {
-        return sendMail(emailAddress, map(tpl("FullName", fullName + " " + surName), tpl("VisaURL", baseUrl + "/visa/status")), this.visaGrantedTemplateId);
+        return sendMail(emailAddress, map(tpl("FullName", fullName + " " + surName), tpl("VisaURL", baseUrl + "/login")), this.visaGrantedTemplateId);
     }
 
 
@@ -58,7 +58,7 @@ public class NotifyServiceImpl implements NotifyService {
 
     @Override
     public Optional<SendEmailResponse> sendVisaRevokedEmail(String emailAddress, String fullName, String surName, String baseUrl) {
-        return sendMail(emailAddress, map(tpl("FullName", fullName + " " + surName), tpl("VisaURL", baseUrl + "/visa/status")), this.visaRevokedTemplateId);
+        return sendMail(emailAddress, map(tpl("FullName", fullName + " " + surName), tpl("VisaURL", baseUrl + "/login")), this.visaRevokedTemplateId);
     }
 
     @Override
