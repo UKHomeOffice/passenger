@@ -40,6 +40,15 @@ public class AuditService {
                 passengerName, passengerEmail, passengerPassportNumber);
     }
 
+    public void auditForPublicUser(final String action,
+                      final String result,
+                      final String passengerName,
+                      final String passengerEmail,
+                      final String passengerPassportNumber) {
+        audit(action, result, passengerEmail,
+                passengerName, passengerEmail, passengerPassportNumber);
+    }
+
     public void audit(final String action, final String result, final String user,
                       final String passengerName, final String passengerEmail, final String passengerPassportNumber) {
         audit(new Audit(null, user, now(), result, action, passengerName, passengerEmail, passengerPassportNumber));

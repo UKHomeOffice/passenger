@@ -37,7 +37,7 @@ public class AuditLogoutHandler implements LogoutHandler {
         if (visaRecord != null) {
             String passportNumber = visaRecord.firstValueAsStringFor(VisaRuleConstants.PASSPORT_NUMBER);
             String ipAddress = RemoteIPThreadLocal.get();
-            auditService.audit(String.format("action='logout', passportNumber='%s', IPAddress='%s'", passportNumber, ipAddress), "SUCCESS",
+            auditService.auditForPublicUser(String.format("action='logout', passportNumber='%s', IPAddress='%s'", passportNumber, ipAddress), "SUCCESS",
                     visaRecord.firstValueAsStringFor(VisaRuleConstants.FULL_NAME),
                     visaRecord.firstValueAsStringFor(VisaRuleConstants.EMAIL_ADDRESS),
                     visaRecord.firstValueAsStringFor(VisaRuleConstants.PASSPORT_NUMBER)

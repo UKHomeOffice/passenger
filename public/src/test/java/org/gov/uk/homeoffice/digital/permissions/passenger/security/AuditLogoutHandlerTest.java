@@ -49,7 +49,7 @@ public class AuditLogoutHandlerTest {
         auditLogoutHandler.logout(null, null, authentication);
 
         verify(auditService)
-                .audit("action='logout', passportNumber='" + PASSPORT_NUMBER + "', IPAddress='123.123.123.123'", "SUCCESS",
+                .auditForPublicUser("action='logout', passportNumber='" + PASSPORT_NUMBER + "', IPAddress='123.123.123.123'", "SUCCESS",
                         FULL_NAME, EMAIL_ADDRESS, PASSPORT_NUMBER);
     }
 
