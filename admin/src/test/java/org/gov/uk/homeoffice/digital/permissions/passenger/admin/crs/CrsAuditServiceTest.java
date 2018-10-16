@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class CrsAuditServiceTest {
 
-    public static final MockMultipartFile MOCK_MULTIPART_FILE = new MockMultipartFile(
+    private static final MockMultipartFile MOCK_MULTIPART_FILE = new MockMultipartFile(
             "crsrecords.csv",
             "originalfilename.csv",
             "text/csv",
@@ -52,8 +52,8 @@ public class CrsAuditServiceTest {
     @Test
     public void testAuditForFileWith2Records() {
         final CrsParsedResult crsParsedResult = new CrsParsedResult(
-                List.of(CrsRecord.builder().id(1L).postName("James").familyName("SMITH").emailAddress("jamessmith@test.com").passportNumber("101010101").status(ISSUED).build(),
-                        CrsRecord.builder().id(2L).postName("Steve").familyName("SMITH").emailAddress("stevesmith@test.com").passportNumber("101010102").status(ISSUED).build()),
+                List.of(CrsRecord.builder().id(1L).otherName("James").familyName("SMITH").emailAddress("jamessmith@test.com").passportNumber("101010101").status(ISSUED).build(),
+                        CrsRecord.builder().id(2L).otherName("Steve").familyName("SMITH").emailAddress("stevesmith@test.com").passportNumber("101010102").status(ISSUED).build()),
                 Collections.emptyList());
 
         testObject.audit(MOCK_MULTIPART_FILE, crsParsedResult);
@@ -70,10 +70,10 @@ public class CrsAuditServiceTest {
     @Test
     public void testAuditForFileWithRevokedParticipants() {
         final CrsParsedResult crsParsedResult = new CrsParsedResult(List.of(
-                CrsRecord.builder().id(1L).postName("James").familyName("SMITH").emailAddress("jamessmith@test.com").passportNumber("101010101").status(ISSUED).build(),
-                CrsRecord.builder().id(2L).postName("Steve").familyName("SMITH").emailAddress("stevesmith@test.com").passportNumber("101010102").status(REFUSED).build(),
-                CrsRecord.builder().id(3L).postName("Jane").familyName("SMITH").emailAddress("janesmith@test.com").passportNumber("101010103").status(ISSUED).build(),
-                CrsRecord.builder().id(4L).postName("Stephanie").familyName("SMITH").emailAddress("stephaniesmith@test.com").passportNumber("101010104").status(REFUSED).build()),
+                CrsRecord.builder().id(1L).otherName("James").familyName("SMITH").emailAddress("jamessmith@test.com").passportNumber("101010101").status(ISSUED).build(),
+                CrsRecord.builder().id(2L).otherName("Steve").familyName("SMITH").emailAddress("stevesmith@test.com").passportNumber("101010102").status(REFUSED).build(),
+                CrsRecord.builder().id(3L).otherName("Jane").familyName("SMITH").emailAddress("janesmith@test.com").passportNumber("101010103").status(ISSUED).build(),
+                CrsRecord.builder().id(4L).otherName("Stephanie").familyName("SMITH").emailAddress("stephaniesmith@test.com").passportNumber("101010104").status(REFUSED).build()),
                 List.of());
 
         testObject.audit(MOCK_MULTIPART_FILE, crsParsedResult);
@@ -106,8 +106,8 @@ public class CrsAuditServiceTest {
     @Test
     public void testAuditForFileWithErrors() {
         final CrsParsedResult crsParsedResult = new CrsParsedResult(List.of(
-                CrsRecord.builder().id(1L).postName("James").familyName("SMITH").emailAddress("jamessmith@test.com").passportNumber("101010101").status(ISSUED).build(),
-                CrsRecord.builder().id(2L).postName("Steve").familyName("SMITH").emailAddress("stevesmith@test.com").passportNumber("101010102").status(REFUSED).build()),
+                CrsRecord.builder().id(1L).otherName("James").familyName("SMITH").emailAddress("jamessmith@test.com").passportNumber("101010101").status(ISSUED).build(),
+                CrsRecord.builder().id(2L).otherName("Steve").familyName("SMITH").emailAddress("stevesmith@test.com").passportNumber("101010102").status(REFUSED).build()),
                 List.of(
                         new CrsParseErrors("2,row,with,error", List.of("message 21", "message 22")),
                         new CrsParseErrors("4,row,with,error", List.of("message 41")))

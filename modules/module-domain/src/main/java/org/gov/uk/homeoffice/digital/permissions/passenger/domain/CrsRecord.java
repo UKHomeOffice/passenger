@@ -11,6 +11,7 @@ import java.util.Set;
 @Data
 @Builder
 public class CrsRecord implements Serializable {
+
     private Long id;
     private String gwfRef;
     private String vafNo;
@@ -59,7 +60,7 @@ public class CrsRecord implements Serializable {
     }
 
     public String getFullName() {
-        return (postName + " " + familyName).trim();
+        return (otherName + " " + familyName).trim();
     }
 
 }
