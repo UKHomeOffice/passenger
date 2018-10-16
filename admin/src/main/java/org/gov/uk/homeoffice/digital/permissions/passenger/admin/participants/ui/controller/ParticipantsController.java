@@ -1,6 +1,5 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.participants.ui.controller;
 
-import org.gov.uk.homeoffice.digital.permissions.passenger.admin.authentication.SecurityUtil;
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.participantadapter.ParticipantRecordRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.participants.ui.model.ParticipantModelAdapter;
 import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
