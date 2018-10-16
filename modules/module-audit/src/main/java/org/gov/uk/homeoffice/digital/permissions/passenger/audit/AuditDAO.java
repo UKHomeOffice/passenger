@@ -1,6 +1,5 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.audit;
 
-
 import org.gov.uk.homeoffice.digital.permissions.passenger.audit.domain.Audit;
 import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
@@ -20,23 +19,20 @@ public interface AuditDAO {
     @SqlQuery(Query.QUERY_COUNT)
     Long count();
 
-    @SqlQuery(Query.QUERY_COUNT_IN_RANGE)
-    Long countInDateRange(@Bind("fromDate") String fromDate, @Bind("toDate") String toDate);
-
+    @SqlQuery(Query.SELECT_BY_PASSPORT_NUMBER)
     @RegisterRowMapper(AuditMapper.class)
-    @SqlQuery(Query.QUERY_SELECT_IN_RANGE)
-    Collection<Audit> selectInRange(@Bind("fromDate") String fromDate, @Bind("toDate") String toDate);
+    Collection<Audit> selectByPassportNumber(@Bind("passportNumber") String passportNumber);
 
+    @SqlQuery(Query.SELECT_BY_PASSENGER_EMAIL)
     @RegisterRowMapper(AuditMapper.class)
-    @SqlQuery(Query.QUERY_SELECT_IN_RANGE_FOR_USER)
-    Collection<Audit> selectInRangeForUser(@Bind("fromDate") String fromDate, @Bind("toDate") String toDate, @Bind("userName") String userName);
+    Collection<Audit> selectByPassengerEmail(@Bind("emailAddress") String emailAddress);
 
+    @SqlQuery(Query.SELECT_BY_PASSENGER_NAME)
     @RegisterRowMapper(AuditMapper.class)
-    @SqlQuery(Query.QUERY_SELECT_IN_RANGE_FOR_TEAM)
-    Collection<Audit> selectInRangeForTeam(@Bind("fromDate") String fromDate, @Bind("toDate") String toDate, @Bind("teamName") String teamname);
+    Collection<Audit> selectByPassengerName(@Bind("name") String passengerName);
 
+    @SqlQuery(Query.SELECT_BY_ADMIN_EMAIL)
     @RegisterRowMapper(AuditMapper.class)
-    @SqlQuery(Query.QUERY_SELECT_IN_RANGE_FOR_USER_AND_TEAM)
-    Collection<Audit> selectInRangeForUserAndTeam(@Bind("fromDate") String fromDate, @Bind("toDate") String toDate, @Bind("userName") String userName, @Bind("teamName") String teamname);
+    Collection<Audit> selectByAdministratorEmail(@Bind("emailAddress") String emailAddress);
 
 }

@@ -7,17 +7,15 @@ import org.jdbi.v3.core.Jdbi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
 
 import static java.time.LocalDateTime.now;
 
 @Service
 public class AuditService {
-
-    public static final Authentication AUTHENTICATION = SecurityContextHolder.getContext().getAuthentication();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditService.class);
 
@@ -67,6 +65,22 @@ public class AuditService {
             LOGGER.error(e.getMessage(), e);
             counter.count();
         }
+    }
+
+    public Collection<Audit> findByPassportNumber(final String passportNumber) {
+        return dbi.withHandle(new FindByPassportNumber(passportNumber));
+    }
+
+    public Collection<Audit> findByPassengerEmail(final String emailAddress) {
+        return dbi.withHandle(new FindByPassengerEmail(emailAddress));
+    }
+
+    public Collection<Audit> findByPassengerName(final String name) {
+        return dbi.withHandle(new FindByPassengerName(name));
+    }
+
+    public Collection<Audit> findByAdminEmail(final String emailAddress) {
+        return dbi.withHandle(new FindByAdminEmail(emailAddress));
     }
 
 }
