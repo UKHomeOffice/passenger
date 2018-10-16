@@ -1,6 +1,7 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.country.service;
 
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.country.db.CountryRepository;
+import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Country;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,13 @@ import java.util.Optional;
 public class CountryServiceBean implements CountryService {
 
     private final CountryRepository countryRepository;
+    private final AuditService auditService;
 
     @Autowired
-    public CountryServiceBean(final CountryRepository countryRepository) {
+    public CountryServiceBean(final CountryRepository countryRepository,
+                              final AuditService auditService) {
         this.countryRepository = countryRepository;
+        this.auditService = auditService;
     }
 
     @Override
@@ -30,6 +34,7 @@ public class CountryServiceBean implements CountryService {
 
     @Override
     public void saveCountry(final Country country) {
+        auditService.audit("action='Update Countries'", "SUCCESS");
         countryRepository.save(country);
     }
 

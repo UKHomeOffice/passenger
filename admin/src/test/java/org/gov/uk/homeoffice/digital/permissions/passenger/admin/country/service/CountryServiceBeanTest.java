@@ -1,6 +1,7 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.country.service;
 
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.country.db.CountryRepository;
+import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Country;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,9 @@ public class CountryServiceBeanTest {
 
     @Mock
     private CountryRepository mockCountryRepository;
+
+    @Mock
+    private AuditService mockAuditService;
 
     @InjectMocks
     private CountryServiceBean underTest;
@@ -36,6 +40,7 @@ public class CountryServiceBeanTest {
         final Country country = new Country();
         underTest.saveCountry(country);
         verify(mockCountryRepository).save(country);
+        verify(mockAuditService).audit("action='Update Countries'", "SUCCESS");
     }
 
 }

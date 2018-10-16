@@ -1,9 +1,11 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.visa.controller;
 
 import org.gov.uk.homeoffice.digital.permissions.passenger.admin.visa.model.Passenger;
+import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaRecord;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaRule;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaType;
+import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRuleConstants;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRuleLookupRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaTypeRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visarecord.VisaRecordService;
@@ -25,19 +27,20 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 public class DebugController {
 
     private VisaRecordService visaRecordService;
-    private VisaTypeRepository visaTypeRepository;
     private VisaRuleLookupRepository visaRuleLookupRepository;
     private Map<VisaType, Collection<VisaRule>> visaTypeCollectionMap;
+    private final AuditService auditService;
 
     @Autowired
     public DebugController(final VisaRecordService visaRecordService,
                            final VisaTypeRepository visaTypeRepository,
-                           final VisaRuleLookupRepository visaRuleLookupRepository) {
+                           final VisaRuleLookupRepository visaRuleLookupRepository,
+                           final AuditService auditService) {
         this.visaRecordService = visaRecordService;
-        this.visaTypeRepository = visaTypeRepository;
         this.visaRuleLookupRepository = visaRuleLookupRepository;
         this.visaTypeCollectionMap = visaTypeRepository.findAll().stream()
                 .collect(toMap(type -> type, type -> visaRuleLookupRepository.findByVisaType(type.getId())));
+        this.auditService = auditService;
     }
 
     @RequestMapping(value = "/debug", method = RequestMethod.GET)
@@ -66,6 +69,11 @@ public class DebugController {
 
             model.addAttribute("record", record);
             model.addAttribute("rules", matchingRules);
+
+            auditService.audit("action='Debug participant'", "SUCCESS",
+                    record.firstValueAsStringFor(VisaRuleConstants.FULL_NAME),
+                    record.firstValueAsStringFor(VisaRuleConstants.EMAIL_ADDRESS),
+                    record.firstValueAsStringFor(VisaRuleConstants.PASSPORT_NUMBER));
 
             return "rules/debug";
         }).orElseGet(() -> notFound(model));

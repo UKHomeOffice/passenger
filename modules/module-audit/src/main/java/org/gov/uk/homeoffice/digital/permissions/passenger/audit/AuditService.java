@@ -31,6 +31,11 @@ public class AuditService {
     }
 
     public void audit(final String action,
+                      final String result) {
+        audit(action, result, null, null, null);
+    }
+
+    public void audit(final String action,
                       final String result,
                       final String passengerName,
                       final String passengerEmail,

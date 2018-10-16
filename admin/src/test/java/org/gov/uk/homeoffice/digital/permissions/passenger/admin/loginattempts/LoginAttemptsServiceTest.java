@@ -1,5 +1,6 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.loginattempts;
 
+import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.loginattempt.LoginAttemptRepository;
 import java.time.LocalDateTime;
 import org.junit.Test;
@@ -24,6 +25,9 @@ public class LoginAttemptsServiceTest {
     @Mock
     private LoginAttemptRepository loginAttemptRepository;
 
+    @Mock
+    private AuditService mockAuditService;
+
     @Test
     public void testLoginAttempts() {
         LocalDateTime from = LocalDateTime.now().minusDays(1);
@@ -32,6 +36,7 @@ public class LoginAttemptsServiceTest {
         testObject.allLoginAttemptsBetween(from, to);
 
         verify(loginAttemptRepository).allLoginAttemptsBetween(from, to);
+        verify(mockAuditService).audit("action='Read login attempts'", "SUCCESS");
     }
 
 }
