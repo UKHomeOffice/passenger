@@ -1,5 +1,6 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.visa.ui.controller;
 
+import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.*;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaTypeService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visarecord.VisaRecordService;
@@ -19,6 +20,7 @@ import java.util.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -42,6 +44,7 @@ public class VisaControllerTest {
             Tuple.tpl(new VisaRule("VALID_UNTIL"),  toVisaRuleContents("VALID_UNTIL", "20181220")),
             Tuple.tpl(new VisaRule("SPX_NUMBER"),  toVisaRuleContents("SPX_NUMBER", "spx-number")),
             Tuple.tpl(new VisaRule("REASON"),  toVisaRuleContents("REASON", "reason")),
+            Tuple.tpl(new VisaRule("EMAIL_ADDRESS"),  toVisaRuleContents("EMAIL_ADDRESS", "email")),
             Tuple.tpl(new VisaRule("BRP_COLLECTION_INFO"),  toVisaRuleContents("BRP_COLLECTION_INFO", ADDRESS))
     );
     private final Collection<Tuple<VisaRule, Collection<VisaRuleContent>>> expectedRulesWithPoliceRegistration = Set.of(
@@ -57,6 +60,7 @@ public class VisaControllerTest {
             Tuple.tpl(new VisaRule("VALID_UNTIL"),  toVisaRuleContents("VALID_UNTIL", "20181220")),
             Tuple.tpl(new VisaRule("SPX_NUMBER"),  toVisaRuleContents("SPX_NUMBER", "spx-number")),
             Tuple.tpl(new VisaRule("REASON"),  toVisaRuleContents("REASON", "reason")),
+            Tuple.tpl(new VisaRule("EMAIL_ADDRESS"),  toVisaRuleContents("EMAIL_ADDRESS", "email")),
             Tuple.tpl(new VisaRule("POLICE_REGISTRATION_VN"), toVisaRuleContents("POLICE_REGISTRATION_VN", "reason")),
             Tuple.tpl(new VisaRule("BRP_COLLECTION_INFO"),  toVisaRuleContents("BRP_COLLECTION_INFO", ADDRESS))
     );
@@ -74,6 +78,9 @@ public class VisaControllerTest {
     private Principal mockPrincipal;
 
     @Mock
+    private AuditService auditService;
+
+    @Mock
     Authentication mockAuthentication;
 
     Map<String, Object> model = new HashMap<>();
@@ -85,7 +92,7 @@ public class VisaControllerTest {
     @Before
     public void setUp() throws Exception {
         when(mockAuthentication.getPrincipal()).thenReturn(mockPrincipal);
-        testObject = new VisaController(mockVisaTypeService, mockVisaRecordService, dynamicContentProcessor);
+        testObject = new VisaController(mockVisaTypeService, mockVisaRecordService, dynamicContentProcessor, auditService);
 
     }
 
@@ -105,6 +112,7 @@ public class VisaControllerTest {
         testObject.visaDetails(model, mockAuthentication);
 
         assertThat(model.get("visa"), is(notNullValue()));
+        verify(auditService).auditForPublicUser("action='Check your visa'", "SUCCESS",     "first-name middle-name surname", "email", "passport-number");
     }
 
     @Test
@@ -115,6 +123,8 @@ public class VisaControllerTest {
         testObject.visaDetails(model, mockAuthentication);
 
         assertThat(model.get("visa"), is(nullValue()));
+        verify(auditService).audit("action='Check your visa'", "FAILURE");
+
     }
 
     @Test
@@ -130,6 +140,8 @@ public class VisaControllerTest {
 
         assertThat(model.get("fromTravelDisplayDate"), is(equalTo("Sunday, 10 Jun 2018")));
         assertThat(model.get("toTravelDisplayDate"), is(equalTo("Tuesday, 10 Jul 2018")));
+        verify(auditService).auditForPublicUser("action='Travel to the UK'", "SUCCESS",     "first-name middle-name surname", "email", "passport-number");
+
     }
 
     @Test
@@ -145,6 +157,8 @@ public class VisaControllerTest {
 
         assertThat(model.get("policeRegistrationMessage"), is(equalTo(VisaController.POLICE_REGISTERATION_NOT_REQUIRED)));
         assertThat(model.get("address"), is(equalTo(ADDRESS)));
+        verify(auditService).auditForPublicUser("action='When you arrive in UK'", "SUCCESS",     "first-name middle-name surname", "email", "passport-number");
+
     }
 
     @Test
@@ -160,6 +174,8 @@ public class VisaControllerTest {
 
         assertThat(model.get("policeRegistrationMessage"), is(equalTo(VisaController.POLICE_REGISTERATION_REQUIRED)));
         assertThat(model.get("address"), is(equalTo(ADDRESS)));
+        verify(auditService).auditForPublicUser("action='When you arrive in UK'", "SUCCESS",     "first-name middle-name surname", "email", "passport-number");
+
     }
 
     private List<VisaRuleContent> toVisaRuleContents(String rule, String value) {

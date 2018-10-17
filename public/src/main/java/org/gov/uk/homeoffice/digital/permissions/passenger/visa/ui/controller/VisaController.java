@@ -1,5 +1,6 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.visa.ui.controller;
 
+import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaRecord;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaStatus;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRuleConstants;
@@ -11,6 +12,7 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.visa.ui.model.VisaSta
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,31 +37,44 @@ public class VisaController {
     public static final String POLICE_REGISTERATION_REQUIRED = "Based on the details you provided in your visa application, you need to register with the police.";
     public static final String POLICE_REGISTERATION_NOT_REQUIRED = "Based on the details you provided in your visa application, you do not need to register with the police.";
 
-    private VisaTypeService visaTypeService;
-    private VisaRecordService visaRecordService;
-    private DynamicContentProcessor dynamicContentProcessor;
+    private final VisaTypeService visaTypeService;
+    private final VisaRecordService visaRecordService;
+    private final DynamicContentProcessor dynamicContentProcessor;
+    private final AuditService auditService;
 
     @Autowired
     public VisaController(final VisaTypeService visaTypeService,
                           final VisaRecordService visaRecordService,
-                          final DynamicContentProcessor dynamicContentProcessor) {
+                          final DynamicContentProcessor dynamicContentProcessor,
+                          final @Qualifier("audit.public") AuditService auditService) {
         this.visaTypeService = visaTypeService;
         this.visaRecordService = visaRecordService;
         this.dynamicContentProcessor = dynamicContentProcessor;
+        this.auditService = auditService;
     }
 
     @RequestMapping(value = "/visa/details", method =  RequestMethod.GET)
     public String visaDetails(final Map<String, Object> model, final Authentication authentication) {
         final Optional<VisaRecord> visaRecord = getVisaRecord(authentication);
         if(visaRecord.isPresent() && visaRecord.get().getVisaStatus().equals(VisaStatus.ISSUED)){
-            visaTypeService.findVisaTypeRule(visaRecord.get()).get_1().
-                    ifPresentOrElse(visaTypeRule -> model.put("visa", new VisaStatusModel(dynamicContentProcessor, visaRecord.get(), visaTypeRule))
+            final VisaRecord record = visaRecord.get();
+            visaTypeService.findVisaTypeRule(record).get_1().
+                    ifPresentOrElse(visaTypeRule -> model.put("visa", new VisaStatusModel(dynamicContentProcessor, record, visaTypeRule))
                             , () -> LOGGER.error("Unable to find a valid status."));
+            audit("action='Check your visa'", "SUCCESS", record);
             return "check_your_visa_details";
         } else {
+            auditService.audit("action='Check your visa'", "FAILURE");
             LOGGER.error("Unable to find a valid visa.");
         }
         return "visa_refused";
+    }
+
+    private void audit(String message, String status, VisaRecord record) {
+        auditService.auditForPublicUser(message, status,
+                record.firstValueAsStringFor(VisaRuleConstants.FULL_NAME),
+                record.firstValueAsStringFor(VisaRuleConstants.EMAIL_ADDRESS),
+                record.firstValueAsStringFor(VisaRuleConstants.PASSPORT_NUMBER));
     }
 
     private Optional<VisaRecord> getVisaRecord(Authentication authentication) {
@@ -82,7 +97,11 @@ public class VisaController {
                     .findFirst().get()
                     .get_2().stream().findFirst().get().getContent();
             model.put("address", address);
-        }, () -> LOGGER.error("Unable to find a valid visa."));
+            audit("action='When you arrive in UK'", "SUCCESS", visaRecord.get());
+        }, () -> {
+            LOGGER.error("Unable to find a valid visa.");
+            auditService.audit("action='Check your visa'", "FAILURE");
+        });
         return "when_you_arrive_in_uk";
     }
 
@@ -105,7 +124,11 @@ public class VisaController {
             final LocalDate toDate = fromDisplayDate(fromTravelDate).plusDays(MAX_TRAVEL_DAYS);
             model.put("fromTravelDisplayDate", parse(fromDate, DateTimeUtils.DISPLAY_DATE_TIME_PATTERN));
             model.put("toTravelDisplayDate", parse(toDate, DateTimeUtils.DISPLAY_DATE_TIME_PATTERN));
-        }, () -> LOGGER.error("Unable to find a valid visa."));
+            audit("action='Travel to the UK'", "SUCCESS", visaRecord.get());
+        }, () -> {
+            auditService.audit("action='Check your visa'", "FAILURE");
+            LOGGER.error("Unable to find a valid visa.");
+        });
     }
 
     @RequestMapping(value = "/visa/travel", method = RequestMethod.GET)
