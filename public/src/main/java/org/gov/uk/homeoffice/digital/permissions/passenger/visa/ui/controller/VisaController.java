@@ -97,7 +97,7 @@ public class VisaController {
                     .findFirst().get()
                     .get_2().stream().findFirst().get().getContent();
             model.put("address", address);
-            audit("action='When you arrive to UK'", "SUCCESS", visaRecord.get());
+            audit("action='When you arrive in UK'", "SUCCESS", visaRecord.get());
         }, () -> {
             LOGGER.error("Unable to find a valid visa.");
             auditService.audit("action='Check your visa'", "FAILURE");

@@ -157,7 +157,7 @@ public class VisaControllerTest {
 
         assertThat(model.get("policeRegistrationMessage"), is(equalTo(VisaController.POLICE_REGISTERATION_NOT_REQUIRED)));
         assertThat(model.get("address"), is(equalTo(ADDRESS)));
-        verify(auditService).auditForPublicUser("action='When you arrive to UK'", "SUCCESS",     "first-name middle-name surname", "email", "passport-number");
+        verify(auditService).auditForPublicUser("action='When you arrive in UK'", "SUCCESS",     "first-name middle-name surname", "email", "passport-number");
 
     }
 
@@ -174,7 +174,7 @@ public class VisaControllerTest {
 
         assertThat(model.get("policeRegistrationMessage"), is(equalTo(VisaController.POLICE_REGISTERATION_REQUIRED)));
         assertThat(model.get("address"), is(equalTo(ADDRESS)));
-        verify(auditService).auditForPublicUser("action='When you arrive to UK'", "SUCCESS",     "first-name middle-name surname", "email", "passport-number");
+        verify(auditService).auditForPublicUser("action='When you arrive in UK'", "SUCCESS",     "first-name middle-name surname", "email", "passport-number");
 
     }
 
