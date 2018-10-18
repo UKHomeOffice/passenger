@@ -45,9 +45,12 @@ public class CountryController implements Serializable {
                                     final Model model) {
         form.getCountries().forEach(country -> {
             countryService.getCountryByCountryCode(country.getId()).ifPresent(updateCountry -> {
-                updateCountry.setExportCountry(country.getExportCountry());
-                updateCountry.setEnabled(country.getEnabled());
-                countryService.saveCountry(updateCountry);
+                if (!country.getExportCountry().equals(updateCountry.getExportCountry()) ||
+                        !country.getEnabled().equals(updateCountry.getEnabled())) {
+                    updateCountry.setExportCountry(country.getExportCountry());
+                    updateCountry.setEnabled(country.getEnabled());
+                    countryService.saveCountry(updateCountry);
+                }
             });
         });
         return "redirect:/countries";

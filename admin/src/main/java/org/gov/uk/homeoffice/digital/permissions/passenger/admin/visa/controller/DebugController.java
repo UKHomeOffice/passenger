@@ -10,6 +10,7 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRuleL
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaTypeRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visarecord.VisaRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,7 +36,7 @@ public class DebugController {
     public DebugController(final VisaRecordService visaRecordService,
                            final VisaTypeRepository visaTypeRepository,
                            final VisaRuleLookupRepository visaRuleLookupRepository,
-                           final AuditService auditService) {
+                           @Qualifier("audit.admin") final AuditService auditService) {
         this.visaRecordService = visaRecordService;
         this.visaRuleLookupRepository = visaRuleLookupRepository;
         this.visaTypeCollectionMap = visaTypeRepository.findAll().stream()

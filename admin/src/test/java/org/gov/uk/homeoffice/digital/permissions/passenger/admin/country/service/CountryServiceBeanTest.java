@@ -36,11 +36,23 @@ public class CountryServiceBeanTest {
     }
 
     @Test
-    public void shouldSaveCountry() {
+    public void shouldSaveCountryWithAuditMessageWithEnabledTrue() {
         final Country country = new Country();
+        country.setExportCountry("GBR");
+        country.setEnabled(Boolean.TRUE);
         underTest.saveCountry(country);
         verify(mockCountryRepository).save(country);
-        verify(mockAuditService).audit("action='Update Countries'", "SUCCESS");
+        verify(mockAuditService).audit("action='Update Country (GBR), enabled=true'", "SUCCESS");
+    }
+
+    @Test
+    public void shouldSaveCountryWithAuditMessageWithEnabledFalse() {
+        final Country country = new Country();
+        country.setExportCountry("GBR");
+        country.setEnabled(Boolean.FALSE);
+        underTest.saveCountry(country);
+        verify(mockCountryRepository).save(country);
+        verify(mockAuditService).audit("action='Update Country (GBR), enabled=false'", "SUCCESS");
     }
 
 }
