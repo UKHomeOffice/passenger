@@ -4,6 +4,7 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.LoginAttempt;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.loginattempt.LoginAttemptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,7 +18,7 @@ public class LoginAttemptsService {
 
     @Autowired
     public LoginAttemptsService(final LoginAttemptRepository loginAttemptRepository,
-                                final AuditService auditService) {
+                                @Qualifier("audit.admin") final AuditService auditService) {
         this.loginAttemptRepository = loginAttemptRepository;
         this.auditService = auditService;
     }
