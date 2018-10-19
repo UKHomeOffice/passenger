@@ -83,4 +83,12 @@ public class AuditService {
         return dbi.withHandle(new FindByAdminEmail(emailAddress));
     }
 
+    public Collection<Audit> findByQuery(final String adminEmailAddress,
+                                         final String passengerEmailAddress,
+                                         final String passengerPassportNumber,
+                                         final String passengerName) {
+        return dbi.withHandle(new FindByQuery(adminEmailAddress, passengerEmailAddress,
+                passengerPassportNumber, passengerName));
+    }
+
 }

@@ -35,4 +35,12 @@ public interface AuditDAO {
     @RegisterRowMapper(AuditMapper.class)
     Collection<Audit> selectByAdministratorEmail(@Bind("emailAddress") String emailAddress);
 
+    @SqlQuery(Query.SELECT_BY_QUERY)
+    @RegisterRowMapper(AuditMapper.class)
+    Collection<Audit> selectByQuery(
+            @Bind("adminEmailAddress") String adminEmailAddress,
+            @Bind("passportNumber") String passportNumber,
+            @Bind("name") String passengerName,
+            @Bind("emailAddress") String passengerEmailAddress);
+
 }
