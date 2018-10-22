@@ -123,7 +123,7 @@ public class VisaControllerTest {
         testObject.visaDetails(model, mockAuthentication);
 
         assertThat(model.get("visa"), is(nullValue()));
-        verify(auditService).audit("action='Check your visa'", "FAILURE");
+        verify(auditService).auditForPublicUser("action='Check your visa'", "FAILURE", null, null, null);
 
     }
 

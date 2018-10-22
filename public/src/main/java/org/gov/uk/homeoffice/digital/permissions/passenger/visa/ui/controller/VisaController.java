@@ -64,7 +64,7 @@ public class VisaController {
             audit("action='Check your visa'", "SUCCESS", record);
             return "check_your_visa_details";
         } else {
-            auditService.audit("action='Check your visa'", "FAILURE");
+            auditService.auditForPublicUser("action='Check your visa'", "FAILURE", null, null, null);
             LOGGER.error("Unable to find a valid visa.");
         }
         return "visa_refused";
@@ -100,7 +100,7 @@ public class VisaController {
             audit("action='When you arrive in UK'", "SUCCESS", visaRecord.get());
         }, () -> {
             LOGGER.error("Unable to find a valid visa.");
-            auditService.audit("action='Check your visa'", "FAILURE");
+            auditService.auditForPublicUser("action='Check your visa'", "FAILURE", null, null, null);
         });
         return "when_you_arrive_in_uk";
     }
@@ -126,7 +126,7 @@ public class VisaController {
             model.put("toTravelDisplayDate", parse(toDate, DateTimeUtils.DISPLAY_DATE_TIME_PATTERN));
             audit("action='Travel to the UK'", "SUCCESS", visaRecord.get());
         }, () -> {
-            auditService.audit("action='Check your visa'", "FAILURE");
+            auditService.auditForPublicUser("action='Check your visa'", "FAILURE", null, null, null);
             LOGGER.error("Unable to find a valid visa.");
         });
     }
