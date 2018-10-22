@@ -18,6 +18,7 @@ import static java.time.LocalDateTime.now;
 public class AuditService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditService.class);
+    public static final String PASSENGER = "PASSENGER";
 
     private final Jdbi dbi;
     private final Counter counter;
@@ -48,7 +49,7 @@ public class AuditService {
                       final String passengerName,
                       final String passengerEmail,
                       final String passengerPassportNumber) {
-        audit(action, result, passengerEmail,
+        audit(action, result, PASSENGER,
                 passengerName, passengerEmail, passengerPassportNumber);
     }
 
