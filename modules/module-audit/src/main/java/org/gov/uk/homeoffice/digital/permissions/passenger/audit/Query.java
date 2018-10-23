@@ -23,7 +23,7 @@ final class Query {
             + "(:name IS NULL OR :name = '' OR a.passenger_name ILIKE :name)"
             + " AND "
             + "(:emailAddress IS NULL OR :emailAddress = '' OR a.passenger_email = :emailAddress)"
-            + " ORDER BY a.date_time ASC";
+            + " ORDER BY a.date_time DESC";
 
 }
 
