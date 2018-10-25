@@ -18,6 +18,14 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <executions>
                     <execution>
@@ -193,7 +201,8 @@
                                 <passenger-it-db.host>localhost</passenger-it-db.host>
                                 <passenger-it-db.port>5532</passenger-it-db.port>
                             </environmentVariables>
-                            <systemPropertiesFile>${project.build.directory}/module-data-passenger-it-db-mapping</systemPropertiesFile>
+                            <systemPropertiesFile>${project.build.directory}/module-data-passenger-it-db-mapping
+                            </systemPropertiesFile>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -215,7 +224,9 @@
                                             <name>quay.io/ukhomeofficedigital/dq-postgres-docker</name>
                                             <alias>passenger-it-db</alias>
                                             <run>
-                                                <portPropertyFile>${project.build.directory}/module-data-passenger-it-db-mapping</portPropertyFile>
+                                                <portPropertyFile>
+                                                    ${project.build.directory}/module-data-passenger-it-db-mapping
+                                                </portPropertyFile>
                                                 <ports>
                                                     <port>5532:5432</port>
                                                 </ports>
