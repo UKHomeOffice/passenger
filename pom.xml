@@ -114,7 +114,7 @@
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
                         <useSystemClassLoader>false</useSystemClassLoader>
-                        <argLine>-Xmx3G -Xms3G</argLine>
+                        <argLine>-Xmx512m</argLine>
                         <forkCount>0</forkCount>
                     </configuration>
                 </plugin>
