@@ -116,7 +116,7 @@
                         <useSystemClassLoader>false</useSystemClassLoader>
                         <forkCount>3</forkCount>
                         <reuseForks>true</reuseForks>
-                        <argLine>-Xmx2G -Xms1G</argLine>
+                        <argLine>-Xmx2G -Xms2G</argLine>
                     </configuration>
                 </plugin>
                 <plugin>
