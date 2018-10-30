@@ -14,6 +14,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -84,7 +85,9 @@ public class AuditController {
         final List<Audit> audits = search(auditSearchForm.getEmailAddress(),
                 auditSearchForm.getPassportNumber(),
                 auditSearchForm.getName(),
-                auditSearchForm.getAdministratorOnlyEmail());
+                auditSearchForm.getAdministratorOnlyEmail(),
+                auditSearchForm.getFrom(),
+                auditSearchForm.getTo());
 
         // Update
         auditSearchForm.setAuditEntries(audits);
@@ -98,15 +101,17 @@ public class AuditController {
     private List<Audit> search(final String emailAddress,
                                      final String passportNumber,
                                      final String name,
-                                     final Boolean adminOnly) {
+                                     final Boolean adminOnly,
+                                     final LocalDate from,
+                                     final LocalDate to) {
         if (adminOnly) {
             return newArrayList(adminAuditSearch.findByQuery(emailAddress, null,
-                    passportNumber, name));
+                    passportNumber, name, from, to));
         }
         else {
             return Stream.concat(
-                    adminAuditSearch.findByQuery(null, emailAddress, passportNumber, name).stream(),
-                    publicAuditSearch.findByQuery(null, emailAddress, passportNumber, name).stream())
+                    adminAuditSearch.findByQuery(null, emailAddress, passportNumber, name, from, to).stream(),
+                    publicAuditSearch.findByQuery(null, emailAddress, passportNumber, name, from, to).stream())
                 .sorted(Comparator.comparing(Audit::getDateTime))
                 .collect(Collectors.toList());
         }

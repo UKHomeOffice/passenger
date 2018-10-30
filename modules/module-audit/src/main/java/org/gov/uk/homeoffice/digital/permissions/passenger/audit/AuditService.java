@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 import static java.time.LocalDateTime.now;
@@ -87,9 +88,11 @@ public class AuditService {
     public Collection<Audit> findByQuery(final String adminEmailAddress,
                                          final String passengerEmailAddress,
                                          final String passengerPassportNumber,
-                                         final String passengerName) {
+                                         final String passengerName,
+                                         final LocalDate from,
+                                         final LocalDate to) {
         return dbi.withHandle(new FindByQuery(adminEmailAddress, passengerEmailAddress,
-                passengerPassportNumber, passengerName));
+                passengerPassportNumber, passengerName, from, to.plusDays(1)));
     }
 
 }

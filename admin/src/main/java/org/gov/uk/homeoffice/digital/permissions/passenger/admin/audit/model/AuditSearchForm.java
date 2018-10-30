@@ -3,8 +3,10 @@ package org.gov.uk.homeoffice.digital.permissions.passenger.admin.audit.model;
 import com.google.common.base.Strings;
 import lombok.Data;
 import org.gov.uk.homeoffice.digital.permissions.passenger.audit.domain.Audit;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -20,6 +22,10 @@ public class AuditSearchForm implements Serializable {
     private String name;
     private List<Audit> auditEntries;
     private int currentPageNumber;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate from;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate to;
 
     public AuditSearchForm() {
         this.currentPageNumber = 1;
@@ -49,4 +55,11 @@ public class AuditSearchForm implements Serializable {
         return (auditEntries == null) ? 0 : (int) Math.ceil(auditEntries.size() / ITEMS_PER_PAGE);
     }
 
+    public LocalDate getFrom() {
+        return from;
+    }
+
+    public LocalDate getTo() {
+        return to;
+    }
 }

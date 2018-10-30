@@ -23,6 +23,8 @@ final class Query {
             + "(:name IS NULL OR :name = '' OR a.passenger_name ILIKE :name)"
             + " AND "
             + "(:emailAddress IS NULL OR :emailAddress = '' OR a.passenger_email = :emailAddress)"
+            + " AND date_time >= TO_TIMESTAMP(:from,'YYYY-MM-DD 00:00')"
+            + " AND date_time < TO_TIMESTAMP(:to, 'YYYY-MM-DD 00:00')"
             + " ORDER BY a.date_time DESC";
 
 }

@@ -28,6 +28,16 @@
                     <input type="text" th:field="*{name}" maxlength="254" class="form-control mx-sm-5" id="passengerName" aria-describedby="nameHelp" placeholder="Name">
                     <small id="nameHelp" class="form-text text-muted">This can be a full or partial name</small>
                 </div>
+                <div class="form-group">
+                    <label for="fromDate">From date</label>
+                    <input type="date" th:field="*{from}"  class="form-control mx-sm-5" id="from" aria-describedby="fromHelp" placeholder="from">
+                    <small id="fromHelp" class="form-text text-muted">Specify from date</small>
+                </div>
+                <div class="form-group">
+                    <label for="fromDate">To date</label>
+                    <input type="date" th:field="*{to}"  class="form-control mx-sm-5" id="to" aria-describedby="toHelp" placeholder="to">
+                    <small id="toHelp" class="form-text text-muted">Specify to date</small>
+                </div>
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
         </div>

@@ -8,6 +8,7 @@ import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 public interface AuditDAO {
@@ -41,6 +42,8 @@ public interface AuditDAO {
             @Bind("adminEmailAddress") String adminEmailAddress,
             @Bind("passportNumber") String passportNumber,
             @Bind("name") String passengerName,
-            @Bind("emailAddress") String passengerEmailAddress);
+            @Bind("emailAddress") String passengerEmailAddress,
+            @Bind("from") String from,
+            @Bind("to") String to);
 
 }
