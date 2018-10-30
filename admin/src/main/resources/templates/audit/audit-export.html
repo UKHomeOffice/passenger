@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+<head th:replace="layout/header::header"/>
+<body>
+<nav th:replace="layout/nav::nav"/>
+<div class="container">
+    <h3>Audit Export</h3>
+    <p class="lead">Select to and from dates to extract export data in CSV/Excel format.</p>
+    <form action="#" class="form" id="auditExportForm" method="POST" th:action="@{/audit-export}" th:object="${auditDateRangeForm}">
+        <div class="form-row">
+            <div class="col col-md-3">
+                <div class="form-group">
+                    <label for="startDate">Start date</label>
+                    <input type="date" class="form-control" id="startDate" placeholder="Start date" th:field="*{from}"/>
+                </div>
+            </div>
+            <div class="col col-md-3">
+                <div class="form-group">
+                    <label for="endDate">End date</label>
+                    <input type="date" class="form-control" id="endDate" placeholder="End date" th:field="*{to}"/>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Export</button>
+    </form>
+</div>
+</body>
+</html>

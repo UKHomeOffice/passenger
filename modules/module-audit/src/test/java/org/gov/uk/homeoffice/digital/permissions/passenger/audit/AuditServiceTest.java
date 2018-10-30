@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.time.LocalDate;
+
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -56,6 +58,16 @@ public class AuditServiceTest {
         underTest.findByAdminEmail(emailAddress);
 
         verify(mockJdbi).withHandle(new FindByAdminEmail(emailAddress));
+    }
+
+    @Test
+    public void shouldFindByDateRange() {
+        final LocalDate fromDate = LocalDate.of(2018, 10, 1);
+        final LocalDate toDate = LocalDate.of(2018, 10, 31);
+
+        underTest.findByDateRange(fromDate, toDate);
+
+        verify(mockJdbi).withHandle(new FindByDateRange(fromDate, toDate));
     }
 
 }

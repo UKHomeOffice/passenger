@@ -11,6 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Collection;
 
 import static java.time.LocalDateTime.now;
@@ -93,6 +95,10 @@ public class AuditService {
                                          final LocalDate to) {
         return dbi.withHandle(new FindByQuery(adminEmailAddress, passengerEmailAddress,
                 passengerPassportNumber, passengerName, from, to.plusDays(1)));
+    }
+
+    public Collection<Audit> findByDateRange(final LocalDate from, final LocalDate to) {
+        return dbi.withHandle(new FindByDateRange(from, to));
     }
 
 }

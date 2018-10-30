@@ -27,5 +27,7 @@ final class Query {
             + " AND date_time < TO_TIMESTAMP(:to, 'YYYY-MM-DD 00:00')"
             + " ORDER BY a.date_time DESC";
 
+
+    static final String SELECT_BY_DATE_RANGE = "SELECT * FROM audit a WHERE a.date_time BETWEEN :from AND :to";
 }
 

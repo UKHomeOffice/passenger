@@ -8,6 +8,7 @@ import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
+import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.util.Collection;
 
@@ -45,5 +46,9 @@ public interface AuditDAO {
             @Bind("emailAddress") String passengerEmailAddress,
             @Bind("from") String from,
             @Bind("to") String to);
+
+    @SqlQuery(Query.SELECT_BY_DATE_RANGE)
+    @RegisterRowMapper(AuditMapper.class)
+    Collection<Audit> selectByDateRange(@Bind("from") LocalDateTime from, @Bind("to") LocalDateTime to);
 
 }

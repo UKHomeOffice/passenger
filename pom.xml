@@ -71,7 +71,7 @@
         <opencsv.version>3.7</opencsv.version>
         <lombok.version>1.16.22</lombok.version>
 
-        <sonar.jacoco.reportPaths>${maven.multiModuleProjectDirectory}/target/jacoco.exec</sonar.jacoco.reportPaths>
+        <sonar.jacoco.reportPaths>/target/jacoco.exec</sonar.jacoco.reportPaths>
     </properties>
 
     <build>
@@ -134,8 +134,8 @@
                     <version>${jacoco-maven-plugin.version}</version>
                     <configuration>
                         <append>true</append>
-                        <destFile>${sonar.jacoco.reportPath}</destFile>
-                        <dataFile>${sonar.jacoco.reportPath}</dataFile>
+                        <destFile>${sonar.jacoco.reportPaths}</destFile>
+                        <dataFile>${sonar.jacoco.reportPaths}</dataFile>
                     </configuration>
                 </plugin>
             </plugins>
@@ -486,6 +486,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-maven-plugin.version}</version>
                 <reportSets>
                     <reportSet>
                         <reports>

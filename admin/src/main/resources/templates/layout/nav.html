@@ -1,23 +1,30 @@
 <!--  this is navigation -->
-<nav class="navbar navbar-inverse" th:fragment="nav" th:if="${authenticated}">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Passenger Administration</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li sec:authorize="hasRole('ADMIN')"><a href="/uploadParticipants">Upload participants</a></li>
-            <li sec:authorize="hasRole('ADMIN')"><a href="/participants">Participants</a></li>
-            <li sec:authorize="hasRole('ADMIN')"><a href="/loginattempts">Login attempts</a></li>
-            <li sec:authorize="hasRole('ADMIN')"><a href="/countries">Countries</a></li>
-            <li sec:authorize="hasRole('WICU') or hasRole('ADMIN')"><a href="/wicu">WICU</a></li>
-            <li sec:authorize="hasRole('ADMIN')"><a href="/audit?new=true">Audit</a></li>
-            <li sec:authorize="hasRole('ADMIN')" class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Rules Admin
-                <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <!--<li><a href="/content">Content Editor</a></li>-->
-                    <li><a href="/debug">Debug</a></li>
-                </ul>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="nav" th:if="${authenticated}">
+    <a class="navbar-brand" href="#">Passenger Administration</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a class="nav-link" href="/uploadParticipants">Upload participants</a></li>
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a class="nav-link" href="/participants">Participants</a></li>
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a class="nav-link" href="/loginattempts">Login attempts</a></li>
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a class="nav-link" href="/countries">Countries</a></li>
+            <li class="nav-item" sec:authorize="hasRole('WICU') or hasRole('ADMIN')"><a class="nav-link" href="/wicu">WICU</a></li>
+            <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Audit
+                    <span class="caret"></span></a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/audit?new=true">Audit Search</a>
+                    <a class="dropdown-item" href="/audit-export">Audit Export</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Rules Admin
+                    <span class="caret"></span></a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/debug">Debug</a>
+                </div>
             </li>
         </ul>
         <form style="position: absolute; display:inline; top: 8px; right: 8px;" th:action="@{/logout}" method="post">
