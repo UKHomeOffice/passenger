@@ -8,14 +8,15 @@
 <div class="container">
 
     <div class="starter-template">
-        <h3>Enter time as e.g. "29/11/2017 12:45" to see login attempts</h3>
+        <h3>Passenger Login Attempts</h3>
+        <h6>Enter time as e.g. "29/11/2017 12:45" to see login attempts</h6>
 
         <form method="GET" th:action="@{/loginattempts}" enctype="multipart/form-data">
             <label for="from">From</label> <input type="text" name="from" id="from"
                                                   th:value="${#temporals.format(now.minusDays(1), 'dd/MM/yyyy HH:mm')}"/>
             <label for="to">To</label> <input type="text" name="to" id="to"
                                               th:value="${#temporals.format(now, 'dd/MM/yyyy HH:mm')}"/>
-            <input type="submit" value="Submit"/>
+            <input type="submit" class="btn btn-primary" value="Submit"/>
         </form>
     </div>
 

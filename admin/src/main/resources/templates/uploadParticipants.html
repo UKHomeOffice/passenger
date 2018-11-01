@@ -11,13 +11,12 @@
         <h3>Upload participants data (<span th:text="${visaDataSource}" th:remove="tag" />)</h3>
         <h6 th:if="${emailEnabled} == true">Email service is <strong>ENABLED</strong> and emails will be sent to participants</h6>
         <h6 th:if="${emailEnabled} == false">Email service is <strong>DISABLED</strong> and emails will NOT be sent to participants</h6>
+
         <form method="POST" th:action="@{/uploadParticipants}" enctype="multipart/form-data">
             <input type="file" name="file"/><br/><br/>
-            <input type="submit" value="Submit"/>
+            <button type="submit" class="btn btn-primary">Upload</button>
         </form>
-
     </div>
-
 </div>
 <!-- /.container -->
 

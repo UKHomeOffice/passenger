@@ -1,86 +1,93 @@
 <!DOCTYPE HTML>
 <html>
-    <head th:replace="layout/header::header"/>
-    <body>
-        <nav th:replace="layout/nav::nav"/>
-
-        <div class="container">
-            <h3>Debug Business Rules</h3>
-            <p>Enter a passenger's passport number and date of birth and click 'Evaluate' to determine the matching business rules.</p>
-            <form action="#" class="form" id="selectPassenger" method="POST" th:action="@{/evaluatePassenger}" th:object="${passenger}">
-                <div class="form-group row">
-                    <div class="col-xs-3">
-                        <label for="passport_number">Passport Number</label>
-                        <input type="text" class="form-control" id="passport_number" th:field="*{passportNumber}" maxlength="9">
-                    </div>
+<head th:replace="layout/header::header"/>
+<body>
+<nav th:replace="layout/nav::nav"/>
+<div class="container">
+    <h3>Debug Business Rules</h3>
+    <h6>Enter a passenger's passport number and date of birth and click 'Evaluate' to determine the matching business rules.</h6>
+    <form action="#" class="form" id="selectPassenger" method="POST" th:action="@{/evaluatePassenger}" th:object="${passenger}">
+        <div class="form-row">
+            <div class="col col-md-2">
+                <div class="form-group">
+                    <label for="passport_number">Passport Number</label>
+                    <input type="text" class="form-control" id="passport_number" th:field="*{passportNumber}" maxlength="9">
                 </div>
-                <div class="form-group row">
-                    <div class="col-xs-1">
-                        <label for="day">Day</label>
-                        <input class="form-control" id="day" type="text" th:field="*{day}" maxlength="2" />
-                    </div>
-                    <div class="col-xs-1">
-                        <label for="month">Month</label>
-                        <input class="form-control" id="month" type="text" th:field="*{month}" maxlength="2" />
-                    </div>
-                    <div class="col-xs-1">
-                        <label for="year">Year</label>
-                        <input class="form-control" id="year" type="text" th:field="*{year}" maxlength="4" />
-                    </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col col-md-1">
+                <div class="form-group">
+                    <label for="day">Day</label>
+                    <input class="form-control" id="day" type="text" th:field="*{day}" maxlength="2" />
                 </div>
-                <input type="submit" value="Evaluate" class="btn btn-default" />
-            </form>
-
-        </div>
-
-        <div class="container" th:if="${error != null}">
-            <table class="error">
-                <tr>
-                    <th>Error</th>
-                </tr>
-                <tr>
-                    <td th:text="${error}"/>
-                </tr>
-            </table>
-        </div>
-
-        <div class="container" th:if="${record != null}">
-
-            <div class="page-header">
-                <h4>Passenger Data Rules</h4>
             </div>
-
-            <table class="table table-striped">
-                <tr>
-                    <th>Rule Name</th>
-                    <th>Display Content</th>
-                    <th>Enabled</th>
-                </tr>
-                <th:block th:each="tuple : ${record.getVisaRulesMapping()}">
-                    <tr>
-                        <td th:text="${tuple._1.rule}"></td>
-                        <td th:text="${tuple._2}"></td>
-                        <td th:text="${tuple._1.enabled}"></td>
-                    </tr>
-                </th:block>
-            </table>
-
-            <div class="page-header">
-                <h4>Matching Business Rules (without visa type filter)</h4>
+            <div class="col col-md-1">
+                <div class="form-group">
+                    <label for="month">Month</label>
+                    <input class="form-control" id="month" type="text" th:field="*{month}" maxlength="2" />
+                </div>
             </div>
-
-            <table class="table table-striped">
-                <tr>
-                    <th>Visa Type</th>
-                    <th>Rules</th>
-                </tr>
-                <th:block th:each="match : ${rules}">
-                    <tr>
-                        <td th:text="${match.getKey().name}"></td>
-                        <td th:text="${match.getValue()}"></td>
-                    </tr>
-                </th:block>
-            </table>
+            <div class="col col-md-1">
+                <div class="form-group">
+                    <label for="year">Year</label>
+                    <input class="form-control" id="year" type="text" th:field="*{year}" maxlength="4" />
+                </div>
+            </div>
         </div>
-    </body>
+        <input type="submit" value="Evaluate" class="btn btn-primary" />
+    </form>
+
+</div>
+
+<div class="container" th:if="${error != null}">
+    <table class="error">
+        <tr>
+            <th>Error</th>
+        </tr>
+        <tr>
+            <td th:text="${error}"/>
+        </tr>
+    </table>
+</div>
+
+<div class="container" th:if="${record != null}">
+
+    <div class="page-header">
+        <h4>Passenger Data Rules</h4>
+    </div>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Rule Name</th>
+            <th>Display Content</th>
+            <th>Enabled</th>
+        </tr>
+        <th:block th:each="tuple : ${record.getVisaRulesMapping()}">
+            <tr>
+                <td th:text="${tuple._1.rule}"></td>
+                <td th:text="${tuple._2}"></td>
+                <td th:text="${tuple._1.enabled}"></td>
+            </tr>
+        </th:block>
+    </table>
+
+    <div class="page-header">
+        <h4>Matching Business Rules (without visa type filter)</h4>
+    </div>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Visa Type</th>
+            <th>Rules</th>
+        </tr>
+        <th:block th:each="match : ${rules}">
+            <tr>
+                <td th:text="${match.getKey().name}"></td>
+                <td th:text="${match.getValue()}"></td>
+            </tr>
+        </th:block>
+    </table>
+</div>
+</body>
 </html>

@@ -5,7 +5,7 @@
 <nav th:replace="layout/nav::nav"/>
 <div class="container">
     <h3>Audit Export</h3>
-    <p class="lead">Select to and from dates to extract export data in CSV/Excel format.</p>
+    <h6>Select to and from dates to extract export data in CSV/Excel format.</h6>
     <form action="#" class="form" id="auditExportForm" method="POST" th:action="@{/audit-export}" th:object="${auditDateRangeForm}">
         <div class="form-row">
             <div class="col col-md-3">

@@ -1,3 +1,11 @@
+* {
+    font-size: 0.85rem;
+}
+
+nav {
+    margin-bottom: 0.75rem;
+}
+
 h1 {
     color: #0000FF;
 }
