@@ -26,6 +26,7 @@
                     <a class="dropdown-item" href="/debug">Debug</a>
                 </div>
             </li>
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a class="nav-link" href="/mi">MI</a></li>
         </ul>
         <form style="position: absolute; display:inline; top: 8px; right: 8px;" th:action="@{/logout}" method="post">
             <input class="btn btn-default" type="submit" value="Logout"/>
