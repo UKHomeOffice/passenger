@@ -7,6 +7,7 @@ import org.jdbi.v3.core.HandleCallback;
 import org.jdbi.v3.core.JdbiException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Objects;
@@ -32,14 +33,13 @@ public class FindByQuery implements HandleCallback<Collection<Audit>, JdbiExcept
         this.passengerEmailAddress = passengerEmailAddress;
         this.passengerPassportNumber = passengerPassportNumber;
         this.passengerName = Strings.isNullOrEmpty(passengerName) ? null : "%" + passengerName + "%";
-        this.from = from == null ? LocalDate.of(2000, 01, 01) : from;
-        this.to = to == null ? LocalDate.now().plusDays(1) : to;
+        this.from = from != null ? from : LocalDate.MIN ;
+        this.to = to != null ? to : LocalDate.MAX ;
     }
 
     @Override
     public Collection<Audit> withHandle(final Handle handle) throws JdbiException {
-        return handle.attach(AuditDAO.class).selectByQuery(adminEmailAddress, passengerPassportNumber,
-                passengerName, passengerEmailAddress, from.format(ISO_DATE), to.format(ISO_DATE));
+        return handle.attach(AuditDAO.class).selectByQuery(adminEmailAddress, passengerPassportNumber, passengerName, passengerEmailAddress, from, to);
     }
 
     @Override

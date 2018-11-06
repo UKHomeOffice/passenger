@@ -4,6 +4,7 @@ import org.jdbi.v3.core.Handle;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static org.mockito.Mockito.*;
@@ -26,7 +27,7 @@ public class FindByQueryTest {
         underTest.withHandle(mockHandle);
 
         verify(mockAuditDAO).selectByQuery(emailAddress, passportNumber, "%" + name + "%",
-                emailAddress,"2000-01-01", LocalDate.now().plusDays(1).format(DateTimeFormatter.ISO_DATE));
+                emailAddress, LocalDate.MIN, LocalDate.MAX);
     }
 
 }
