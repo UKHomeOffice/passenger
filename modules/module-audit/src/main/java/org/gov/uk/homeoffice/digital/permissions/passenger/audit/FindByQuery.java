@@ -7,12 +7,8 @@ import org.jdbi.v3.core.HandleCallback;
 import org.jdbi.v3.core.JdbiException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Objects;
-
-import static java.time.format.DateTimeFormatter.ISO_DATE;
 
 public class FindByQuery implements HandleCallback<Collection<Audit>, JdbiException> {
 

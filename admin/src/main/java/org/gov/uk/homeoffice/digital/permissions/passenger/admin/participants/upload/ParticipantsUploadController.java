@@ -32,7 +32,7 @@ public class ParticipantsUploadController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = {"/", "/uploadParticipants"}, method = GET)
+    @RequestMapping(value = {"/uploadParticipants"}, method = GET)
     public ModelAndView uploadParticipantsView() {
         return new ModelAndView("uploadParticipants",
                 Map.of("visaDataSource", visaDataSource, "emailEnabled", emailEnabled));
