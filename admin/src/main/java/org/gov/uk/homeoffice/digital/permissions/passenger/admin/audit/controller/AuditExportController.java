@@ -60,8 +60,8 @@ public class AuditExportController {
             @ModelAttribute(value="auditDateRangeForm") final AuditDateRangeForm dateRangeForm,
             final HttpServletResponse response) throws IOException {
 
-        final LocalDate fromDate = dateRangeForm.getFrom();
-        final LocalDate toDate = dateRangeForm.getTo();
+        final LocalDate fromDate = getFromDate(dateRangeForm.getFrom());
+        final LocalDate toDate = getToDate(dateRangeForm.getTo());
 
         LOGGER.debug("Exporting audit in range {} to {}", fromDate.toString(), toDate.toString());
 
@@ -80,6 +80,14 @@ public class AuditExportController {
         final CSVWriter csvWriter = new CSVWriter(response.getWriter());
         csvWriter.writeAll(toStringArray(audits));
         csvWriter.close();
+    }
+
+    private LocalDate getToDate(LocalDate to) {
+        return to != null ? to : LocalDate.MAX;
+    }
+
+    private LocalDate getFromDate(LocalDate from) {
+        return from != null ? from : LocalDate.MIN;
     }
 
     private static List<String[]> toStringArray(Collection<Audit> audits) {

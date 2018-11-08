@@ -94,7 +94,7 @@ public class AuditService {
                                          final LocalDate from,
                                          final LocalDate to) {
         return dbi.withHandle(new FindByQuery(adminEmailAddress, passengerEmailAddress,
-                passengerPassportNumber, passengerName, from, to.plusDays(1)));
+                passengerPassportNumber, passengerName, from, to));
     }
 
     public Collection<Audit> findByDateRange(final LocalDate from, final LocalDate to) {
