@@ -7,6 +7,7 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.utils.Tuple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,6 +32,7 @@ public class MiController {
         this.miService = miService;
     }
 
+    @PreAuthorize("hasRole('MI')")
     @GetMapping
     public ModelAndView GETmi() {
         final LocalDate now = LocalDate.now();
@@ -44,6 +46,7 @@ public class MiController {
         return POSTmi(model);
     }
 
+    @PreAuthorize("hasRole('MI')")
     @PostMapping
     public ModelAndView POSTmi(@ModelAttribute(value="miModel") final MiModel model) {
         model.setVisaStatusData(generateVisaStatusData(miService.visaCountByStatusForMonth(Month.of(model.getMonth()),

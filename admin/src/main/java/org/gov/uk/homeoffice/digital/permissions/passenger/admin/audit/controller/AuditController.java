@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -39,6 +40,7 @@ public class AuditController {
         this.publicAuditSearch = publicAuditSearch;
     }
 
+    @PreAuthorize("hasRole('AUDIT')")
     @GetMapping
     public ModelAndView GETaudit(@SessionAttribute(value="auditSearchForm", required = false) AuditSearchForm auditSearchForm,
                                  @RequestParam(name = "new", required = false) String newSearch,
@@ -70,6 +72,7 @@ public class AuditController {
                 auditSearchForm == null ? new AuditSearchForm() : auditSearchForm);
     }
 
+    @PreAuthorize("hasRole('AUDIT')")
     @PostMapping
     public ModelAndView POSTaudit(@ModelAttribute(value="auditSearchForm") final AuditSearchForm auditSearchForm) {
         LOGGER.debug("Calling search for email {}, passport number {} and name {}",

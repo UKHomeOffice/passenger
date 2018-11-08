@@ -11,7 +11,7 @@
             <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a class="nav-link" href="/loginattempts">Login attempts</a></li>
             <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a class="nav-link" href="/countries">Countries</a></li>
             <li class="nav-item" sec:authorize="hasRole('WICU') or hasRole('ADMIN')"><a class="nav-link" href="/wicu">WICU</a></li>
-            <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+            <li class="nav-item dropdown" sec:authorize="hasRole('AUDIT')">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Audit
                     <span class="caret"></span></a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -26,7 +26,7 @@
                     <a class="dropdown-item" href="/debug">Debug</a>
                 </div>
             </li>
-            <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a class="nav-link" href="/mi">MI</a></li>
+            <li class="nav-item" sec:authorize="hasRole('MI')"><a class="nav-link" href="/mi">MI</a></li>
         </ul>
         <form style="position: absolute; display:inline; top: 8px; right: 8px;" th:action="@{/logout}" method="post">
             <input class="btn btn-default" type="submit" value="Logout"/>
