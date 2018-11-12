@@ -23,12 +23,14 @@ public class NotifyServiceImpl implements NotifyService {
     private final String accountTemplateId;
     private final String adminTextTemplateId;
     private final String twoFactorTemplateId;
+    private final String technicalIssueTemplateId;
 
     public NotifyServiceImpl(String visaGrantedTemplateId,
                              String visaRevokedTemplateId,
                              String accountTemplateId,
                              String adminTextTemplateId,
                              String twoFactorTemplateId,
+                             String technicalIssueTemplateId,
                              NotificationClient notificationClient) {
         this.visaRevokedTemplateId = visaRevokedTemplateId;
         this.accountTemplateId = accountTemplateId;
@@ -36,6 +38,7 @@ public class NotifyServiceImpl implements NotifyService {
         this.notificationClient = notificationClient;
         this.twoFactorTemplateId = twoFactorTemplateId;
         this.visaGrantedTemplateId = visaGrantedTemplateId;
+        this.technicalIssueTemplateId = technicalIssueTemplateId;
     }
 
     @Override
@@ -59,6 +62,17 @@ public class NotifyServiceImpl implements NotifyService {
     @Override
     public Optional<SendEmailResponse> sendVisaRevokedEmail(String emailAddress, String fullName, String surName, String baseUrl) {
         return sendMail(emailAddress, map(tpl("FullName", fullName + " " + surName), tpl("VisaURL", baseUrl + "/login")), this.visaRevokedTemplateId);
+    }
+
+    @Override
+    public Optional<SendEmailResponse> sendTechnicalIssueEmail(final String emailAddress,
+                                                               final String name,
+                                                               final String passportNumber,
+                                                               final String issueDetail) {
+        return sendMail(emailAddress, map(
+                                        tpl("Name", name),
+                                        tpl("PassportNumber", passportNumber),
+                                        tpl("IssueDetail", issueDetail)), this.technicalIssueTemplateId);
     }
 
     @Override

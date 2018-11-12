@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{govuk_template}">
+<head>
+    <title>Technical Issue</title>
+    <script type="text/javascript" src="/js/validate/technical-issue.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <div class="govuk-error-summary" th:styleappend="${error == null} ? 'display:none' : ''" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary" id="error-summary">
+                <h2 class="govuk-error-summary__title" id="error-summary-title">
+                    There is a problem
+                </h2>
+                <div class="govuk-error-summary__body" id="error-list-body">
+                    <ul class="govuk-list govuk-error-summary__list" id="error-list">
+                    </ul>
+                </div>
+            </div>
+            <form th:action="@{/issue}" method="post" id="issue-form" th:object="${issueForm}">
+                <h1 class="govuk-heading-l">
+                    Contact us about a technical issue
+                </h1>
+                <div class="govuk-form-group" id="your-name-group">
+                    <label class="govuk-label" for="your-name">
+                        Your name
+                    </label>
+                    <span class="govuk-error-message" style="display: none;">Please enter your name</span>
+                    <input class="govuk-input govuk-input--width-10" th:field="*{name}" id="your-name" name="your-name" type="text" maxlength="255">
+                </div>
+                <div class="govuk-form-group" id="your-email-address-group">
+                    <label class="govuk-label" for="your-email-address">
+                        Your email address
+                    </label>
+                    <span class="govuk-error-message" style="display: none;">Please enter your email address</span>
+                    <input class="govuk-input govuk-input--width-10" th:field="*{emailAddress}" id="your-email-address" name="your-email-address" type="text" maxlength="255">
+                </div>
+                <div class="govuk-form-group" id="your-passport-number-group">
+                    <label class="govuk-label" for="your-passport-number">
+                        Your passport number
+                    </label>
+                    <span class="govuk-error-message" style="display: none;">Please enter your passport number</span>
+                    <input class="govuk-input govuk-input--width-10" th:field="*{passportNumber}" id="your-passport-number" name="your-passport-number" type="text" maxlength="9">
+                </div>
+                <div class="govuk-form-group" id="issue-detail-group">
+                    <label class="govuk-label" for="issue-detail">
+                        Give a detailed description of your issue
+                    </label>
+                    <span id="issue-detail-hint" class="govuk-hint">
+                        Include what you were doing when the problem happened and any error messages or security codes
+                    </span>
+                    <textarea class="govuk-textarea" th:field="*{issueDetail}" id="issue-detail" name="issue-detail" rows="5" aria-describedby="issue-detail-hint"></textarea>
+                </div>
+                <button type="submit" class="govuk-button" id="issueSubmit">
+                    Send form
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

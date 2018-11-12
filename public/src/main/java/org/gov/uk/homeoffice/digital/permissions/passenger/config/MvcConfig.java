@@ -52,8 +52,15 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
                                       @Value("${email.templates.account}") String accountTemplateId,
                                       @Value("${phone.templates.admin}") String adminTextTemplateId,
                                       @Value("${sms.templates.twofactor}") String twoFactorTemplateId,
-                                      NotificationClient notificationClient) {
-        return new NotifyServiceImpl(participantEmailTemplateId, visaRevokedTemplateId, accountTemplateId, adminTextTemplateId, twoFactorTemplateId, notificationClient);
+                                      @Value("${email.templates.issue}") String technicalIssueTemplateId,
+                                      final NotificationClient notificationClient) {
+        return new NotifyServiceImpl(participantEmailTemplateId,
+                visaRevokedTemplateId,
+                accountTemplateId,
+                adminTextTemplateId,
+                twoFactorTemplateId,
+                technicalIssueTemplateId,
+                notificationClient);
     }
 
     @Bean

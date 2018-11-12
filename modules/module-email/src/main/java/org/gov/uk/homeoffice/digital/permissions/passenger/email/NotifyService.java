@@ -13,6 +13,8 @@ public interface NotifyService {
 
     Optional<SendEmailResponse> sendVisaRevokedEmail(String emailAddress, String fullName, String surName, String baseUrl);
 
+    Optional<SendEmailResponse> sendTechnicalIssueEmail(String emailAddress, String name, String passportNumber, String issueDetail);
+
     Optional<SendSmsResponse> sendAdminText(String phone, String number);
 
     Optional<SendSmsResponse> sendTwoFactorSMS(String phoneNumber, String code);
