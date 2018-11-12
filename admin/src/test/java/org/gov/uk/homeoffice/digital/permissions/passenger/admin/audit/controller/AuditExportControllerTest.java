@@ -11,6 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -35,11 +36,13 @@ public class AuditExportControllerTest {
 
     private AuditService mockAdminAuditService;
     private AuditService mockPublicAuditService;
+    private BindingResult mockBindingResult;
 
     @Before
     public void before() {
         mockAdminAuditService = mock(AuditService.class);
         mockPublicAuditService = mock(AuditService.class);
+        mockBindingResult = mock(BindingResult.class);
 
         ReflectionTestUtils.setField(underTest, "adminAuditSearch", mockAdminAuditService);
         ReflectionTestUtils.setField(underTest, "publicAuditSearch", mockPublicAuditService);
@@ -71,8 +74,9 @@ public class AuditExportControllerTest {
         when(mockAdminAuditService.findByDateRange(from, to)).thenReturn(List.of(audit1));
         when(mockPublicAuditService.findByDateRange(from, to)).thenReturn(List.of(audit2));
         when(mockResponse.getWriter()).thenReturn(mockWriter);
+        when(mockBindingResult.hasErrors()).thenReturn(false);
 
-        underTest.POSTauditExport(form, mockResponse);
+        underTest.POSTauditExport(form,  mockBindingResult, null, mockResponse);
 
         verify(mockResponse).setContentType("text/csv");
         verify(mockResponse).setHeader(HttpHeaders.CONTENT_DISPOSITION,

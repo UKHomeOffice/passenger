@@ -11,13 +11,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -56,9 +59,15 @@ public class AuditExportController {
 
     @PreAuthorize("hasRole('AUDIT')")
     @PostMapping
-    public void POSTauditExport(
-            @ModelAttribute(value="auditDateRangeForm") final AuditDateRangeForm dateRangeForm,
+    public String POSTauditExport(
+            @Valid @ModelAttribute(value="auditDateRangeForm") final AuditDateRangeForm dateRangeForm,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes,
             final HttpServletResponse response) throws IOException {
+
+        if(bindingResult.hasErrors()){
+            return "redirect:/audit-export";
+        }
 
         final LocalDate fromDate = getFromDate(dateRangeForm.getFrom());
         final LocalDate toDate = getToDate(dateRangeForm.getTo());
@@ -80,6 +89,7 @@ public class AuditExportController {
         final CSVWriter csvWriter = new CSVWriter(response.getWriter());
         csvWriter.writeAll(toStringArray(audits));
         csvWriter.close();
+        return "redirect:/audit-export";
     }
 
     private LocalDate getToDate(LocalDate to) {
