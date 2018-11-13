@@ -11,13 +11,15 @@
             <div class="col col-md-3">
                 <div class="form-group">
                     <label for="startDate">Start date</label>
-                    <input type="date" class="form-control" id="startDate" placeholder="Start date" th:field="*{from}"/>
+                    <input type="date" class="form-control" id="startDate" placeholder="Start date" th:field="*{from}" aria-describedby="fromHelp"/>
+                    <small id="fromHelp" class="form-text text-muted">Specify start date</small>
                 </div>
             </div>
             <div class="col col-md-3">
                 <div class="form-group">
                     <label for="endDate">End date</label>
-                    <input type="date" class="form-control" id="endDate" placeholder="End date" th:field="*{to}"/>
+                    <input type="date" class="form-control" id="endDate" placeholder="End date" th:field="*{to}" aria-describedby="toHelp"/>
+                    <small id="toHelp" class="form-text text-muted">Specify end date</small>
                 </div>
             </div>
         </div>
