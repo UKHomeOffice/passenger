@@ -8,10 +8,10 @@
             <h3>Audit History Search</h3>
         </div>
         <div class="row" th:if="${auditSearchForm.auditEntries == null or auditSearchForm.auditEntries.isEmpty()}">
-            <form action="#" class="form" id="auditSearchForm" method="POST" th:action="@{/audit}" th:object="${auditSearchForm}">
+            <form action="#" autocomplete="off" class="form" id="auditSearchForm" method="POST" th:action="@{/audit}" th:object="${auditSearchForm}">
                 <div class="form-group">
                     <label for="emailAddress">Email address</label>
-                    <input type="email" th:field="*{emailAddress}" class="form-control" maxlength="254" id="emailAddress" aria-describedby="emailHelp" placeholder="Enter email">
+                    <input type="email" th:field="*{emailAddress}" class="form-control" maxlength="254" id="emailAddress" aria-describedby="emailHelp" placeholder="Enter email" autocomplete="off">
                     <small id="emailHelp" class="form-text text-muted">This can be either the administrator or passenger email address.</small>
                 </div>
                 <div class="form-group form-check">
@@ -20,21 +20,21 @@
                 </div>
                 <div class="form-group">
                     <label for="passengerPassportNumber">Passenger Passport Number</label>
-                    <input type="text" th:field="*{passportNumber}" maxlength="9" class="form-control" id="passengerPassportNumber" placeholder="Passport number">
+                    <input type="text" th:field="*{passportNumber}" maxlength="9" class="form-control" id="passengerPassportNumber" placeholder="Passport number" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="passengerName">Passenger Name</label>
-                    <input type="text" th:field="*{name}" maxlength="254" class="form-control" id="passengerName" aria-describedby="nameHelp" placeholder="Name">
+                    <input type="text" th:field="*{name}" maxlength="254" class="form-control" id="passengerName" aria-describedby="nameHelp" placeholder="Name" autocomplete="off">
                     <small id="nameHelp" class="form-text text-muted">This can be a full or partial name</small>
                 </div>
                 <div class="form-group">
                     <label for="from">From date</label>
-                    <input type="date" th:field="*{from}"  class="form-control" id="from" aria-describedby="fromHelp" placeholder="from">
+                    <input type="date" th:field="*{from}"  class="form-control" id="from" aria-describedby="fromHelp" placeholder="from" autocomplete="off">
                     <small id="fromHelp" class="form-text text-muted">Specify from date</small>
                 </div>
                 <div class="form-group">
                     <label for="to">To date</label>
-                    <input type="date" th:field="*{to}"  class="form-control" id="to" aria-describedby="toHelp" placeholder="to">
+                    <input type="date" th:field="*{to}"  class="form-control" id="to" aria-describedby="toHelp" placeholder="to" autocomplete="off">
                     <small id="toHelp" class="form-text text-muted">Specify to date</small>
                 </div>
                 <button type="submit" class="btn btn-primary">Search</button>
