@@ -9,11 +9,16 @@ import java.time.LocalDate;
 @Data
 public class AuditDateRangeForm {
 
-    @NotNull(message = "From date must not be null")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate from;
-    @NotNull(message = "To date must not be null")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate to;
+
+    public boolean isValid(){
+        if(from != null && to != null){
+            return true;
+        }
+        return false;
+    }
 
 }

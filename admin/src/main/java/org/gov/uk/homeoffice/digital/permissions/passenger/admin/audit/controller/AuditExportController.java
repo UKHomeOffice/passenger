@@ -59,15 +59,9 @@ public class AuditExportController {
 
     @PreAuthorize("hasRole('AUDIT')")
     @PostMapping
-    public String POSTauditExport(
-            @Valid @ModelAttribute(value="auditDateRangeForm") final AuditDateRangeForm dateRangeForm,
-            BindingResult bindingResult,
+    public String POSTauditExport(@ModelAttribute(value="auditDateRangeForm") final AuditDateRangeForm dateRangeForm,
             RedirectAttributes redirectAttributes,
             final HttpServletResponse response) throws IOException {
-
-        if(bindingResult.hasErrors()){
-            return "redirect:/audit-export";
-        }
 
         final LocalDate fromDate = getFromDate(dateRangeForm.getFrom());
         final LocalDate toDate = getToDate(dateRangeForm.getTo());
