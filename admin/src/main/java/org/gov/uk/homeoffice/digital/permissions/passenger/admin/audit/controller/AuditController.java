@@ -116,7 +116,7 @@ public class AuditController {
             return Stream.concat(
                     adminAuditSearch.findByQuery(null, emailAddress, passportNumber, name, from, to).stream(),
                     publicAuditSearch.findByQuery(null, emailAddress, passportNumber, name, from, to).stream())
-                .sorted(Comparator.comparing(Audit::getDateTime))
+                .sorted(Comparator.comparing(Audit::getDateTime).reversed())
                 .collect(Collectors.toList());
         }
     }
