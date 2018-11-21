@@ -9,7 +9,5 @@ for eachfile in /app/*.crt
         cat $eachfile|base64 -d > $DECODED && keytool -import -noprompt -trustcacerts -file $DECODED -alias $NAME -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit && echo "done importing $eachfile"
     done
 
-chown root:root $JAVA_HOME/lib/security/cacerts && chmod 0644 $JAVA_HOME/lib/security/cacerts
-
 rm  /app/*.crt
 rm  /app/import-cacerts.sh
