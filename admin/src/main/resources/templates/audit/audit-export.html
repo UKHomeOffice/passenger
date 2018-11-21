@@ -1,18 +1,47 @@
 <!DOCTYPE HTML>
 <html>
 <head th:replace="layout/header::header"/>
+<head>
+    <script>
+        function validateForm() {
+            var startDate = document.forms["auditExportForm"]["startDate"].value;
+            var endDate = document.forms["auditExportForm"]["endDate"].value;
+
+            var el = document.getElementById('startDateError');
+            el.setAttribute('style', 'display:none');
+
+            var el = document.getElementById('endDateError');
+            el.setAttribute('style', 'display:none');
+
+            if(startDate == "" || endDate == ""){
+                if (startDate == "") {
+                    var el = document.getElementById('startDateError');
+                    el.setAttribute('style', '');
+                }
+                if (endDate == "") {
+                    var el = document.getElementById('endDateError');
+                    el.setAttribute('style', '');
+                }
+                return false;
+            }
+        }
+    </script>
+</head>
 <body>
 <nav th:replace="layout/nav::nav"/>
 <div class="container">
     <h3>Audit Export</h3>
     <h6>Select to and from dates to extract export data in CSV/Excel format.</h6>
-    <form action="#" class="form" id="auditExportForm" method="POST" th:action="@{/audit-export}" th:object="${auditDateRangeForm}">
+    <form action="#" class="form" id="auditExportForm" method="POST" th:action="@{/audit-export}" th:object="${auditDateRangeForm}" onsubmit="return validateForm()">
         <div class="form-row">
             <div class="col col-md-3">
                 <div class="form-group">
                     <label for="startDate">Start date</label>
                     <input type="date" class="form-control" id="startDate" placeholder="Start date" th:field="*{from}" aria-describedby="fromHelp"/>
                     <small id="fromHelp" class="form-text text-muted">Specify start date</small>
+                </div>
+                <div id="startDateError" th:styleappend="${startDateError == null} ? 'display:none':''">
+                    <div style="color: red">Please enter start date</div>
                 </div>
             </div>
             <div class="col col-md-3">
@@ -21,9 +50,13 @@
                     <input type="date" class="form-control" id="endDate" placeholder="End date" th:field="*{to}" aria-describedby="toHelp"/>
                     <small id="toHelp" class="form-text text-muted">Specify end date</small>
                 </div>
+                <div id="endDateError" th:styleappend="${endDateError == null} ? 'display:none':''">
+                    <div style="color: red">Please enter end date</div>
+                </div>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Export</button>
+
     </form>
 </div>
 </body>
