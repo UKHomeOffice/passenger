@@ -52,6 +52,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
                                       @Value("${email.templates.account}") String accountTemplateId,
                                       @Value("${phone.templates.admin}") String adminTextTemplateId,
                                       @Value("${sms.templates.twofactor}") String twoFactorTemplateId,
+                                      @Value("${email.address}") String monitoredEmailAddress,
                                       @Value("${email.templates.issue}") String technicalIssueTemplateId,
                                       final NotificationClient notificationClient) {
         return new NotifyServiceImpl(participantEmailTemplateId,
@@ -60,6 +61,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
                 adminTextTemplateId,
                 twoFactorTemplateId,
                 technicalIssueTemplateId,
+                monitoredEmailAddress,
                 notificationClient);
     }
 
