@@ -7,6 +7,8 @@ import org.jdbi.v3.core.HandleCallback;
 import org.jdbi.v3.core.JdbiException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -16,10 +18,10 @@ public class FindByQuery implements HandleCallback<Collection<Audit>, JdbiExcept
     private String passengerEmailAddress;
     private String passengerPassportNumber;
     private String passengerName;
-    private LocalDate from;
-    private LocalDate to;
+    private LocalDateTime from;
+    private LocalDateTime to;
 
-    public FindByQuery(final String adminEmailAddress,
+    FindByQuery(final String adminEmailAddress,
                        final String passengerEmailAddress,
                        final String passengerPassportNumber,
                        final String passengerName,
@@ -29,13 +31,14 @@ public class FindByQuery implements HandleCallback<Collection<Audit>, JdbiExcept
         this.passengerEmailAddress = passengerEmailAddress;
         this.passengerPassportNumber = passengerPassportNumber;
         this.passengerName = Strings.isNullOrEmpty(passengerName) ? null : "%" + passengerName + "%";
-        this.from = from != null ? from : LocalDate.MIN ;
-        this.to = to != null ? to : LocalDate.MAX ;
+        this.from = (from != null) ? LocalDateTime.of(from, LocalTime.MIN) : LocalDateTime.of(LocalDate.MIN, LocalTime.MIN);
+        this.to = (to != null) ? LocalDateTime.of(to, LocalTime.MAX) : LocalDateTime.of(LocalDate.MAX, LocalTime.MAX) ;
     }
 
     @Override
     public Collection<Audit> withHandle(final Handle handle) throws JdbiException {
-        return handle.attach(AuditDAO.class).selectByQuery(adminEmailAddress, passengerPassportNumber, passengerName, passengerEmailAddress, from, to);
+        return handle.attach(AuditDAO.class).selectByQuery(adminEmailAddress, passengerPassportNumber,
+                passengerName, passengerEmailAddress, from, to);
     }
 
     @Override

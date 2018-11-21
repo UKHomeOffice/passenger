@@ -44,8 +44,8 @@ public interface AuditDAO {
             @Bind("passportNumber") String passportNumber,
             @Bind("name") String passengerName,
             @Bind("emailAddress") String passengerEmailAddress,
-            @Bind("from") LocalDate from,
-            @Bind("to") LocalDate to);
+            @Bind("from") LocalDateTime from,
+            @Bind("to") LocalDateTime to);
 
     @SqlQuery(Query.SELECT_BY_DATE_RANGE)
     @RegisterRowMapper(AuditMapper.class)

@@ -24,6 +24,7 @@ public class NotifyServiceImpl implements NotifyService {
     private final String adminTextTemplateId;
     private final String twoFactorTemplateId;
     private final String technicalIssueTemplateId;
+    private final String monitoredEmailAddress;
 
     public NotifyServiceImpl(String visaGrantedTemplateId,
                              String visaRevokedTemplateId,
@@ -31,6 +32,7 @@ public class NotifyServiceImpl implements NotifyService {
                              String adminTextTemplateId,
                              String twoFactorTemplateId,
                              String technicalIssueTemplateId,
+                             String monitoredEmailAddress,
                              NotificationClient notificationClient) {
         this.visaRevokedTemplateId = visaRevokedTemplateId;
         this.accountTemplateId = accountTemplateId;
@@ -38,6 +40,7 @@ public class NotifyServiceImpl implements NotifyService {
         this.notificationClient = notificationClient;
         this.twoFactorTemplateId = twoFactorTemplateId;
         this.visaGrantedTemplateId = visaGrantedTemplateId;
+        this.monitoredEmailAddress = monitoredEmailAddress;
         this.technicalIssueTemplateId = technicalIssueTemplateId;
     }
 
@@ -69,9 +72,10 @@ public class NotifyServiceImpl implements NotifyService {
                                                                final String name,
                                                                final String passportNumber,
                                                                final String issueDetail) {
-        return sendMail(emailAddress, map(
+        return sendMail(monitoredEmailAddress, map(
                                         tpl("Name", name),
                                         tpl("PassportNumber", passportNumber),
+                                        tpl("UserEmail", emailAddress),
                                         tpl("IssueDetail", issueDetail)), this.technicalIssueTemplateId);
     }
 

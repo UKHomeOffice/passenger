@@ -25,10 +25,11 @@ public class MvcConfig implements WebMvcConfigurer {
                                       @Value("${email.templates.account}") String accountTemplateId,
                                       @Value("${phone.templates.admin}") String adminTextTemplateId,
                                       @Value("${sms.templates.twofactor}") String twoFactorTemplateId,
+                                      @Value("${email.address}") String monitoredEmailAddress,
                                       @Value("${email.templates.issue}") String technicalIssueTemplateId,
                                       NotificationClient notificationClient) {
         return new NotifyServiceImpl(participantEmailTemplateId, visaRevokedTemplateId, accountTemplateId,
-                adminTextTemplateId, twoFactorTemplateId, technicalIssueTemplateId, notificationClient);
+                adminTextTemplateId, twoFactorTemplateId, technicalIssueTemplateId, monitoredEmailAddress, notificationClient);
     }
 
     @Bean
@@ -43,7 +44,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Bean
     public Supplier<UUID> uuidSupplier() {
-        return () -> UUID.randomUUID();
+        return UUID::randomUUID;
     }
 
 }
