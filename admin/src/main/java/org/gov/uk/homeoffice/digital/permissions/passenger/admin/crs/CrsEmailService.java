@@ -24,8 +24,7 @@ public class CrsEmailService {
 
 
     public CrsEmailService(NotifyService notifyService,
-                           @Value("${emai" +
-                                   "l.enabled}") Boolean emailEnabled,
+                           @Value("${email.enabled}") Boolean emailEnabled,
                            @Value("${app.url}") String baseUrl,
                            CrsRecordRepository crsRecordRepository) {
         this.notifyService = notifyService;
