@@ -2,91 +2,97 @@
 <html>
 <head th:replace="layout/header::header"/>
 <body>
-    <nav th:replace="layout/nav::nav"/>
-    <div class="container">
-        <div class="row" th:if="${auditSearchForm.auditEntries == null or auditSearchForm.auditEntries.isEmpty()}">
-            <h3>Audit History Search</h3>
-        </div>
-        <div class="row" th:if="${auditSearchForm.auditEntries == null or auditSearchForm.auditEntries.isEmpty()}">
-            <form action="#" autocomplete="off" class="form" id="auditSearchForm" method="POST" th:action="@{/audit}" th:object="${auditSearchForm}">
-                <div class="form-group">
-                    <label for="emailAddress">Email address</label>
-                    <input type="email" th:field="*{emailAddress}" class="form-control" maxlength="254" id="emailAddress" aria-describedby="emailHelp" placeholder="Enter email" autocomplete="off">
-                    <small id="emailHelp" class="form-text text-muted">This can be either the administrator or passenger email address.</small>
-                </div>
-                <div class="form-group form-check">
-                    <input type="checkbox" th:field="*{administratorOnlyEmail}" class="form-check-input" id="adminCheck">
-                    <label class="form-check-label" for="adminCheck">Administrator email address only</label>
-                </div>
-                <div class="form-group">
-                    <label for="passengerPassportNumber">Passenger Passport Number</label>
-                    <input type="text" th:field="*{passportNumber}" maxlength="9" class="form-control" id="passengerPassportNumber" placeholder="Passport number" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="passengerName">Passenger Name</label>
-                    <input type="text" th:field="*{name}" maxlength="254" class="form-control" id="passengerName" aria-describedby="nameHelp" placeholder="Name" autocomplete="off">
-                    <small id="nameHelp" class="form-text text-muted">This can be a full or partial name</small>
-                </div>
-                <div class="form-group">
-                    <label for="from">From date</label>
-                    <input type="date" th:field="*{from}"  class="form-control" id="from" aria-describedby="fromHelp" placeholder="from" autocomplete="off">
-                    <small id="fromHelp" class="form-text text-muted">Specify from date</small>
-                </div>
-                <div class="form-group">
-                    <label for="to">To date</label>
-                    <input type="date" th:field="*{to}"  class="form-control" id="to" aria-describedby="toHelp" placeholder="to" autocomplete="off">
-                    <small id="toHelp" class="form-text text-muted">Specify to date</small>
-                </div>
-                <button type="submit" class="btn btn-primary">Search</button>
-            </form>
-        </div>
-        <div class="row" th:if="${auditSearchForm.auditEntries != null}">
-            <h3 th:text="${auditSearchForm.auditEntries.size() + ' search result(s)'}"></h3>
-        </div>
-        <div class="row" th:if="${auditSearchForm.auditEntries != null and not auditSearchForm.auditEntries.isEmpty()}">
-            <p><a th:href="@{${'/audit'}(new='true')}"><< Back to Search</a></p>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Date</th>
-                        <th scope="col">User</th>
-                        <th scope="col">Event</th>
-                        <th scope="col">Result</th>
-                        <th scope="col">Passenger Name</th>
-                        <th scope="col">Passenger Email</th>
-                        <th scope="col">Passenger Passport</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <th:block th:each="audit : ${auditSearchForm.getAudits()}">
-                    <tr>
-                        <th scope="row" th:text="${#temporals.format(audit.dateTime, 'dd-MM-yyyy HH:mm:ss')}"></th>
-                        <td th:text="${audit.userName}"></td>
-                        <td th:text="${audit.content}"></td>
-                        <td th:text="${audit.result}"></td>
-                        <td th:text="${audit.passengerName}"></td>
-                        <td th:text="${audit.passengerEmail}"></td>
-                        <td th:text="${audit.passengerPassportNumber}"></td>
-                    </tr>
-                    </th:block>
-                </tbody>
-            </table>
-        </div>
-        <div class="row" th:if="${auditSearchForm.getNumberOfPages() > 0}">
-            <nav aria-label="Page navigation">
-                <ul class="pagination" style="flex-wrap: wrap">
-                    <li class="page-item" th:classappend="${auditSearchForm.currentPageNumber == 1} ? disabled : ''">
-                        <a class="page-link" th:href="@{${'/audit'}(page='prev')}" tabindex="-1">Previous</a>
-                    </li>
-                    <li th:each="pageNumber : ${#numbers.sequence(1, auditSearchForm.getNumberOfPages())}" class="page-item" th:classappend="${auditSearchForm.currentPageNumber == pageNumber} ? active : ''">
-                        <a class="page-link" th:href="@{${'/audit'}(page=${pageNumber})}"><span th:text="${pageNumber}"></span></a>
-                    </li>
-                    <li class="page-item" th:classappend="${auditSearchForm.currentPageNumber == auditSearchForm.getNumberOfPages()} ? disabled : ''">
-                        <a class="page-link" th:href="@{${'/audit'}(page='next')}">Next</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+<nav th:replace="layout/nav::nav"/>
+<div class="container">
+    <div class="row" th:if="${auditSearchForm.auditEntries == null or auditSearchForm.auditEntries.isEmpty()}">
+        <h3>Audit History Search</h3>
     </div>
+    <div class="row" th:if="${auditSearchForm.auditEntries == null or auditSearchForm.auditEntries.isEmpty()}">
+        <form action="#" autocomplete="off" class="form" id="auditSearchForm" method="POST" th:action="@{/audit}" th:object="${auditSearchForm}">
+            <div class="form-group">
+                <label for="emailAddress">Email address</label>
+                <input type="email" th:field="*{emailAddress}" class="form-control" maxlength="254" id="emailAddress" aria-describedby="emailHelp" placeholder="Enter email" autocomplete="off">
+                <small id="emailHelp" class="form-text text-muted">This can be either the administrator or passenger email address.</small>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" th:field="*{administratorOnlyEmail}" class="form-check-input" id="adminCheck">
+                <label class="form-check-label" for="adminCheck">Administrator email address only</label>
+            </div>
+            <div class="form-group">
+                <label for="passengerPassportNumber">Passenger Passport Number</label>
+                <input type="text" th:field="*{passportNumber}" maxlength="9" class="form-control" id="passengerPassportNumber" placeholder="Passport number" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="passengerName">Passenger Name</label>
+                <input type="text" th:field="*{name}" maxlength="254" class="form-control" id="passengerName" aria-describedby="nameHelp" placeholder="Name" autocomplete="off">
+                <small id="nameHelp" class="form-text text-muted">This can be a full or partial name</small>
+            </div>
+            <div class="form-group">
+                <label for="from">From date</label>
+                <input type="date" th:field="*{from}"  class="form-control" id="from" aria-describedby="fromHelp" placeholder="from" autocomplete="off">
+                <small id="fromHelp" class="form-text text-muted">Specify from date</small>
+            </div>
+            <div class="form-group">
+                <label for="to">To date</label>
+                <input type="date" th:field="*{to}"  class="form-control" id="to" aria-describedby="toHelp" placeholder="to" autocomplete="off">
+                <small id="toHelp" class="form-text text-muted">Specify to date</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    <div class="row" th:if="${auditSearchForm.auditEntries != null}">
+        <h3 th:text="${auditSearchForm.auditEntries.size() + ' search result(s)'}"></h3>
+    </div>
+    <div class="row" th:if="${auditSearchForm.auditEntries != null and not auditSearchForm.auditEntries.isEmpty()}">
+        <p><a th:href="@{${'/audit'}(new='true')}"><< Back to Search</a></p>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">User</th>
+                <th scope="col">Event</th>
+                <th scope="col">Result</th>
+                <th scope="col">Passenger Name</th>
+                <th scope="col">Passenger Email</th>
+                <th scope="col">Passenger Passport</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="audit : ${auditSearchForm.getAudits()}">
+                <tr>
+                    <th scope="row" th:text="${#temporals.format(audit.dateTime, 'dd-MM-yyyy HH:mm:ss')}"></th>
+                    <td th:text="${audit.userName}"></td>
+                    <td th:text="${audit.content}"></td>
+                    <td th:text="${audit.result}"></td>
+                    <td th:text="${audit.passengerName}"></td>
+                    <td th:text="${audit.passengerEmail}"></td>
+                    <td th:text="${audit.passengerPassportNumber}"></td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+    <div class="row" th:if="${auditSearchForm.getNumberOfPages() > 0}">
+        <nav aria-label="Page navigation">
+            <ul id="pagination" class="pagination">
+                <li class="page-item" th:classappend="'first'">
+                    <a class="page-link" th:href="@{${'/audit'}(page='1')}" tabindex="-1">first</a>
+                </li>
+                <li class="page-item" th:classappend="'prev'">
+                    <a class="page-link" th:href="@{${'/audit'}(page='prev')}" tabindex="0">Previous</a>
+                </li>
+                <li th:each="pageNumber : ${#numbers.sequence(auditSearchForm.currentPageNumber + 10 > auditSearchForm.getNumberOfPages() ? auditSearchForm.getNumberOfPages() - 10 : auditSearchForm.currentPageNumber, auditSearchForm.currentPageNumber + 10 > auditSearchForm.getNumberOfPages() ? auditSearchForm.getNumberOfPages() : auditSearchForm.currentPageNumber + 10)}" class="page-item" th:classappend="${auditSearchForm.currentPageNumber == pageNumber} ? active : ''">
+                    <a class="page-link" th:href="@{${'/audit'}(page=${pageNumber})}"><span th:text="${pageNumber}"></span></a>
+                </li>
+                <li class="page-item" th:classappend="${auditSearchForm.currentPageNumber == auditSearchForm.getNumberOfPages()-1} ? next: ''">
+                    <a class="page-link" th:href="@{${'/audit'}(page='next')}">next</a>
+                </li>
+                <li class="page-item" th:classappend="${auditSearchForm.currentPageNumber == auditSearchForm.getNumberOfPages()} ? last: ''">
+                    <a class="page-link" th:href="@{${'/audit'}(page=${auditSearchForm.getNumberOfPages()})}">last</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
 </body>
 </html>
