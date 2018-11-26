@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +50,11 @@ public class CrsRecordRepositoryBean implements CrsRecordRepository {
     @Override
     public Collection<CrsRecord> getValidWithinRange(final LocalDate lowerLimit, final LocalDate upperLimit) {
         return jdbi.withHandle(new SelectValidWithinRange(lowerLimit, upperLimit));
+    }
+
+    @Override
+    public void deleteOlderThan(LocalDateTime dateTime) {
+        jdbi.useTransaction(new DeleteOlderThanAction(dateTime));
     }
 
 }

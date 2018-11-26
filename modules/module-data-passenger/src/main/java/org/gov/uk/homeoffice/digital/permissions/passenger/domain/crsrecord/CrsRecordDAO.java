@@ -9,6 +9,7 @@ import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +36,9 @@ public interface CrsRecordDAO {
 
     @SqlUpdate(Query.DELETE_CRS_RECORD)
     void delete(@Bind("id") Long id);
+
+    @SqlUpdate(Query.DELETE_CRS_RECORD_OLDER_THAN)
+    void deleteOlderThan(@Bind("dateTime") LocalDateTime dateTime);
 
     @SqlQuery(Query.SELECT_BY_PASSPORT_NUMBER_AND_DATE_OF_BIRTH)
     @RegisterRowMapper(CrsRecordMapper.class)

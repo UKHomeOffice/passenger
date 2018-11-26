@@ -130,6 +130,8 @@ public interface Query {
 
     String DELETE_CRS_RECORD = "DELETE FROM crs_record WHERE id = :id";
 
+    String DELETE_CRS_RECORD_OLDER_THAN = "DELETE FROM crs_record WHERE valid_from < :dateTime";
+
     String SELECT_VALID_WITHIN_RANGE = "SELECT * FROM crs_record WHERE valid_from BETWEEN :lowerLimitIncluded AND :upperLimitIncluded";
 
 }

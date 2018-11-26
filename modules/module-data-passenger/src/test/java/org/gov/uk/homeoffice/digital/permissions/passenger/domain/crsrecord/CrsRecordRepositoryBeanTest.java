@@ -1,10 +1,7 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord;
 
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.CrsRecord;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.action.SaveOrUpdateAction;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.action.SelectByIdAction;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.action.SelectByPassportNumber;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.action.SelectValidWithinRange;
+import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.action.*;
 import org.jdbi.v3.core.Jdbi;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.mockito.Mockito.verify;
 
@@ -63,4 +61,13 @@ public class CrsRecordRepositoryBeanTest {
 
         verify(mockJdbi).withHandle(new SelectByPassportNumber(passportNumber));
     }
+
+    @Test
+    public void deleteOlderThan() {
+        LocalDateTime now = LocalDateTime.now();
+        underTest.deleteOlderThan(now);
+        verify(mockJdbi).useTransaction(new DeleteOlderThanAction(now));
+    }
+
+
 }
