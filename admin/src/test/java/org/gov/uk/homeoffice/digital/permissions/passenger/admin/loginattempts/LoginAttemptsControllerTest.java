@@ -50,6 +50,17 @@ public class LoginAttemptsControllerTest {
 
     }
 
+    @Test
+    public void loginAttemptsWIthEmptyDates() {
+
+        HashMap<String, Object> model = new HashMap<>();
+
+        testObject.loginAttempts("", "", model);
+
+        verify(loginAttemptsService, times(0)).allLoginAttemptsBetween(parse(FROM, DATE_TIME_FORMATTER), parse(TO, DATE_TIME_FORMATTER));
+
+    }
+
 
     @Test
     public void loginAttemptsWhenUserHasMultipleLoginAttempts() {

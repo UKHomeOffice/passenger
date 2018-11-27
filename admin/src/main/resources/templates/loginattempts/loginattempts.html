@@ -13,9 +13,9 @@
 
         <form method="GET" th:action="@{/loginattempts}" enctype="multipart/form-data">
             <label for="from">From</label> <input type="text" name="from" id="from"
-                                                  th:value="${#temporals.format(now.minusDays(1), 'dd/MM/yyyy HH:mm')}"/>
+                                                  th:value="${#temporals.format(from, 'dd/MM/yyyy HH:mm')}"/>
             <label for="to">To</label> <input type="text" name="to" id="to"
-                                              th:value="${#temporals.format(now, 'dd/MM/yyyy HH:mm')}"/>
+                                              th:value="${#temporals.format(to, 'dd/MM/yyyy HH:mm')}"/>
             <input type="submit" class="btn btn-primary" value="Submit"/>
         </form>
     </div>
