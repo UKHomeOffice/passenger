@@ -1,83 +1,69 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.loginattempts;
 
+import org.gov.uk.homeoffice.digital.permissions.passenger.admin.loginattempts.controller.LoginAttemptsController;
+import org.gov.uk.homeoffice.digital.permissions.passenger.admin.loginattempts.model.LoginAttemptsDateRangeForm;
+import org.gov.uk.homeoffice.digital.permissions.passenger.admin.loginattempts.service.LoginAttemptsService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.LoginAttempt;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.List;
 
-import static java.time.LocalDateTime.parse;
-import static java.util.Collections.emptyList;
-import static org.gov.uk.homeoffice.digital.permissions.passenger.admin.loginattempts.LoginAttemptsController.DATE_FORMATTER;
-import static org.gov.uk.homeoffice.digital.permissions.passenger.admin.loginattempts.LoginAttemptsController.DATE_TIME_FORMATTER;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LoginAttemptsControllerTest {
 
-    public static final String FROM = "10/10/2017 00:00";
-    public static final String TO = "11/10/2017 00:00";
-    public static final String TO_DATE = "11/10/2017";
-
-
     @InjectMocks
-    LoginAttemptsController testObject;
+    private LoginAttemptsController testObject;
 
     @Mock
-    LoginAttemptsService loginAttemptsService;
-
+    private LoginAttemptsService loginAttemptsService;
 
     @Test
     public void loginAttempts() {
+        Model mockModel = mock(Model.class);
 
-        HashMap<String, Object> model = new HashMap<>();
+        LocalDate from = LocalDate.now().minus(10, ChronoUnit.DAYS);
+        LocalDate to = LocalDate.now();
 
-        testObject.loginAttempts(FROM, TO, model);
+        LoginAttemptsDateRangeForm form = new LoginAttemptsDateRangeForm();
+        form.setFrom(from);
+        form.setTo(to);
 
-        verify(loginAttemptsService, times(1)).allLoginAttemptsBetween(parse(FROM, DATE_TIME_FORMATTER), parse(TO, DATE_TIME_FORMATTER));
-        assertThat(((List) model.get("attempts")).size(), is(equalTo(0)));
+        testObject.POSTshowLoginAttempts(form, mockModel);
 
+        verify(loginAttemptsService, times(1)).allLoginAttemptsBetween(from.atTime(LocalTime.MIN), to.atTime(LocalTime.MAX));
     }
-
 
     @Test
     public void loginAttemptsWhenUserHasMultipleLoginAttempts() {
+
+        Model mockModel = mock(Model.class);
+
+        LocalDate from = LocalDate.now().minus(10, ChronoUnit.DAYS);
+        LocalDate to = LocalDate.now();
+
+        LoginAttemptsDateRangeForm form = new LoginAttemptsDateRangeForm();
+        form.setFrom(from);
+        form.setTo(to);
+
         List<LoginAttempt> loginAttempts = Arrays.asList(new LoginAttempt("passport", "1.2.3.4", LocalDateTime.now().minusDays(2), false));
 
-        when(loginAttemptsService.allLoginAttemptsBetween(parse(FROM, DATE_TIME_FORMATTER), parse(TO, DATE_TIME_FORMATTER))).thenReturn(loginAttempts);
+        when(loginAttemptsService.allLoginAttemptsBetween(from.atTime(LocalTime.MIN), to.atTime(LocalTime.MAX))).thenReturn(loginAttempts);
 
-        HashMap<String, Object> model = new HashMap<>();
+        testObject.POSTshowLoginAttempts(form, mockModel);
 
-        testObject.loginAttempts(FROM, TO, model);
-
-        assertThat(((List) model.get("attempts")).size(), is(equalTo(1)));
-
+        verify(mockModel).addAttribute("attempts", loginAttempts);
     }
-
-    @Test
-    public void loginAttemptsWhenUserHasMultipleLoginAttemptsWithDefaultTime() {
-        List<LoginAttempt> loginAttempts = Arrays.asList(new LoginAttempt("passport", "1.2.3.4", LocalDateTime.now().minusDays(2), false));
-
-        when(loginAttemptsService.allLoginAttemptsBetween(parse(FROM, DATE_TIME_FORMATTER), parse(TO, DATE_TIME_FORMATTER))).thenReturn(loginAttempts);
-
-        HashMap<String, Object> model = new HashMap<>();
-
-        testObject.loginAttempts(FROM, TO_DATE, model);
-
-        assertThat(((List) model.get("attempts")).size(), is(equalTo(1)));
-
-    }
-
 
 }

@@ -1,4 +1,4 @@
-package org.gov.uk.homeoffice.digital.permissions.passenger.admin.loginattempts;
+package org.gov.uk.homeoffice.digital.permissions.passenger.admin.loginattempts.service;
 
 import org.gov.uk.homeoffice.digital.permissions.passenger.audit.AuditService;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.LoginAttempt;

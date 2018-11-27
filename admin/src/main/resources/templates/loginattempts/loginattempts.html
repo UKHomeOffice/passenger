@@ -1,6 +1,30 @@
 <!DOCTYPE HTML>
 <html>
 <head th:replace="layout/header::header"/>
+<head>
+    <script>
+        function validateForm() {
+            const startDate = document.forms["loginAttemptsForm"]["startDate"].value;
+            const endDate = document.forms["loginAttemptsForm"]["endDate"].value;
+
+            let el = document.getElementById('startDateError');
+            let e2 = document.getElementById('endDateError');
+
+            el.setAttribute('style', 'display:none');
+            e2.setAttribute('style', 'display:none');
+
+            if(startDate === "" || endDate === ""){
+                if (startDate === "") {
+                    el.setAttribute('style', '');
+                }
+                if (endDate === "") {
+                    e2.setAttribute('style', '');
+                }
+                return false;
+            }
+        }
+    </script>
+</head>
 <body>
 
 <nav th:replace="layout/nav::nav"/>
@@ -9,14 +33,31 @@
 
     <div class="starter-template">
         <h3>Passenger Login Attempts</h3>
-        <h6>Enter time as e.g. "29/11/2017 12:45" to see login attempts</h6>
-
-        <form method="GET" th:action="@{/loginattempts}" enctype="multipart/form-data">
-            <label for="from">From</label> <input type="text" name="from" id="from"
-                                                  th:value="${#temporals.format(now.minusDays(1), 'dd/MM/yyyy HH:mm')}"/>
-            <label for="to">To</label> <input type="text" name="to" id="to"
-                                              th:value="${#temporals.format(now, 'dd/MM/yyyy HH:mm')}"/>
-            <input type="submit" class="btn btn-primary" value="Submit"/>
+        <h6>Select a date range to see the passenger login attempts</h6>
+        <form action="#" class="form" id="loginAttemptsForm" method="POST" th:action="@{/loginattempts}" th:object="${loginAttemptsDateRangeForm}" onsubmit="return validateForm();">
+            <div class="form-row">
+                <div class="col col-md-3">
+                    <div class="form-group">
+                        <label for="startDate">Start date</label>
+                        <input type="date" class="form-control" id="startDate" placeholder="Start date" th:field="*{from}" aria-describedby="fromHelp"/>
+                        <small id="fromHelp" class="form-text text-muted">Specify start date</small>
+                    </div>
+                    <div id="startDateError" th:styleappend="${startDateError == null} ? 'display:none':''">
+                        <div style="color: red">Please enter start date</div>
+                    </div>
+                </div>
+                <div class="col col-md-3">
+                    <div class="form-group">
+                        <label for="endDate">End date</label>
+                        <input type="date" class="form-control" id="endDate" placeholder="End date" th:field="*{to}" aria-describedby="toHelp"/>
+                        <small id="toHelp" class="form-text text-muted">Specify end date</small>
+                    </div>
+                    <div id="endDateError" th:styleappend="${endDateError == null} ? 'display:none':''">
+                        <div style="color: red">Please enter end date</div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
 
