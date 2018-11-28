@@ -69,8 +69,25 @@ public class AuditController {
             }
         }
 
+        setFromAndToPageNumbers(auditSearchForm);
+
         return new ModelAndView("audit/audit-search", "auditSearchForm",
                 auditSearchForm == null ? new AuditSearchForm() : auditSearchForm);
+    }
+
+    private void setFromAndToPageNumbers(AuditSearchForm auditSearchForm) {
+        final int numberOfPages = auditSearchForm.getNumberOfPages();
+        final int currentPageNumber = auditSearchForm.getCurrentPageNumber();
+        System.out.println(currentPageNumber);
+        if(currentPageNumber > 0 && currentPageNumber <= numberOfPages){
+            if(currentPageNumber >= 1 && currentPageNumber <= 10) {
+                auditSearchForm.setFromPageNumber(1);
+                auditSearchForm.setToPageNumber(10);
+            } else {
+                auditSearchForm.setFromPageNumber(currentPageNumber - 5);
+                auditSearchForm.setToPageNumber(currentPageNumber + 4 > numberOfPages ? numberOfPages : currentPageNumber + 4);
+            }
+        }
     }
 
     @PreAuthorize("hasRole('AUDIT')")

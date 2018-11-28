@@ -81,7 +81,7 @@
                 <li class="page-item" th:classappend="'prev'">
                     <a class="page-link" th:href="@{${'/audit'}(page='prev')}" tabindex="0">Previous</a>
                 </li>
-                <li th:each="pageNumber : ${#numbers.sequence(auditSearchForm.currentPageNumber + 10 > auditSearchForm.getNumberOfPages() ? auditSearchForm.getNumberOfPages() - 10 : auditSearchForm.currentPageNumber, auditSearchForm.currentPageNumber + 10 > auditSearchForm.getNumberOfPages() ? auditSearchForm.getNumberOfPages() : auditSearchForm.currentPageNumber + 10)}" class="page-item" th:classappend="${auditSearchForm.currentPageNumber == pageNumber} ? active : ''">
+                <li th:each="pageNumber : ${#numbers.sequence(auditSearchForm.fromPageNumber, auditSearchForm.toPageNumber)}" class="page-item" th:classappend="${auditSearchForm.currentPageNumber == pageNumber} ? active : ''">
                     <a class="page-link" th:href="@{${'/audit'}(page=${pageNumber})}"><span th:text="${pageNumber}"></span></a>
                 </li>
                 <li class="page-item" th:classappend="${auditSearchForm.currentPageNumber == auditSearchForm.getNumberOfPages()-1} ? next: ''">

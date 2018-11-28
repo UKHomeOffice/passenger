@@ -23,6 +23,9 @@ public class AuditSearchForm implements Serializable {
     private String name;
     private List<Audit> auditEntries;
     private int currentPageNumber;
+    private int fromPageNumber;
+    private int toPageNumber;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate from;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -63,4 +66,5 @@ public class AuditSearchForm implements Serializable {
     public LocalDate getTo() {
         return to;
     }
+
 }
