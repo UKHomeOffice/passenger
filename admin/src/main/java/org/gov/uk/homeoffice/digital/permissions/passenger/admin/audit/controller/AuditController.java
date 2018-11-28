@@ -83,7 +83,12 @@ public class AuditController {
         final int numberOfPages = auditSearchForm.getNumberOfPages();
         final int currentPageNumber = auditSearchForm.getCurrentPageNumber();
         if(currentPageNumber > 0 && currentPageNumber <= numberOfPages){
-            if(currentPageNumber >= 1 && currentPageNumber < 4) {
+            if(numberOfPages < 4){
+                auditSearchForm.setFromPageNumber(2);
+                auditSearchForm.setToPageNumber(numberOfPages);
+                auditSearchForm.setShowLeftLink(false);
+                auditSearchForm.setShowRightLink(false);
+            } else if(currentPageNumber >= 1 && currentPageNumber < 4) {
                 auditSearchForm.setFromPageNumber(2);
                 auditSearchForm.setToPageNumber(4);
                 auditSearchForm.setShowLeftLink(false);
