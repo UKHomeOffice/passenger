@@ -53,6 +53,13 @@ public class AuditController {
             auditSearchForm = new AuditSearchForm();
         }
 
+        setPageNumbers(auditSearchForm, pageNumber);
+
+        return new ModelAndView("audit/audit-search", "auditSearchForm",
+                auditSearchForm == null ? new AuditSearchForm() : auditSearchForm);
+    }
+
+    private void setPageNumbers(AuditSearchForm auditSearchForm, String pageNumber) {
         if (auditSearchForm != null) {
             if (pageNumber == null) {
                 pageNumber = "1";
@@ -70,9 +77,6 @@ public class AuditController {
         }
 
         setFromAndToPageNumbers(auditSearchForm);
-
-        return new ModelAndView("audit/audit-search", "auditSearchForm",
-                auditSearchForm == null ? new AuditSearchForm() : auditSearchForm);
     }
 
     private void setFromAndToPageNumbers(AuditSearchForm auditSearchForm) {
@@ -115,6 +119,8 @@ public class AuditController {
 
         // Store in session to allow pagination
         getSession().setAttribute("auditSearchForm", auditSearchForm);
+
+        setPageNumbers(auditSearchForm, null);
 
         return new ModelAndView("audit/audit-search", "auditSearchForm", auditSearchForm);
     }
