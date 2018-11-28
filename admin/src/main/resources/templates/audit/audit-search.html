@@ -75,20 +75,26 @@
     <div class="row" th:if="${auditSearchForm.getNumberOfPages() > 0}">
         <nav aria-label="Page navigation">
             <ul id="pagination" class="pagination">
-                <li class="page-item" th:classappend="'first'">
-                    <a class="page-link" th:href="@{${'/audit'}(page='1')}" tabindex="-1">first</a>
-                </li>
                 <li class="page-item" th:classappend="'prev'">
                     <a class="page-link" th:href="@{${'/audit'}(page='prev')}" tabindex="0">Previous</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{${'/audit'}(page='1')}">1</span></a>
+                </li>
+                <li class="page-item" th:styleappend="${auditSearchForm.showLeftLink()} ? '':'display:none'">
+                    <a class="page-link" href="#">...</span></a>
                 </li>
                 <li th:each="pageNumber : ${#numbers.sequence(auditSearchForm.fromPageNumber, auditSearchForm.toPageNumber)}" class="page-item" th:classappend="${auditSearchForm.currentPageNumber == pageNumber} ? active : ''">
                     <a class="page-link" th:href="@{${'/audit'}(page=${pageNumber})}"><span th:text="${pageNumber}"></span></a>
                 </li>
+                <li class="page-item" th:styleappend="${auditSearchForm.showRightLink()} ? '':'display:none'">
+                    <a class="page-link" href="#">...</span></a>
+                </li>
+                <li class="page-item" th:styleappend="${auditSearchForm.currentPageNumber + 4 > auditSearchForm.getNumberOfPages()} ? 'display:none':''">
+                    <a class="page-link" th:href="@{${'/audit'}(page=${auditSearchForm.getNumberOfPages()})}"><span th:text="${auditSearchForm.getNumberOfPages()}"></span></a>
+                </li>
                 <li class="page-item" th:classappend="${auditSearchForm.currentPageNumber == auditSearchForm.getNumberOfPages()-1} ? next: ''">
                     <a class="page-link" th:href="@{${'/audit'}(page='next')}">next</a>
-                </li>
-                <li class="page-item" th:classappend="${auditSearchForm.currentPageNumber == auditSearchForm.getNumberOfPages()} ? last: ''">
-                    <a class="page-link" th:href="@{${'/audit'}(page=${auditSearchForm.getNumberOfPages()})}">last</a>
                 </li>
             </ul>
         </nav>
