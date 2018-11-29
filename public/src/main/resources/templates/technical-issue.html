@@ -19,7 +19,7 @@
                     </ul>
                 </div>
             </div>
-            <form th:action="@{/issue}" method="post" id="issue-form" th:object="${issueForm}">
+            <form th:action="@{/issue}" method="post" id="issue-form" th:object="${issueForm}" autocomplete="off">
                 <h1 class="govuk-heading-l">
                     Contact us about a technical issue
                 </h1>
@@ -28,21 +28,21 @@
                         Your name
                     </label>
                     <span class="govuk-error-message" style="display: none;">Please enter your name</span>
-                    <input class="govuk-input govuk-input--width-10" th:field="*{name}" id="your-name" name="your-name" type="text" maxlength="255">
+                    <input class="govuk-input govuk-input--width-10" th:field="*{name}" id="your-name" name="your-name" type="text" maxlength="255" autocomplete="off">
                 </div>
                 <div class="govuk-form-group" id="your-email-address-group">
                     <label class="govuk-label" for="your-email-address">
                         Your email address
                     </label>
                     <span class="govuk-error-message" style="display: none;">Please enter your email address</span>
-                    <input class="govuk-input govuk-input--width-10" th:field="*{emailAddress}" id="your-email-address" name="your-email-address" type="text" maxlength="255">
+                    <input class="govuk-input govuk-input--width-10" th:field="*{emailAddress}" id="your-email-address" name="your-email-address" type="text" maxlength="255" autocomplete="off">
                 </div>
                 <div class="govuk-form-group" id="your-passport-number-group">
                     <label class="govuk-label" for="your-passport-number">
                         Your passport number
                     </label>
                     <span class="govuk-error-message" style="display: none;">Please enter your passport number</span>
-                    <input class="govuk-input govuk-input--width-10" th:field="*{passportNumber}" id="your-passport-number" name="your-passport-number" type="text" maxlength="9">
+                    <input class="govuk-input govuk-input--width-10" th:field="*{passportNumber}" id="your-passport-number" name="your-passport-number" type="text" maxlength="9" autocomplete="off">
                 </div>
                 <div class="govuk-form-group" id="issue-detail-group">
                     <label class="govuk-label" for="issue-detail">
