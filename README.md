@@ -442,7 +442,9 @@ This, together with the following snippet added to the app's ```deployment.yaml`
 allows  ```Kubernetes``` to successfully pull our images from ```Artifactory```.
 
 
+
 ## Still to be added: 
+
 - DNS registrations
 - Certificates
 
