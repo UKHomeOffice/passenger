@@ -78,11 +78,14 @@ public class CRSVisaRecordAdapter extends AbstractVisaRecordAdapter {
         visaRuleMappings.add(ruleFor(VisaRuleConstants.SPONSOR_ADDRESS, crsRecord.getSponsorAddress()));
         visaRuleMappings.add(ruleFor(VisaRuleConstants.PLACE_OF_ISSUE, crsRecord.getPostName()));
         visaRuleMappings.add(ruleFor(VisaRuleConstants.NUMBER_OF_ENTRIES, crsRecord.getEntryType()));
-        visaRuleMappings.add(ruleFor(VisaRuleConstants.GENDER, crsRecord.getGender().name()));
         visaRuleMappings.add(ruleFor(VisaRuleConstants.COS_NUMBER, crsRecord.getCosNo()));
         visaRuleMappings.add(ruleFor(VisaRuleConstants.MOBILE_NUMBER, crsRecord.getMobileNumber()));
         visaRuleMappings.add(ruleFor(VisaRuleConstants.EMAIL_ADDRESS, crsRecord.getEmailAddress()));
         visaRuleMappings.add(ruleFor(VisaRuleConstants.BRP_COLLECTION_INFO, crsRecord.getBrpCollectionInfo()));
+
+        if(crsRecord.getGender() != null){
+            visaRuleMappings.add(ruleFor(VisaRuleConstants.GENDER, crsRecord.getGender().name()));
+        }
 
         String catDEndorsements = crsRecord.getCatDEndors1() + crsRecord.getCatDEndors2();
 

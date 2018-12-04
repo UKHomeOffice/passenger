@@ -86,7 +86,21 @@ public class CrsFileParser {
         try {
             final CSVRecord csvRecord = CSVParser.parse(row, CSVFormat.DEFAULT).getRecords().get(0);
 
-            CrsRecord crsRecord = CrsRecord.builder()
+            final CrsRecord crsRecord =  getCrsRecord(fieldIndices, csvRecord);
+
+            if (enabledCountries.stream().noneMatch(c -> c.matches(crsRecord.getNationality())))
+                throw new Exception(String.format("Nationality %s is not currently supported.", crsRecord.getNationality()));
+
+            return tpl(of(crsRecord), empty());
+        } catch (Exception e) {
+            return new Tuple<>(empty(), of(new CrsParseErrors(row, Collections.singletonList(e.getMessage()))));
+        }
+    }
+
+    private CrsRecord getCrsRecord(Map<CrsField, List<Integer>> fieldIndices, CSVRecord csvRecord) {
+        CrsRecord build = null;
+        try {
+            build = CrsRecord.builder()
                     .id(null)
                     .gwfRef(fieldValue(fieldIndices, csvRecord, CrsField.GWF_REF, val -> val.get(0)))
                     .vafNo(fieldValue(fieldIndices, csvRecord, CrsField.VAF_NUMBER, val -> val.get(0)))
@@ -122,14 +136,11 @@ public class CrsFileParser {
                     .brpCollectionInfo(fieldValue(fieldIndices, csvRecord, CrsField.BRP_COLLECTION_INFORMATION, val -> val.get(0)))
                     .expectedTravelDate(fieldValue(fieldIndices, csvRecord, CrsField.EXPECTED_TRAVEL_DATE, val -> LocalDate.parse(val.get(0), DateTimeFormatter.ofPattern("dd/MM/yyyy"))))
                     .build();
-
-            if (enabledCountries.stream().noneMatch(c -> c.matches(crsRecord.getNationality())))
-                throw new Exception(String.format("Nationality %s is not currently supported.", crsRecord.getNationality()));
-
-            return tpl(of(crsRecord), empty());
-        } catch (Exception e) {
-            return new Tuple<>(empty(), of(new CrsParseErrors(row, Collections.singletonList(e.getMessage()))));
+        } catch (Exception e){
+            throw new RuntimeException(e);
         }
+
+        return build;
     }
 
     private <T> T fieldValue(Map<CrsField, List<Integer>> fieldIndices, CSVRecord csvRecord, CrsField field, Function<List<String>, T> mapper) {
