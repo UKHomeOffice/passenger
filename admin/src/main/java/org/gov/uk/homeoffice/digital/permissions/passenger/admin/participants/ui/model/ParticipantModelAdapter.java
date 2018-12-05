@@ -1,8 +1,12 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.admin.participants.ui.model;
 
+import org.apache.commons.lang3.StringUtils;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Participant;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.Visa;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptySet;
 import static java.util.Optional.ofNullable;
@@ -29,7 +33,7 @@ public class ParticipantModelAdapter {
                 ofNullable(visa).flatMap(val -> ofNullable(val.getValidFrom())).map(val -> parse(val, "d MMMM yyyy")).orElse(null),
                 ofNullable(visa).flatMap(val -> ofNullable(val.getValidTo())).map(val ->parse(val, "d MMMM yyyy")).orElse(null),
                 ofNullable(visa).map(Visa::getSpx).orElse(null),
-                ofNullable(visa).flatMap(val -> ofNullable(val.getCatDEndorsements())).map(val -> String.join("\n", visa.getCatDEndorsements())).orElse(""),
+                ofNullable(visa).flatMap(val -> ofNullable(val.getCatDEndorsements())).map(val -> concatenateString(visa)).orElse(""),
                 String.join(", ", ofNullable(participant.getEmailsSent()).orElse(emptySet())),
                 ofNullable(visa).map(Visa::getStatus).orElse(null),
                 ofNullable(visa).map(Visa::getAction).orElse(null),
@@ -40,6 +44,10 @@ public class ParticipantModelAdapter {
                 ofNullable(participant.getUpdated()).map(val -> parse(val, "dd MMMM yyyy HH:mm:ss")).orElse(null),
                 visa.getVisaEndorsement()
         );
+    }
+
+    private String concatenateString(Visa visa) {
+        return visa.getCatDEndorsements().stream().filter(s -> !StringUtils.isEmpty(s)).collect(Collectors.joining(","));
     }
 
 }
