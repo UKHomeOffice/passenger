@@ -109,7 +109,7 @@ public class CrsFileParser {
                     .postName(fieldValue(fieldIndices, csvRecord, CrsField.POST_NAME, val -> val.get((0))))
                     .familyName(fieldValue(fieldIndices, csvRecord, CrsField.FAMILY_NAME, val -> val.get(0)))
                     .otherName(fieldValue(fieldIndices, csvRecord, CrsField.OTHER_NAME, val -> val.get(0)))
-                    .gender(fieldValue(fieldIndices, csvRecord, CrsField.GENDER, val -> Gender.parse(val.get(0))))
+                    .gender(fieldValueWithDefault(fieldIndices, csvRecord, CrsField.GENDER, val -> Gender.parse(val.get(0)), Gender.UNKNOWN))
                     .dateOfBirth(fieldValue(fieldIndices, csvRecord, CrsField.DATE_OF_BIRTH, val -> LocalDate.parse(val.get(0), DateTimeFormatter.ofPattern("dd/MM/yyyy"))))
                     .nationality(fieldValue(fieldIndices, csvRecord, CrsField.NATIONALITY, val -> val.get(0)))
                     .passportNumber(fieldValue(fieldIndices, csvRecord, CrsField.PASSPORT_NUMBER, val -> val.get(0)))
@@ -141,6 +141,10 @@ public class CrsFileParser {
         }
 
         return build;
+    }
+
+    private <T> T fieldValueWithDefault(Map<CrsField, List<Integer>> fieldIndices, CSVRecord csvRecord, CrsField field, Function<List<String>, T> mapper, T defaultValue) {
+        return fieldValue(fieldIndices, csvRecord, field, mapper, defaultValue);
     }
 
     private <T> T fieldValue(Map<CrsField, List<Integer>> fieldIndices, CSVRecord csvRecord, CrsField field, Function<List<String>, T> mapper) {
