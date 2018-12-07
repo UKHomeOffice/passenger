@@ -10,8 +10,9 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form th:action="@{/visa/details}" method="post">
+                <span class="govuk-caption-l">Section 1 of 3</span>
                 <h1 class="govuk-heading-l">
-                    Check your visa details are correct
+                    Check your visa details
                     <span class="govuk-caption-xl govuk-visually-hidden"></span>
                 </h1>
                 <table id="user" class="govuk-table">
@@ -22,7 +23,10 @@
                         <td class="govuk-table__cell "><span th:text="${visa.name()}" th:remove="tag" /></td>
                     </tr>
                     <tr class="govuk-table__row" th:styleappend="${visa.isPassportNumber() == false} ? 'display:none':''">
-                        <th class="govuk-table__header" scope="row">Passport number</th>
+                        <th class="govuk-table__header" scope="row">
+                            Passport number
+                            <p class="govuk-body-s govuk-!-margin-0">linked to this visa</p>
+                        </th>
                         <td class="govuk-table__cell "><span th:text="${visa.passportNumber()}" th:remove="tag" /></td>
                     </tr>
                     <tr class="govuk-table__row" th:styleappend="${visa.isDateOfBirth() == false} ? 'display:none':''">
@@ -39,6 +43,12 @@
                 <table id="details" class="govuk-table">
                     <caption class="govuk-table__caption govuk-heading-m">Your visa details</caption>
                     <tbody class="govuk-table__body">
+                    <tr class="govuk-table__row" th:styleappend="${visa.status() == null} ? 'display:none':''">
+                        <th class="govuk-table__header" scope="row">Visa status</th>
+                        <td class="govuk-table__cell ">
+                            <strong class="govuk-tag"><span th:text="${visa.status()}" th:remove="tag" /></strong>
+                        </td>
+                    </tr>
                     <tr class="govuk-table__row" th:styleappend="${visa.isValidFrom() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row">Visa validity</th>
                         <td class="govuk-table__cell ">
@@ -51,9 +61,13 @@
                         <th class="govuk-table__header" scope="row">Visa type</th>
                         <td class="govuk-table__cell "><span th:text="${visa.visaType()}" th:remove="tag" /></td>
                     </tr>
-                    <tr class="govuk-table__row" th:styleappend="${visa.isCosNumber() == false} ? 'display:none':''">
-                        <th class="govuk-table__header" scope="row">COS (certificate of sponsorship) number</th>
-                        <td class="govuk-table__cell "><span th:text="${visa.cosNumber()}" th:remove="tag" /></td>
+                    <tr class="govuk-table__row" th:styleappend="${visa.isCasNumber() == false} ? 'display:none':''">
+                        <th class="govuk-table__header" scope="row">CAS (confirmation of acceptance for studies) number</th>
+                        <td class="govuk-table__cell "><span th:text="${visa.casNumber()}" th:remove="tag" /></td>
+                    </tr>
+                    <tr class="govuk-table__row" th:styleappend="${visa.isSPX() == false} ? 'display:none':''">
+                        <th class="govuk-table__header" scope="row">SPX (sponsor licence) number</th>
+                        <td class="govuk-table__cell "><span th:text="${visa.spxNumber()}" th:remove="tag" /></td>
                     </tr>
                     <tr class="govuk-table__row" th:styleappend="${visa.isSponsorName() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row">Sponsor name</th>
@@ -92,57 +106,16 @@
                     </tbody>
                 </table>
                 <div id="contact" class="govuk-form-group">
-                    <fieldset class="govuk-fieldset">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                            <h1 class="govuk-fieldset__heading">
-                                Are these details correct?
-                            </h1>
-                        </legend>
-                        <div class="govuk-radios" data-module="radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="check-details-1" name="checkDetails" value="yes" aria-controls="conditional-check-details-1" aria-expanded="false" type="radio">
-                                <label class="govuk-label govuk-radios__label" for="check-details-1">
-                                    Yes
-                                </label>
-                            </div>
-                            <div class="govuk-radios__conditional" id="conditional-check-details-1" aria-hidden="true">
-                                <div class="govuk-form-group">
-                                    <fieldset class="govuk-fieldset">
-                                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                            Do you want to share your visa details with a third party for example, your sponsor?
-                                        </legend>
-                                        <div class="govuk-radios">
-                                            <div class="govuk-radios__item">
-                                                <input class="govuk-radios__input" id="do-you-want-to-share-1" name="shareDetails" value="yes" type="radio">
-                                                <label class="govuk-label govuk-radios__label" for="do-you-want-to-share-1">
-                                                    Yes
-                                                </label>
-                                            </div>
-                                            <div class="govuk-radios__item">
-                                                <input class="govuk-radios__input" id="do-you-want-to-share-2" name="shareDetails" value="no" type="radio">
-                                                <label class="govuk-label govuk-radios__label" for="do-you-want-to-share-2">
-                                                    Not at this time
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                                <hr class="govuk-section-break govuk-section-break--m">
-                                <button type="submit" class="govuk-button">
-                                    Continue
-                                </button>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="check-details-2" name="checkDetails" value="no" aria-controls="conditional-check-details-2" aria-expanded="false" type="radio">
-                                <label class="govuk-label govuk-radios__label" for="check-details-2">
-                                    No
-                                </label>
-                            </div>
-                            <div class="govuk-radios__conditional" id="conditional-check-details-2" aria-hidden="true">
-                                <p class="govuk-body"><a href="https://www.gov.uk/contact-ukvi-inside-outside-uk">Tell UK Visas and Immigration about any changes</a>, for example if you get a new passport, or if any of your visa details are incorrect.</p>
-                            </div>
-                        </div>
-                    </fieldset>
+                    <hr class="govuk-section-break govuk-section-break--m">
+                    <h2 class="govuk-heading-m">
+                        Correct errors or make changes
+                    </h2>
+                    <p><a href="https://www.gov.uk/contact-ukvi-inside-outside-uk">Tell UK Visas and Immigration about any changes</a>, for example if you get a new passport, or if any of your visa details are incorrect.</p>
+                    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+                    <p><span class="govuk-!-font-weight-bold">Next:</span> When you can come to the UK.</p>
+                    <button type="submit" class="govuk-button">
+                        Continue
+                    </button>
                 </div>
             </form>
         </div>

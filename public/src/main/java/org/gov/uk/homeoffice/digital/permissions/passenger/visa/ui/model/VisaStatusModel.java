@@ -35,6 +35,15 @@ public class VisaStatusModel implements Serializable {
         this.typeRule = typeRule;
     }
 
+    public boolean isSPX() {
+        return show(SPX_NUMBER);
+    }
+
+    public boolean isCAS() {
+        return show(CAS_NUMBER);
+    }
+
+
     public boolean isExpired() {
         return isValidUntil() && fromDisplayDate(VALID_UNTIL).isBefore(LocalDate.now());
     }
@@ -249,6 +258,10 @@ public class VisaStatusModel implements Serializable {
 
     public String nationality() {
         return singleValueFor(NATIONALITY);
+    }
+
+    public String status() {
+        return record.getVisaStatus().name();
     }
 
     public String visaType() {
