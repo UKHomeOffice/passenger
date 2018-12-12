@@ -43,7 +43,7 @@ INSERT INTO visa_rule_content (id, rule, content, rule_type) VALUES (23, '20_HOU
 INSERT INTO visa_rule_content (id, rule, content, rule_type) VALUES (24, 'SPORTS', 'Play or coach professional sports.', 'NEGATIVE');
 INSERT INTO visa_rule_content (id, rule, content, rule_type) VALUES (25, 'SPORTS', 'Work as an entertainer.', 'NEGATIVE');
 INSERT INTO visa_rule_content (id, rule, content, rule_type) VALUES (26, 'BUSINESS', 'Engage in business activity, such as being self-employed or running a business.', 'NEGATIVE');
-INSERT INTO visa_rule_content (id, rule, content, rule_type) VALUES (27, 'DOCTOR', 'Work as a doctor or dentist in training.', 'NEGATIVE');
+INSERT INTO visa_rule_content (id, rule, content, rule_type) VALUES (27, 'DOCTOR', 'Work as a doctor or dentist in training – except on a recognised foundation course.', 'NEGATIVE');
 INSERT INTO visa_rule_content (id, rule, content, rule_type) VALUES (28, 'POLICE_REGISTRATION_NVN', 'You must register with the Police within 7 days of arrival.', 'USER_DATA');
 INSERT INTO visa_rule_content (id, rule, content, rule_type) VALUES (29, 'POLICE_REGISTRATION_VN', 'You must register with the Police within 7 days of arrival.', 'USER_DATA');
 
