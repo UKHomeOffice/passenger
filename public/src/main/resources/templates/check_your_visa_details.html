@@ -65,6 +65,10 @@
                         <th class="govuk-table__header" scope="row">CAS (confirmation of acceptance for studies) number</th>
                         <td class="govuk-table__cell "><span th:text="${visa.casNumber()}" th:remove="tag" /></td>
                     </tr>
+                    <tr class="govuk-table__row" th:styleappend="${visa.isCosNumber() == false} ? 'display:none':''">
+                        <th class="govuk-table__header" scope="row">COS (Certificate of sponsorship) number</th>
+                        <td class="govuk-table__cell "><span th:text="${visa.cosNumber()}" th:remove="tag" /></td>
+                    </tr>
                     <tr class="govuk-table__row" th:styleappend="${visa.isSPX() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row">SPX (sponsor licence) number</th>
                         <td class="govuk-table__cell "><span th:text="${visa.spxNumber()}" th:remove="tag" /></td>
