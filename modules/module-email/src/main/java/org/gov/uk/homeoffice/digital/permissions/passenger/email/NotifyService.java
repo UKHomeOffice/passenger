@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface NotifyService {
 
-    Optional<SendEmailResponse> sendVisaGrantedEmail(String emailAddress, String fullName, String surName, String baseUrl);
+    Optional<SendEmailResponse> sendVisaGrantedEmail(String gwfRef, String visaEndorsement, String emailAddress, String fullName, String surName, String baseUrl);
 
     Optional<SendEmailResponse>  sendAccountEmail(String email, String uuid, String selfUrl);
 

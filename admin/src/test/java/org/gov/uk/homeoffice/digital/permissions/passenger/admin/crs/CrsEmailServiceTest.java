@@ -52,6 +52,8 @@ public class CrsEmailServiceTest {
 
     private final CrsRecord aValidCrsRecord = crsRecordBuilder
             .status(VisaStatus.ISSUED)
+            .gwfRef("GWFRef")
+            .visaEndorsement("VisaType")
             .emailsSent(Set.of())
             .build();
 
@@ -91,7 +93,7 @@ public class CrsEmailServiceTest {
 
         crsEmailServiceWithEmailDisabled().sendVisaEmail(aValidCrsRecord);
 
-        verify(notifyService, never()).sendVisaGrantedEmail("emailAddress", "otherName", "familyName", "base-url");
+        verify(notifyService, never()).sendVisaGrantedEmail("GWFRef","VisaType","emailAddress", "otherName", "familyName", "base-url");
     }
 
     @Test
@@ -103,7 +105,7 @@ public class CrsEmailServiceTest {
 
         crsEmailServiceWithEmailEnabled().sendVisaEmail(aValidCrsRecord);
         
-        verify(notifyService).sendVisaGrantedEmail("emailAddress", "otherName", "familyName", baseUrl);
+        verify(notifyService).sendVisaGrantedEmail("GWFRef","VisaType","emailAddress", "otherName", "familyName", baseUrl);
         verify(notifyService, never()).sendVisaRevokedEmail(anyString(), anyString(), anyString(), anyString());
     }
 
@@ -115,7 +117,7 @@ public class CrsEmailServiceTest {
 
         crsEmailServiceWithEmailEnabled().sendVisaEmail(aValidCrsRecord);
 
-        verify(notifyService, never()).sendVisaGrantedEmail(anyString(), anyString(), anyString(), anyString());
+        verify(notifyService, never()).sendVisaGrantedEmail(anyString(), anyString(), anyString(), anyString(), anyString(), anyString());
         verify(notifyService, never()).sendVisaRevokedEmail(anyString(), anyString(), anyString(), anyString());
     }
 
@@ -128,7 +130,7 @@ public class CrsEmailServiceTest {
         crsEmailServiceWithEmailEnabled().sendVisaEmail(aRevokedCrsRecord);
 
         verify(notifyService).sendVisaRevokedEmail("emailAddress", "otherName", "familyName", baseUrl);
-        verify(notifyService, never()).sendVisaGrantedEmail(anyString(), anyString(), anyString(), anyString());
+        verify(notifyService, never()).sendVisaGrantedEmail(anyString(), anyString(),anyString(), anyString(), anyString(), anyString());
     }
 
     @Test
@@ -140,7 +142,7 @@ public class CrsEmailServiceTest {
         crsEmailServiceWithEmailEnabled().sendVisaEmail(aRevokedCrsRecord);
 
         verify(notifyService, never()).sendVisaRevokedEmail(anyString(), anyString(), anyString(), anyString());
-        verify(notifyService, never()).sendVisaGrantedEmail(anyString(), anyString(), anyString(), anyString());
+        verify(notifyService, never()).sendVisaGrantedEmail(anyString(), anyString(),anyString(), anyString(), anyString(), anyString());
     }
 
     private File aCrsFile() throws IOException {
