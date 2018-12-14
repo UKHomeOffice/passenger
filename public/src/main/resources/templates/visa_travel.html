@@ -5,21 +5,24 @@
 <head>
     <title>Travel Details</title>
 </head>
+<body>
+<a th:href="@{/visa/details}" class="govuk-back-link">Back</a>
 <div layout:fragment="content">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form th:action="@{/visa/arrive}" method="post">
+                <span class="govuk-caption-l">Section 2 of 3</span>
                 <h1 class="govuk-heading-l">
                     Travel to the UK
                     <span class="govuk-caption-xl govuk-visually-hidden"></span>
                 </h1>
 
                 <table class="govuk-table">
-                    <caption class="govuk-table__caption govuk-heading-m">Your travel dates</caption>
+                    <caption class="govuk-table__caption govuk-heading-m">You have 30 days to enter the UK after your visa starts</caption>
                     <thead class="govuk-table__head">
                     <tr class="govuk-table__row">
-                        <th class="govuk-table__header" scope="col">From</th>
-                        <th class="govuk-table__header" scope="col">To</th>
+                        <th class="govuk-table__header" scope="col">Enter From</th>
+                        <th class="govuk-table__header" scope="col">Until</th>
                     </tr>
                     </thead>
                     <tbody class="govuk-table__body">
@@ -30,20 +33,17 @@
                     </tbody>
                 </table>
                 <p class="govuk-inset-text">
-                    You must travel to the UK between these dates only. If you can’t travel between these dates you must <a href="https://www.visa4uk.fco.gov.uk/home/welcome">apply for a replacement 30-day visa</a> (called a 30-day vignette application).
+                    If you've booked to travel outside these dates, you should try to rearrange. If you cannot change your plans, you must <a href="https://www.visa4uk.fco.gov.uk/home/welcome">apply for a replacement 30-day visa</a>.
                 </p>
                 <h2 class="govuk-heading-m">
-                    About your visa
+                    Travelling with your visa
                 </h2>
-                <p class="govuk-body">Your visa is now paperless.  This means there won't be a visa sticker or vignette in your passport.  When you travel to the UK you'll need to take the passport you held when you applied for your visa.</p>
-                <h2 class="govuk-heading-m">
-                    At the airport
-                </h2>
-                <p class="govuk-body">Take your passport and all your travel documents with you. Show your documents when you travel to and from the UK.</p>
+                <p>You must use the passport you told us about in your visa application the first time you travel to the UK.</p>
+                <p>UK border officers will see your visa details when they scan your passport.</p>
                 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-                <p class="govuk-inset-text">
-                    On arrival into the UK there are important things you must do.
-                </p>
+
+                <p><span class="govuk-!-font-weight-bold">Next:</span> Collecting your biometric residence permit (<abbr title="biometric residence permit">BRP</abbr>).</p>
+
                 <button type="submit" class="govuk-button">
                     Continue
                 </button>
