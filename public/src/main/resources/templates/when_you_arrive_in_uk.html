@@ -11,31 +11,37 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="travel" method="post">
+                <span class="govuk-caption-l">Section 3 of 3</span>
                 <h1 class="govuk-heading-l">
                     When you arrive in the UK
                     <span class="govuk-caption-xl govuk-visually-hidden"></span>
                 </h1>
-                <p class="govuk-inset-text">
-                    The electronic version of your visa will expire 10 days after you arrive in the UK. You must collect your (<abbr title="biometric residence permit">BRP</abbr>) card before this happens.
-                </p>
                 <h2 class="govuk-heading-m">
                     Collect your biometric residence permit
                 </h2>
-                <p class="govuk-body">Collect your biometric residence permit (<abbr title="biometric residence permit">BRP</abbr>) card within 10 days of arriving in the UK.</p>
-                <p class="govuk-body">You can collect it from:</p>
+                <p class="govuk-body">You must collect your biometric residence permit (<abbr title="biometric residence permit">BRP</abbr>) card within 10 days of arriving in the UK. You'll need your passport.</p>
+                <p class="govuk-body">You're collecting your <abbr title="biometric residence permit">BRP</abbr> from:  </p>
                 <p class="govuk-body">
                     <span th:text="${address}" th:remove="tag" />
                 </p>
-                <p class="govuk-body">Your <abbr title="biometric residence permit">BRP</abbr> card proves your right to stay and work in the UK.</p>
-                <h2 class="govuk-heading-m">
+                <p class="govuk-body">Your our visa details will be printed on your <abbr title="biometric residence permit">BRP</abbr>.</p>
+
+                <h2 class="govuk-heading-m" th:styleappend="${policeRegistrationRequired == true} ? '':'display:none'">
                     Registering with the police
                 </h2>
-                <p class="govuk-body"><span th:text="${policeRegistrationMessage}" th:remove="tag" /></p>
-                <h2 class="govuk-heading-m">
-                    Share your visa details
+                <h2 class="govuk-heading-m" th:styleappend="${policeRegistrationRequired == false} ? '':'display:none'">
+                    Police registration not required
                 </h2>
-                <p class="govuk-body">You may need to <a href="/share">prove your right to live and work in the UK</a>. You can do this by giving someone permission to login and view your visa details.</p>
-                <hr class="govuk-section-break govuk-section-break--l">
+                <p class="govuk-body"><span th:text="${policeRegistrationMessage}" th:remove="tag" /></p>
+
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                <p><span class="govuk-!-font-weight-bold">Next:</span> Print summary and finish.</p>
+
+                <button type="submit" class="govuk-button">
+                    Continue
+                </button>
+
             </form>
         </div>
     </div>

@@ -34,8 +34,8 @@ public class VisaController {
 
     public static final int MAX_TRAVEL_DAYS = 30;
 
-    public static final String POLICE_REGISTERATION_REQUIRED = "Based on the details you provided in your visa application, you need to register with the police.";
-    public static final String POLICE_REGISTERATION_NOT_REQUIRED = "Based on the details you provided in your visa application, you do not need to register with the police.";
+    public static final String POLICE_REGISTERATION_REQUIRED = "Based on your visa application, you need to register with the police.";
+    public static final String POLICE_REGISTERATION_NOT_REQUIRED = "Based on your visa application, you do not need to register with the police.";
 
     private final VisaTypeService visaTypeService;
     private final VisaRecordService visaRecordService;
@@ -88,8 +88,10 @@ public class VisaController {
         {
             final Boolean policeRegistrationMessage = vr.getVisaRulesMapping().stream().anyMatch(filter -> filter.get_1().getRule().equals(VisaRuleConstants.POLICE_REGISTRATION_NVN) || filter.get_1().getRule().equals(VisaRuleConstants.POLICE_REGISTRATION_VN));
             if(policeRegistrationMessage){
+                model.put("policeRegistrationRequired", true);
                 model.put("policeRegistrationMessage", POLICE_REGISTERATION_REQUIRED);
             } else {
+                model.put("policeRegistrationRequired", false);
                 model.put("policeRegistrationMessage", POLICE_REGISTERATION_NOT_REQUIRED);
             }
             final String address = vr.getVisaRulesMapping().stream()
