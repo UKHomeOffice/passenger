@@ -37,6 +37,7 @@ public class VisaRecordAdapterTest {
         prepareMockFor("PLACE_OF_ISSUE", "place-of-issue");
         prepareMockFor("VALID_FROM", "01012010");
         prepareMockFor("VALID_UNTIL", "02012010");
+        prepareMockFor("WORK_UNTIL", "");
         prepareMockFor("NUMBER_OF_ENTRIES", "number-of-entries");
         prepareMockFor("VAF_NUMBER", "vaf-number");
         prepareMockFor("VISA_TYPE", "visa-type");

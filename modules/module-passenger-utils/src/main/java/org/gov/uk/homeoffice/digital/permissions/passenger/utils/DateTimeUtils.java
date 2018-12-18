@@ -57,7 +57,7 @@ public class DateTimeUtils {
     }
 
     public static String toDisplayDate(final LocalDate date) {
-        return date.format(DateTimeFormatter.BASIC_ISO_DATE);
+        return date != null ? date.format(DateTimeFormatter.BASIC_ISO_DATE) : "";
     }
 
     public static LocalDate fromDisplayDate(final String displayDate){

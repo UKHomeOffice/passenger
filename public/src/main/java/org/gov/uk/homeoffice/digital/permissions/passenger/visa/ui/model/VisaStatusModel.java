@@ -1,6 +1,7 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.visa.ui.model;
 
 import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.*;
@@ -82,6 +83,10 @@ public class VisaStatusModel implements Serializable {
 
     public boolean isValidUntil() {
         return show(VALID_UNTIL);
+    }
+
+    public boolean isWorkUntil() {
+        return show(WORK_UNTIL);
     }
 
     public boolean isCode1() {
@@ -218,6 +223,10 @@ public class VisaStatusModel implements Serializable {
 
     public String validUntil() {
         return OUTPUT_FORMATTER.format(fromDisplayDate(singleValueFor(VALID_UNTIL)));
+    }
+
+    public String workUntil() {
+        return StringUtils.isEmpty(singleValueFor(WORK_UNTIL))? null: OUTPUT_FORMATTER.format(fromDisplayDate(singleValueFor(WORK_UNTIL)));
     }
 
     public String name() {
