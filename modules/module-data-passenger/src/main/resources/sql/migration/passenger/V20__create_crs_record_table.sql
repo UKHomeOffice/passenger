@@ -21,7 +21,6 @@ CREATE TABLE crs_record
   visa_endorsement  VARCHAR(100),
   valid_from   TIMESTAMP NOT NULL,
   valid_to   TIMESTAMP NOT NULL,
-  work_until   TIMESTAMP,
   sponsor_name    VARCHAR(250),
   sponsor_type    VARCHAR(250),
   sponsor_address    VARCHAR(250),

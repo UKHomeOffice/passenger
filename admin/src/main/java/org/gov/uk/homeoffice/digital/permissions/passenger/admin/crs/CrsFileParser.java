@@ -124,7 +124,6 @@ public class CrsFileParser {
                     .visaEndorsement(fieldValue(fieldIndices, csvRecord, CrsField.VISA_ENDORSEMENT, val -> val.get(0)))
                     .validFrom(fieldValue(fieldIndices, csvRecord, CrsField.VISA_VALID_FROM, val -> LocalDate.parse(val.get(0), DateTimeFormatter.ofPattern("dd/MM/yyyy"))))
                     .validTo(fieldValue(fieldIndices, csvRecord, CrsField.VISA_VALID_TO, val -> LocalDate.parse(val.get(0), DateTimeFormatter.ofPattern("dd/MM/yyyy"))))
-                    .workUntil(fieldValue(fieldIndices, csvRecord, CrsField.WORK_UNTIL, val -> LocalDate.parse(val.get(0), DateTimeFormatter.ofPattern("dd/MM/yyyy"))))
                     .sponsorName(fieldValue(fieldIndices, csvRecord, CrsField.SPONSOR_DETAILS_NAME, val -> val.get(0)))
                     .sponsorType(fieldValue(fieldIndices, csvRecord, CrsField.SPONSOR_DETAILS_TYPE, val -> val.get(0)))
                     .sponsorAddress(fieldValue(fieldIndices, csvRecord, CrsField.SPONSOR_DETAILS_ADDRESS, val -> val.get(0)))

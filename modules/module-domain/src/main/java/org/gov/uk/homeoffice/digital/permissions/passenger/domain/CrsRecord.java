@@ -35,7 +35,6 @@ public class CrsRecord implements Serializable {
     private String visaEndorsement;
     private LocalDate validFrom;
     private LocalDate validTo;
-    private LocalDate workUntil;
     private String sponsorName;
     private String sponsorType;
     private String sponsorAddress;

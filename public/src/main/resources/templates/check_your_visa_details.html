@@ -77,10 +77,6 @@
                         <th class="govuk-table__header" scope="row">Sponsor name</th>
                         <td class="govuk-table__cell "><span th:text="${visa.sponsorName()}" th:remove="tag" /></td>
                     </tr>
-                    <tr class="govuk-table__row" th:styleappend="${visa.isWorkUntil() == false} ? 'display:none':''">
-                        <th class="govuk-table__header" scope="row">Work until</th>
-                        <td class="govuk-table__cell "><span th:text="${visa.workUntil()}" th:remove="tag" /></td>
-                    </tr>
                     </tbody>
                 </table>
                 <hr class="govuk-section-break govuk-section-break--l">

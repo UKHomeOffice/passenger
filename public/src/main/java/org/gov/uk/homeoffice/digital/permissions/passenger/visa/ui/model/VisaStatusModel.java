@@ -85,10 +85,6 @@ public class VisaStatusModel implements Serializable {
         return show(VALID_UNTIL);
     }
 
-    public boolean isWorkUntil() {
-        return show(WORK_UNTIL);
-    }
-
     public boolean isCode1() {
         return show(CODE_1);
     }
@@ -223,10 +219,6 @@ public class VisaStatusModel implements Serializable {
 
     public String validUntil() {
         return OUTPUT_FORMATTER.format(fromDisplayDate(singleValueFor(VALID_UNTIL)));
-    }
-
-    public String workUntil() {
-        return StringUtils.isEmpty(singleValueFor(WORK_UNTIL))? null: OUTPUT_FORMATTER.format(fromDisplayDate(singleValueFor(WORK_UNTIL)));
     }
 
     public String name() {

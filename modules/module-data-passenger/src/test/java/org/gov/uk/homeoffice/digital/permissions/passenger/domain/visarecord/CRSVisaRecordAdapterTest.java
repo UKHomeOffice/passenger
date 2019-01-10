@@ -32,7 +32,6 @@ public class CRSVisaRecordAdapterTest extends VisaRecordAdapterTest {
             Tuple.tpl(new VisaRule("PLACE_OF_ISSUE"), List.of(new VisaRuleContent(-1L, "PLACE_OF_ISSUE", "place-of-issue", true, RuleType.USER_DATA))),
             Tuple.tpl(new VisaRule("VALID_FROM"), List.of(new VisaRuleContent(-1L, "VALID_FROM",  "20180610", true, RuleType.USER_DATA))),
             Tuple.tpl(new VisaRule("VALID_UNTIL"), List.of(new VisaRuleContent(-1L, "VALID_UNTIL",  "20181220", true, RuleType.USER_DATA))),
-            Tuple.tpl(new VisaRule("WORK_UNTIL"), List.of(new VisaRuleContent(-1L, "WORK_UNTIL",  "", true, RuleType.USER_DATA))),
             Tuple.tpl(new VisaRule("NUMBER_OF_ENTRIES"), List.of(new VisaRuleContent(-1L, "NUMBER_OF_ENTRIES", "number-of-entries", true, RuleType.USER_DATA))),
             Tuple.tpl(new VisaRule("EMAIL_ADDRESS"), List.of(new VisaRuleContent(-1L, "EMAIL_ADDRESS", "email-address", true, RuleType.USER_DATA))),
             Tuple.tpl(new VisaRule("MOBILE_NUMBER"), List.of(new VisaRuleContent(-1L, "MOBILE_NUMBER", "mobile-number", true, RuleType.USER_DATA))),

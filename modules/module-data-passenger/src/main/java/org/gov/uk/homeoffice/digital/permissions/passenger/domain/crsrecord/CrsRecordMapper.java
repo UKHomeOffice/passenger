@@ -44,7 +44,6 @@ public class CrsRecordMapper implements RowMapper<CrsRecord> {
                 .visaEndorsement(resultSet.getString("visa_endorsement"))
                 .validFrom(ofNullable(resultSet.getDate("valid_from")).map(val -> val.toLocalDate()).orElse(null))
                 .validTo(ofNullable(resultSet.getDate("valid_to")).map(val -> val.toLocalDate()).orElse(null))
-                .workUntil(ofNullable(resultSet.getDate("work_until")).map(val -> val.toLocalDate()).orElse(null))
                 .sponsorName(resultSet.getString("sponsor_name"))
                 .sponsorType(resultSet.getString("sponsor_type"))
                 .sponsorAddress(resultSet.getString("sponsor_address"))
