@@ -49,6 +49,12 @@ public class MiController {
     @PreAuthorize("hasRole('MI')")
     @PostMapping
     public ModelAndView POSTmi(@ModelAttribute(value="miModel") final MiModel model) {
+        if(model.getMonth() == 0){
+            model.setMonth(1);
+        }
+        if(model.getYear() == 0){
+            model.setYear(1);
+        }
         model.setVisaStatusData(generateVisaStatusData(miService.visaCountByStatusForMonth(Month.of(model.getMonth()),
                 model.getYear())));
         model.setLoginData(generateLoginData(miService.loginCountForMonth(Month.of(model.getMonth()),

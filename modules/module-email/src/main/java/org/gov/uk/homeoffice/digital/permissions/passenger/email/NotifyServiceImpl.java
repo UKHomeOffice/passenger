@@ -47,7 +47,7 @@ public class NotifyServiceImpl implements NotifyService {
 
     @Override
     public Optional<SendEmailResponse> sendVisaGrantedEmail(String gwfRef, String visaEndorsement, String emailAddress, String fullName, String surName, String baseUrl) {
-        return sendMail(emailAddress, map(tpl("GWF", gwfRef), tpl("endorsement_type", visaEndorsement), tpl("FullName", fullName + " " + surName), tpl("VisaURL", baseUrl + "/login")), this.visaGrantedTemplateId);
+        return sendMail(emailAddress, map(tpl("GWF", gwfRef), tpl("endorsement_type", visaEndorsement), tpl("FullName", getCapitalized(fullName) + " " + getCapitalized(surName)), tpl("VisaURL", baseUrl + "/login")), this.visaGrantedTemplateId);
     }
 
 
