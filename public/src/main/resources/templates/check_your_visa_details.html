@@ -46,7 +46,7 @@
                     <tr class="govuk-table__row" th:styleappend="${visa.status() == null} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row">Visa status</th>
                         <td class="govuk-table__cell ">
-                            <strong class="govuk-tag"><span th:text="${visa.status()}" th:remove="tag" /></strong>
+                            <strong class="govuk-tag">APPROVED</strong>
                         </td>
                     </tr>
                     <tr class="govuk-table__row" th:styleappend="${visa.isValidFrom() == false} ? 'display:none':''">
