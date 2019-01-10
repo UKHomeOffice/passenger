@@ -1,5 +1,6 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.email;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.service.notify.NotificationClient;
@@ -64,7 +65,11 @@ public class NotifyServiceImpl implements NotifyService {
 
     @Override
     public Optional<SendEmailResponse> sendVisaRevokedEmail(String emailAddress, String fullName, String surName, String baseUrl) {
-        return sendMail(emailAddress, map(tpl("FullName", fullName + " " + surName), tpl("VisaURL", baseUrl + "/login")), this.visaRevokedTemplateId);
+        return sendMail(emailAddress, map(tpl("FullName", getCapitalized(fullName) + " " + getCapitalized(surName)), tpl("VisaURL", baseUrl + "/login")), this.visaRevokedTemplateId);
+    }
+
+    private String getCapitalized(String str) {
+        return StringUtils.capitalize(str.toLowerCase());
     }
 
     @Override
