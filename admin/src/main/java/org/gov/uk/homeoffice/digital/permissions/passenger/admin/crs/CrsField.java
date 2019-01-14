@@ -21,6 +21,7 @@ public enum CrsField {
     VISA_ENDORSEMENT("Visa Endorsement"),
     VISA_VALID_FROM("Visa valid from"),
     VISA_VALID_TO("Visa valid to"),
+    WORK_UNTIL("Tier 5 - Work until date"),
     SPONSOR_DETAILS_NAME("Sponsor details: Name"),
     SPONSOR_DETAILS_TYPE("Sponsor details: Type"),
     SPONSOR_DETAILS_ADDRESS("Sponsor details: Address"),

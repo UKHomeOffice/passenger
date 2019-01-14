@@ -25,6 +25,7 @@ public interface Query {
             "visa_endorsement = :visaEndorsement, " +
             "valid_from = :validFrom, " +
             "valid_to = :validTo, " +
+            "work_until = :workUntil, " +
             "sponsor_name = :sponsorName, " +
             "sponsor_type = :sponsorType, " +
             "sponsor_address = :sponsorAddress, " +
@@ -64,6 +65,7 @@ public interface Query {
             "visa_endorsement, " +
             "valid_from, " +
             "valid_to, " +
+            "work_until, " +
             "sponsor_name, " +
             "sponsor_type, " +
             "sponsor_address, " +
@@ -101,6 +103,7 @@ public interface Query {
             ":visaEndorsement," +
             ":validFrom," +
             ":validTo," +
+            ":workUntil," +
             ":sponsorName," +
             ":sponsorType," +
             ":sponsorAddress," +

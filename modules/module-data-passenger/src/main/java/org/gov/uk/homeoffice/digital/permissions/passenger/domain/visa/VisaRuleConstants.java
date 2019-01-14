@@ -5,6 +5,7 @@ public class VisaRuleConstants {
     public static final String PLACE_OF_ISSUE = "PLACE_OF_ISSUE";
     public static final String VALID_FROM = "VALID_FROM";
     public static final String VALID_UNTIL = "VALID_UNTIL";
+    public static final String WORK_UNTIL = "WORK_UNTIL";
     public static final String NUMBER_OF_ENTRIES = "NUMBER_OF_ENTRIES";
     public static final String VAF_NUMBER = "VAF_NUMBER";
     public static final String VISA_TYPE = "VISA_TYPE";

@@ -72,6 +72,7 @@ public class CRSVisaRecordAdapter extends AbstractVisaRecordAdapter {
         visaRuleMappings.add(ruleFor(VisaRuleConstants.PASSPORT_NUMBER, crsRecord.getPassportNumber()));
         visaRuleMappings.add(ruleFor(VisaRuleConstants.VALID_FROM, toDisplayDate(crsRecord.getValidFrom())));
         visaRuleMappings.add(ruleFor(VisaRuleConstants.VALID_UNTIL, toDisplayDate(crsRecord.getValidTo())));
+        visaRuleMappings.add(ruleFor(VisaRuleConstants.WORK_UNTIL, toDisplayDate(crsRecord.getWorkUntil())));
         visaRuleMappings.add(ruleFor(VisaRuleConstants.SPX_NUMBER, crsRecord.getSponsorSpxNo()));
         visaRuleMappings.add(ruleFor(VisaRuleConstants.SPONSOR_NAME, crsRecord.getSponsorName()));
         visaRuleMappings.add(ruleFor(VisaRuleConstants.SPONSOR_TYPE, crsRecord.getSponsorType()));
