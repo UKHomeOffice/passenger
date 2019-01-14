@@ -57,10 +57,7 @@ public class VisaController {
     public String visaDetails(final Map<String, Object> model, final Authentication authentication) {
         final Optional<VisaRecord> visaRecord = getVisaRecord(authentication);
         if(visaRecord.isPresent() && visaRecord.get().getVisaStatus().equals(VisaStatus.ISSUED)){
-            final VisaRecord record = visaRecord.get();
-            visaTypeService.findVisaTypeRule(record).get_1().
-                    ifPresentOrElse(visaTypeRule -> model.put("visa", new VisaStatusModel(dynamicContentProcessor, record, visaTypeRule))
-                            , () -> LOGGER.error("Unable to find a valid status."));
+            final VisaRecord record = addVisaToModel(model, visaRecord);
             audit("action='Check your visa'", "SUCCESS", record);
             return "check_your_visa_details";
         } else {
@@ -68,6 +65,14 @@ public class VisaController {
             LOGGER.error("Unable to find a valid visa.");
         }
         return "visa_refused";
+    }
+
+    private VisaRecord addVisaToModel(Map<String, Object> model, Optional<VisaRecord> visaRecord) {
+        final VisaRecord record = visaRecord.get();
+        visaTypeService.findVisaTypeRule(record).get_1().
+                ifPresentOrElse(visaTypeRule -> model.put("visa", new VisaStatusModel(dynamicContentProcessor, record, visaTypeRule))
+                        , () -> LOGGER.error("Unable to find a valid status."));
+        return record;
     }
 
     private void audit(String message, String status, VisaRecord record) {
@@ -81,24 +86,12 @@ public class VisaController {
         return authentication != null ? ofNullable(visaRecordService.get(authentication.getPrincipal().toString())) : empty();
     }
 
-    @RequestMapping(value = "/visa/arrive", method =  RequestMethod.POST)
+    @RequestMapping(value = "/visa/arrive", method =  {RequestMethod.GET, RequestMethod.POST})
     public String whenYouArriveUk(final Map<String, Object> model, final Authentication authentication) {
         final Optional<VisaRecord> visaRecord = getVisaRecord(authentication);
         visaRecord.ifPresentOrElse(vr ->
         {
-            final Boolean policeRegistrationMessage = vr.getVisaRulesMapping().stream().anyMatch(filter -> filter.get_1().getRule().equals(VisaRuleConstants.POLICE_REGISTRATION_NVN) || filter.get_1().getRule().equals(VisaRuleConstants.POLICE_REGISTRATION_VN));
-            if(policeRegistrationMessage){
-                model.put("policeRegistrationRequired", true);
-                model.put("policeRegistrationMessage", POLICE_REGISTERATION_REQUIRED);
-            } else {
-                model.put("policeRegistrationRequired", false);
-                model.put("policeRegistrationMessage", POLICE_REGISTERATION_NOT_REQUIRED);
-            }
-            final String address = vr.getVisaRulesMapping().stream()
-                    .filter(filter -> filter.get_1().getRule().equals(VisaRuleConstants.BRP_COLLECTION_INFO))
-                    .findFirst().get()
-                    .get_2().stream().findFirst().get().getContent();
-            model.put("address", address);
+            addPoliceRegistrationMessageAddress(model, vr);
             audit("action='When you arrive in UK'", "SUCCESS", visaRecord.get());
         }, () -> {
             LOGGER.error("Unable to find a valid visa.");
@@ -107,30 +100,65 @@ public class VisaController {
         return "when_you_arrive_in_uk";
     }
 
+    private void addPoliceRegistrationMessageAddress(Map<String, Object> model, VisaRecord vr) {
+        final Boolean policeRegistrationMessage = vr.getVisaRulesMapping().stream().anyMatch(filter -> filter.get_1().getRule().equals(VisaRuleConstants.POLICE_REGISTRATION_NVN) || filter.get_1().getRule().equals(VisaRuleConstants.POLICE_REGISTRATION_VN));
+        if(policeRegistrationMessage){
+            model.put("policeRegistrationRequired", true);
+            model.put("policeRegistrationMessage", POLICE_REGISTERATION_REQUIRED);
+        } else {
+            model.put("policeRegistrationRequired", false);
+            model.put("policeRegistrationMessage", POLICE_REGISTERATION_NOT_REQUIRED);
+        }
+        final String address = vr.getVisaRulesMapping().stream()
+                .filter(filter -> filter.get_1().getRule().equals(VisaRuleConstants.BRP_COLLECTION_INFO))
+                .findFirst().get()
+                .get_2().stream().findFirst().get().getContent();
+        model.put("address", address);
+    }
+
     @RequestMapping(value = "/visa/details", method = RequestMethod.POST)
     public String visaTravel(final Map<String, Object> model, final Authentication authentication) {
         getVisaTravel(model, authentication);
         return "visa_travel";
     }
 
+    @RequestMapping(value = "/visa/print", method = RequestMethod.POST)
+    public String visaPrint(final Map<String, Object> model, final Authentication authentication) {
+        final Optional<VisaRecord> visaRecord = getVisaRecord(authentication);
+        if(visaRecord.isPresent() && visaRecord.get().getVisaStatus().equals(VisaStatus.ISSUED)){
+            addVisaToModel(model, visaRecord);
+            addPoliceRegistrationMessageAddress(model, visaRecord.get());
+            addTravelDates(model, visaRecord.get());
+            return "visa_print_complete";
+        } else {
+            auditService.auditForPublicUser("action='Check your visa'", "FAILURE", null, null, null);
+            LOGGER.error("Unable to find a valid visa.");
+        }
+        return "visa_refused";
+    }
+
     private void getVisaTravel(Map<String, Object> model, Authentication authentication) {
         final Optional<VisaRecord> visaRecord = getVisaRecord(authentication);
         visaRecord.ifPresentOrElse(vr ->
         {
-            final String fromTravelDate = vr.getVisaRulesMapping().stream()
-                    .filter(filter -> filter.get_1().getRule().equals(VisaRuleConstants.VALID_FROM))
-                    .findFirst().get()
-                    .get_2().stream()
-                    .findFirst().get().getContent();
-            final LocalDate fromDate = fromDisplayDate(fromTravelDate);
-            final LocalDate toDate = fromDisplayDate(fromTravelDate).plusDays(MAX_TRAVEL_DAYS);
-            model.put("fromTravelDisplayDate", parse(fromDate, DateTimeUtils.DISPLAY_DATE_TIME_PATTERN));
-            model.put("toTravelDisplayDate", parse(toDate, DateTimeUtils.DISPLAY_DATE_TIME_PATTERN));
+            addTravelDates(model, vr);
             audit("action='Travel to the UK'", "SUCCESS", visaRecord.get());
         }, () -> {
             auditService.auditForPublicUser("action='Check your visa'", "FAILURE", null, null, null);
             LOGGER.error("Unable to find a valid visa.");
         });
+    }
+
+    private void addTravelDates(Map<String, Object> model, VisaRecord vr) {
+        final String fromTravelDate = vr.getVisaRulesMapping().stream()
+                .filter(filter -> filter.get_1().getRule().equals(VisaRuleConstants.VALID_FROM))
+                .findFirst().get()
+                .get_2().stream()
+                .findFirst().get().getContent();
+        final LocalDate fromDate = fromDisplayDate(fromTravelDate);
+        final LocalDate toDate = fromDisplayDate(fromTravelDate).plusDays(MAX_TRAVEL_DAYS);
+        model.put("fromTravelDisplayDate", parse(fromDate, DateTimeUtils.DISPLAY_DATE_TIME_PATTERN));
+        model.put("toTravelDisplayDate", parse(toDate, DateTimeUtils.DISPLAY_DATE_TIME_PATTERN));
     }
 
     @RequestMapping(value = "/visa/travel", method = RequestMethod.GET)

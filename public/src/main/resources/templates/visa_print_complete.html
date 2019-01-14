@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{govuk_template}">
+<head>
+    <title>Unable to find a valid visa</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <a th:href="@{/visa/arrive}" class="govuk-back-link">Back</a>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form th:action="@{/logout}" method="post">
+                <h1 class="govuk-heading-l">
+                    Get a summary of your visa
+                </h1>
+
+                <details class="govuk-details" role="group">
+                    <summary class="govuk-details__summary" role="button"
+                             aria-controls="details-content-ed9c55ef-980d-4cd4-a3a9-42ab136a82ee" aria-expanded="false">
+            <span class="govuk-details__summary-text">
+              View a print summary of your visa details
+            </span>
+                    </summary>
+                    <div class="govuk-details__text" id="details-content-ed9c55ef-980d-4cd4-a3a9-42ab136a82ee"
+                         aria-hidden="true">
+                        <table class="govuk-table">
+                            <caption class="govuk-table__caption govuk-heading-m">Your details</caption>
+                            <tbody class="govuk-table__body">
+                            <tr class="govuk-table__row" th:styleappend="${visa.isName() == false} ? 'display:none':''">
+                                <th class="govuk-table__header" scope="row" style="width:50%;">Full name</th>
+                                <td class="govuk-table__cell "><span th:text="${visa.name()}" th:remove="tag"/></td>
+                            </tr>
+                            <tr class="govuk-table__row"
+                                th:styleappend="${visa.isPassportNumber() == false} ? 'display:none':''">
+                                <th class="govuk-table__header" scope="row">
+                                    Passport number
+                                    <p class="govuk-body-s govuk-!-margin-0">linked to this visa</p>
+                                </th>
+                                <td class="govuk-table__cell "><span th:text="${visa.passportNumber()}"
+                                                                     th:remove="tag"/></td>
+                            </tr>
+                            <tr class="govuk-table__row"
+                                th:styleappend="${visa.isDateOfBirth() == false} ? 'display:none':''">
+                                <th class="govuk-table__header" scope="row">Date of birth</th>
+                                <td class="govuk-table__cell "><span th:text="${visa.dateOfBirth()}" th:remove="tag"/>
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row"
+                                th:styleappend="${visa.isNationality() == false} ? 'display:none':''">
+                                <th class="govuk-table__header" scope="row">Nationality</th>
+                                <td class="govuk-table__cell "><span th:text="${visa.nationality()}" th:remove="tag"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+
+                        <hr class="govuk-section-break govuk-section-break--l">
+
+                        <table class="govuk-table">
+                            <caption class="govuk-table__caption govuk-heading-m">Your visa details</caption>
+                            <tbody class="govuk-table__body">
+                            <tr class="govuk-table__row" th:styleappend="${visa.status() == null} ? 'display:none':''">
+                                <th class="govuk-table__header" scope="row">Visa status</th>
+                                <td class="govuk-table__cell ">
+                                    <strong class="govuk-tag">APPROVED</strong>
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row"
+                                th:styleappend="${visa.isValidFrom() == false} ? 'display:none':''">
+                                <th class="govuk-table__header" scope="row">Visa validity</th>
+                                <td class="govuk-table__cell ">
+                                    <span th:text="${visa.validFrom()}" th:remove="tag"/>
+                                    <span th:if="${visa.isValidUntil()}" th:text=" to " th:remove="tag"/>
+                                    <span th:if="${visa.isValidUntil()}" th:text="${visa.validUntil()}"
+                                          th:remove="tag"/>
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <th class="govuk-table__header" scope="row">Visa type</th>
+                                <td class="govuk-table__cell "><span th:text="${visa.visaType()}" th:remove="tag"/></td>
+                            </tr>
+                            <tr class="govuk-table__row"
+                                th:styleappend="${visa.isCasNumber() == false} ? 'display:none':''">
+                                <th class="govuk-table__header" scope="row">CAS (confirmation of acceptance for studies)
+                                    number
+                                </th>
+                                <td class="govuk-table__cell "><span th:text="${visa.casNumber()}" th:remove="tag"/>
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row"
+                                th:styleappend="${visa.isCosNumber() == false} ? 'display:none':''">
+                                <th class="govuk-table__header" scope="row">COS (Certificate of sponsorship) number</th>
+                                <td class="govuk-table__cell "><span th:text="${visa.cosNumber()}" th:remove="tag"/>
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row" th:styleappend="${visa.isSPX() == false} ? 'display:none':''">
+                                <th class="govuk-table__header" scope="row">SPX (sponsor licence) number</th>
+                                <td class="govuk-table__cell "><span th:text="${visa.spxNumber()}" th:remove="tag"/>
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row"
+                                th:styleappend="${visa.isSponsorName() == false} ? 'display:none':''">
+                                <th class="govuk-table__header" scope="row">Sponsor name</th>
+                                <td class="govuk-table__cell "><span th:text="${visa.sponsorName()}" th:remove="tag"/>
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row"
+                                th:styleappend="${visa.isWorkUntil() == false} ? 'display:none':''">
+                                <th class="govuk-table__header" scope="row">Work until</th>
+                                <td class="govuk-table__cell "><span th:text="${visa.workUntil()}" th:remove="tag"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+
+                        <p class="govuk-body govuk-!-margin-bottom-0" style="page-break-after: always;">&nbsp;</p>
+                        <!-- <hr class="govuk-section-break govuk-section-break--l"> -->
+
+                        <table class="govuk-table">
+                            <caption class="govuk-table__caption govuk-heading-m">You have 30 days to enter the UK after
+                                your visa starts
+                            </caption>
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th class="govuk-table__header" scope="col">Enter from</th>
+                                <th class="govuk-table__header" scope="col">Until</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell" style="width:50%;"><span
+                                        th:text="${fromTravelDisplayDate}" th:remove="tag"/></td>
+                                <td class="govuk-table__cell" style="width:50%;"><span th:text="${toTravelDisplayDate}"
+                                                                                       th:remove="tag"/></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+
+                        <hr class="govuk-section-break govuk-section-break--l print-break">
+
+                        <table class="govuk-table">
+                            <caption class="govuk-table__caption govuk-heading-m">What you can and cannot do with this
+                                visa
+                            </caption>
+                            <tbody class="govuk-table__body">
+                            <tr class="govuk-table__row"
+                                th:styleappend="${visa.hasPositiveEndorsements() == false} ? 'display:none':''">
+                                <th class="govuk-table__header" scope="row" style="width: 25%;" valign="top">You can:
+                                </th>
+                                <td class="govuk-table__cell">
+                                    <ul class="govuk-list govuk-list--bullet"
+                                        th:each="value : ${visa.allValuesFor('POSITIVE')}">
+                                        <li th:text="${value.content}"></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row"
+                                th:styleappend="${visa.hasNegativeEndorsements() == false} ? 'display:none':''">
+                                <th class="govuk-table__header" scope="row" style="width: 25%;" valign="top">You
+                                    can't:
+                                </th>
+                                <td class="govuk-table__cell">
+                                    <ul class="govuk-list govuk-list--bullet"
+                                        th:each="value : ${visa.allValuesFor('NEGATIVE')}">
+                                        <li th:text="${value.content}"></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row"
+                                th:styleappend="${visa.hasNote() == false} ? 'display:none':''">
+                                <th class="govuk-table__header" scope="row" style="width: 25%;" valign="top">Notes:</th>
+                                <td class="govuk-table__cell">
+                                    <ul class="govuk-list govuk-list--bullet"
+                                        th:each="value : ${visa.allValuesFor('NOTE')}">
+                                        <li th:text="${value.content}"></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <p class="govuk-body govuk-!-margin-bottom-0" style="page-break-after: always;">&nbsp;</p>
+
+                        <h2 class="govuk-heading-m">
+                            Collect your biometric residence permit
+                        </h2>
+
+                        <p>You must collect your biometric residence permit (<abbr title="biometric residence permit">BRP</abbr>)
+                            card within 10 days of arriving in the UK. You'll need your passport.</p>
+
+                        <p>You're collecting your <abbr title="biometric residence permit">BRP</abbr> from:</p>
+
+                        <p class="govuk-body">
+                            <span th:text="${address}" th:remove="tag"/>
+                        </p>
+
+                        <p>Your visa details will be printed on your <abbr title="biometric residence permit">BRP</abbr>.
+                        </p>
+
+                        <h2 class="govuk-heading-m"
+                            th:styleappend="${policeRegistrationRequired == true} ? '':'display:none'">
+                            Registering with the police
+                        </h2>
+                        <h2 class="govuk-heading-m"
+                            th:styleappend="${policeRegistrationRequired == false} ? '':'display:none'">
+                            Police registration not required
+                        </h2>
+
+                        <p class="govuk-body"><span th:text="${policeRegistrationMessage}" th:remove="tag"/></p>
+
+
+                        <hr class="govuk-section-break govuk-section-break--l">
+
+                        <h2 class="govuk-heading-m">
+                            Get help with your visa
+                        </h2>
+
+                        <p>If you need support with your visa you can contact UK Visas and Immigration by phone or
+                            email. You can find the details at this web address:</p>
+
+                        <p><a href="https://www.gov.uk/contact-ukvi-inside-outside-uk">https://www.gov.uk/contact-ukvi-inside-outside-uk</a>
+                        </p>
+
+                        <p>There is a charge to use this service outside the UK.</p>
+
+                        <hr class="govuk-section-break govuk-section-break--m">
+
+                        <a href="javascript: window.print();" role="button" class="govuk-button button-secondary">
+                            Print
+                        </a>
+                    </div>
+                </details>
+
+                <hr class="govuk-section-break govuk-section-break--m">
+
+                <button type="submit" class="govuk-button">
+                    Finish and sign out
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

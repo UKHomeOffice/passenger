@@ -20,22 +20,23 @@
                     <tbody class="govuk-table__body">
                     <tr class="govuk-table__row" th:styleappend="${visa.isName() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row">Full name</th>
-                        <td class="govuk-table__cell "><span th:text="${visa.name()}" th:remove="tag" /></td>
+                        <td class="govuk-table__cell "><span th:text="${visa.name()}" th:remove="tag"/></td>
                     </tr>
-                    <tr class="govuk-table__row" th:styleappend="${visa.isPassportNumber() == false} ? 'display:none':''">
+                    <tr class="govuk-table__row"
+                        th:styleappend="${visa.isPassportNumber() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row">
                             Passport number
                             <p class="govuk-body-s govuk-!-margin-0">linked to this visa</p>
                         </th>
-                        <td class="govuk-table__cell "><span th:text="${visa.passportNumber()}" th:remove="tag" /></td>
+                        <td class="govuk-table__cell "><span th:text="${visa.passportNumber()}" th:remove="tag"/></td>
                     </tr>
                     <tr class="govuk-table__row" th:styleappend="${visa.isDateOfBirth() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row">Date of birth</th>
-                        <td class="govuk-table__cell "><span th:text="${visa.dateOfBirth()}" th:remove="tag" /></td>
+                        <td class="govuk-table__cell "><span th:text="${visa.dateOfBirth()}" th:remove="tag"/></td>
                     </tr>
                     <tr class="govuk-table__row" th:styleappend="${visa.isNationality() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row">Nationality</th>
-                        <td class="govuk-table__cell "><span th:text="${visa.nationality()}" th:remove="tag" /></td>
+                        <td class="govuk-table__cell "><span th:text="${visa.nationality()}" th:remove="tag"/></td>
                     </tr>
                     </tbody>
                 </table>
@@ -52,58 +53,65 @@
                     <tr class="govuk-table__row" th:styleappend="${visa.isValidFrom() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row">Visa validity</th>
                         <td class="govuk-table__cell ">
-                            <span th:text="${visa.validFrom()}" th:remove="tag" />
-                            <span th:if="${visa.isValidUntil()}" th:text=" to " th:remove="tag" />
-                            <span th:if="${visa.isValidUntil()}" th:text="${visa.validUntil()}" th:remove="tag" />
+                            <span th:text="${visa.validFrom()}" th:remove="tag"/>
+                            <span th:if="${visa.isValidUntil()}" th:text=" to " th:remove="tag"/>
+                            <span th:if="${visa.isValidUntil()}" th:text="${visa.validUntil()}" th:remove="tag"/>
                         </td>
                     </tr>
                     <tr class="govuk-table__row">
                         <th class="govuk-table__header" scope="row">Visa type</th>
-                        <td class="govuk-table__cell "><span th:text="${visa.visaType()}" th:remove="tag" /></td>
+                        <td class="govuk-table__cell "><span th:text="${visa.visaType()}" th:remove="tag"/></td>
                     </tr>
                     <tr class="govuk-table__row" th:styleappend="${visa.isCasNumber() == false} ? 'display:none':''">
-                        <th class="govuk-table__header" scope="row">CAS (confirmation of acceptance for studies) number</th>
-                        <td class="govuk-table__cell "><span th:text="${visa.casNumber()}" th:remove="tag" /></td>
+                        <th class="govuk-table__header" scope="row">CAS (confirmation of acceptance for studies)
+                            number
+                        </th>
+                        <td class="govuk-table__cell "><span th:text="${visa.casNumber()}" th:remove="tag"/></td>
                     </tr>
                     <tr class="govuk-table__row" th:styleappend="${visa.isCosNumber() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row">COS (Certificate of sponsorship) number</th>
-                        <td class="govuk-table__cell "><span th:text="${visa.cosNumber()}" th:remove="tag" /></td>
+                        <td class="govuk-table__cell "><span th:text="${visa.cosNumber()}" th:remove="tag"/></td>
                     </tr>
                     <tr class="govuk-table__row" th:styleappend="${visa.isSPX() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row">SPX (sponsor licence) number</th>
-                        <td class="govuk-table__cell "><span th:text="${visa.spxNumber()}" th:remove="tag" /></td>
+                        <td class="govuk-table__cell "><span th:text="${visa.spxNumber()}" th:remove="tag"/></td>
                     </tr>
                     <tr class="govuk-table__row" th:styleappend="${visa.isSponsorName() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row">Sponsor name</th>
-                        <td class="govuk-table__cell "><span th:text="${visa.sponsorName()}" th:remove="tag" /></td>
+                        <td class="govuk-table__cell "><span th:text="${visa.sponsorName()}" th:remove="tag"/></td>
                     </tr>
                     <tr class="govuk-table__row" th:styleappend="${visa.isWorkUntil() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row">Work until</th>
-                        <td class="govuk-table__cell "><span th:text="${visa.workUntil()}" th:remove="tag" /></td>
+                        <td class="govuk-table__cell "><span th:text="${visa.workUntil()}" th:remove="tag"/></td>
                     </tr>
                     </tbody>
                 </table>
                 <hr class="govuk-section-break govuk-section-break--l">
                 <table id="conditions" class="govuk-table">
-                    <caption class="govuk-table__caption govuk-heading-m">What you can and can’t do with this visa</caption>
+                    <caption class="govuk-table__caption govuk-heading-m">What you can and can’t do with this visa
+                    </caption>
                     <tbody class="govuk-table__body">
-                <tr class="govuk-table__row" th:styleappend="${visa.hasPositiveEndorsements() == false} ? 'display:none':''">
+                    <tr class="govuk-table__row"
+                        th:styleappend="${visa.hasPositiveEndorsements() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row" style="width: 25%;" valign="top">You can:</th>
                         <td class="govuk-table__cell">
-                            <ul class="govuk-list govuk-list--bullet" th:each="value : ${visa.allValuesFor('POSITIVE')}">
+                            <ul class="govuk-list govuk-list--bullet"
+                                th:each="value : ${visa.allValuesFor('POSITIVE')}">
                                 <li th:text="${value.content}"></li>
                             </ul>
                         </td>
                     </tr>
-                    <tr class="govuk-table__row" th:styleappend="${visa.hasNegativeEndorsements() == false} ? 'display:none':''">
+                    <tr class="govuk-table__row"
+                        th:styleappend="${visa.hasNegativeEndorsements() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row" style="width: 25%;" valign="top">You can't:</th>
                         <td class="govuk-table__cell">
-                            <ul class="govuk-list govuk-list--bullet" th:each="value : ${visa.allValuesFor('NEGATIVE')}">
+                            <ul class="govuk-list govuk-list--bullet"
+                                th:each="value : ${visa.allValuesFor('NEGATIVE')}">
                                 <li th:text="${value.content}"></li>
                             </ul>
                         </td>
                     </tr>
-                <tr class="govuk-table__row" th:styleappend="${visa.hasNote() == false} ? 'display:none':''">
+                    <tr class="govuk-table__row" th:styleappend="${visa.hasNote() == false} ? 'display:none':''">
                         <th class="govuk-table__header" scope="row" style="width: 25%;" valign="top">Notes:</th>
                         <td class="govuk-table__cell">
                             <ul class="govuk-list govuk-list--bullet" th:each="value : ${visa.allValuesFor('NOTE')}">
@@ -118,7 +126,9 @@
                     <h2 class="govuk-heading-m">
                         Correct errors or make changes
                     </h2>
-                    <p><a href="https://www.gov.uk/contact-ukvi-inside-outside-uk">Tell UK Visas and Immigration about any changes</a>, for example if you get a new passport, or if any of your visa details are incorrect.</p>
+                    <p><a href="https://www.gov.uk/contact-ukvi-inside-outside-uk">Tell UK Visas and Immigration about
+                        any changes</a>, for example if you get a new passport, or if any of your visa details are
+                        incorrect.</p>
                     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
                     <p><span class="govuk-!-font-weight-bold">Next:</span> When you can come to the UK.</p>
                     <button type="submit" class="govuk-button">
