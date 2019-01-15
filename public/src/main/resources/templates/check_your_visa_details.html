@@ -88,7 +88,14 @@
                 </table>
                 <hr class="govuk-section-break govuk-section-break--l">
                 <table id="conditions" class="govuk-table">
-                    <caption class="govuk-table__caption govuk-heading-m">What you can and can’t do with this visa
+                    <caption class="govuk-table__caption govuk-heading-m" th:styleappend="${visa.hasPositiveEndorsements() == true and visa.hasNegativeEndorsements() == true} ? '':'display:none'">
+                        What you can and can’t do with this visa
+                    </caption>
+                    <caption class="govuk-table__caption govuk-heading-m" th:styleappend="${visa.hasPositiveEndorsements() == false and visa.hasNegativeEndorsements() == true} ? '':'display:none'">
+                        What you can’t do with this visa
+                    </caption>
+                    <caption class="govuk-table__caption govuk-heading-m" th:styleappend="${visa.hasPositiveEndorsements() == true and visa.hasNegativeEndorsements() == false} ? '':'display:none'">
+                        What you can do with this visa
                     </caption>
                     <tbody class="govuk-table__body">
                     <tr class="govuk-table__row"
