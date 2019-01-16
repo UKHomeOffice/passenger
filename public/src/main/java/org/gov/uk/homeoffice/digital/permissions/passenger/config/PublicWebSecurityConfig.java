@@ -66,7 +66,7 @@ public class PublicWebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(final WebSecurity web) throws Exception {
         web.ignoring()
                 .antMatchers("/css/**/*", "/js/**/*", "/version", "/actuator/health", "/static/**/*", "/loginfailed",
-                        "/govuk_template/**/*");
+                        "/govuk_template/**/*", "/footer/**");
     }
 
 }
