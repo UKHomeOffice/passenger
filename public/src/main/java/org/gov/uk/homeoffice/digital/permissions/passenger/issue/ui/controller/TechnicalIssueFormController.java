@@ -29,12 +29,12 @@ public class TechnicalIssueFormController {
         this.notifyService = notifyService;
     }
 
-    @GetMapping(path = "/issue")
+    @GetMapping(path = "/footer/issue")
     public ModelAndView GETtechnicalIssueForm() {
         return new ModelAndView("technical-issue", "issueForm", new TechnicalIssueForm());
     }
 
-    @PostMapping(path = "/issue")
+    @PostMapping(path = "/footer/issue")
     public ModelAndView POSTtechnicalIssueForm(@ModelAttribute(value="issueForm") final TechnicalIssueForm technicalIssueForm) {
 
         // Validate form is not empty
