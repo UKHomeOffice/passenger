@@ -121,20 +121,20 @@ public interface Query {
             ")";
 
 
-    String SELECT_BY_ID = "SELECT * FROM crs_record WHERE id = :id";
+    String SELECT_BY_ID = "SELECT * FROM crs_record WHERE id = :id AND enabled = true";
 
-    String SELECT_ID_BY_ID = "SELECT id FROM crs_record WHERE id = :id";
+    String SELECT_ID_BY_ID = "SELECT id FROM crs_record WHERE id = :id AND enabled = true";
 
-    String SELECT_BY_PASSPORT_NUMBER_AND_DATE_OF_BIRTH = "SELECT * FROM crs_record WHERE passport_no = :passportNumber AND date_of_birth=:dateOfBirth";
+    String SELECT_BY_PASSPORT_NUMBER_AND_DATE_OF_BIRTH = "SELECT * FROM crs_record WHERE passport_no = :passportNumber AND date_of_birth=:dateOfBirth AND enabled = true";
 
-    String SELECT_BY_PASSPORT_NUMBER = "SELECT * FROM crs_record WHERE passport_no = :passportNumber";
+    String SELECT_BY_PASSPORT_NUMBER = "SELECT * FROM crs_record WHERE passport_no = :passportNumber AND enabled = true";
 
-    String SELECT_ALL = "SELECT * FROM crs_record ORDER BY id DESC";
+    String SELECT_ALL = "SELECT * FROM crs_record WHERE enabled = true ORDER BY id DESC";
 
-    String DELETE_CRS_RECORD = "DELETE FROM crs_record WHERE id = :id";
+    String DELETE_CRS_RECORD = "UPDATE crs_record SET enabled = false WHERE id = :id";
 
-    String DELETE_CRS_RECORD_OLDER_THAN = "DELETE FROM crs_record WHERE valid_from < :dateTime";
+    String DELETE_CRS_RECORD_OLDER_THAN = "UPDATE crs_record SET enabled = false WHERE valid_from < :dateTime";
 
-    String SELECT_VALID_WITHIN_RANGE = "SELECT * FROM crs_record WHERE valid_from BETWEEN :lowerLimitIncluded AND :upperLimitIncluded";
+    String SELECT_VALID_WITHIN_RANGE = "SELECT * FROM crs_record WHERE valid_from BETWEEN :lowerLimitIncluded AND :upperLimitIncluded AND enabled = true";
 
 }

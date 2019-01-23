@@ -1,0 +1,1 @@
+ALTER TABLE crs_record ADD enabled BOOLEAN DEFAULT TRUE;
