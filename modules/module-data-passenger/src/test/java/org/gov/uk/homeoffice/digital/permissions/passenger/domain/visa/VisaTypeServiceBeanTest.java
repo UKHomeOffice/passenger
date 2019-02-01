@@ -83,13 +83,13 @@ public class VisaTypeServiceBeanTest {
 
     private Collection<VisaType> visaTypeCollection() {
         return newArrayList(
-                new VisaType(1L, "Tier 4 (General) Student", null, true, LocalDateTime.now()),
-                new VisaType(2L, "Tier 4 (Child(S))", null, true, LocalDateTime.now()),
-                new VisaType(3L, "Tier 4 (Child) Student 16-", null, true, LocalDateTime.now()),
-                new VisaType(4L, "Tier 4 (Child) Student 16+", null, true, LocalDateTime.now()),
-                new VisaType(5L, "Tier 4 (General(S)) Student", null, true, LocalDateTime.now()),
-                new VisaType(6L, "Tier 4 (General) Dependent Child", "12 Months+", true, LocalDateTime.now()),
-                new VisaType(7L, "Tier 4 (General) Dependent Child", "12 Months-", true, LocalDateTime.now())
+                new VisaType(1L, "Tier 4 (General) Student", null, null, true, LocalDateTime.now()),
+                new VisaType(2L, "Tier 4 (Child(S))", null, null, true, LocalDateTime.now()),
+                new VisaType(3L, "Tier 4 (Child) Student 16-", null, null, true, LocalDateTime.now()),
+                new VisaType(4L, "Tier 4 (Child) Student 16+", null, null, true, LocalDateTime.now()),
+                new VisaType(5L, "Tier 4 (General(S)) Student", null, null, true, LocalDateTime.now()),
+                new VisaType(6L, "Tier 4 (General) Dependent Child", "12 Months+", null, true, LocalDateTime.now()),
+                new VisaType(7L, "Tier 4 (General) Dependent Child", "12 Months-", null, true, LocalDateTime.now())
         );
     }
 

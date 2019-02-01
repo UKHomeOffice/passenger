@@ -13,6 +13,7 @@ public class VisaType implements Serializable {
     private Long id;
     private String name;
     private String notes;
+    private String description;
     private Boolean enabled;
     private LocalDateTime created;
 
@@ -25,7 +26,7 @@ public class VisaType implements Serializable {
     }
 
     public static VisaType createVisaType(final String name, final String notes) {
-        return new VisaType(null, name, notes, Boolean.TRUE, null);
+        return new VisaType(null, name, notes, null, Boolean.TRUE, null);
     }
 
 }

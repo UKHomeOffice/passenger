@@ -17,6 +17,7 @@ public class VisaTypeRowMapper implements RowMapper<VisaType> {
                 rs.getLong("id"),
                 rs.getString("name"),
                 rs.getString("notes"),
+                rs.getString("description"),
                 rs.getBoolean("enabled"),
                 Optional.ofNullable(rs.getTimestamp("created")).map(Timestamp::toLocalDateTime).orElse(null)
         );

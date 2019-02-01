@@ -13,7 +13,7 @@ public class VisaTypeTest {
 
     @Test
     public void shouldCreateVisaTypeFromConstructor() {
-        final VisaType visaType = new VisaType(1L, "visa-type", "notes", Boolean.TRUE, null);
+        final VisaType visaType = new VisaType(1L, "visa-type", "notes", null, Boolean.TRUE, null);
         assertThat(visaType.getId(), is(1L));
         assertThat(visaType.getName(), is("visa-type"));
         assertThat(visaType.getNotes(), is("notes"));

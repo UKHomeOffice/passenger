@@ -27,6 +27,10 @@ public interface VisaTypeDAO {
     @RegisterRowMapper(VisaTypeRowMapper.class)
     Optional<VisaType> selectById(@Bind("id") Long id);
 
+    @SqlQuery(VisaTypeSQL.SELECT_BY_NAME)
+    @RegisterRowMapper(VisaTypeRowMapper.class)
+    Optional<VisaType> selectByName(@Bind("name") String name);
+
     @SqlQuery(VisaTypeSQL.SELECT_ALL)
     @RegisterRowMapper(VisaTypeRowMapper.class)
     Collection<VisaType> selectAll();

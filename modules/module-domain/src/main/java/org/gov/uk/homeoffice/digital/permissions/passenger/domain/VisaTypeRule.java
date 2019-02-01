@@ -1,10 +1,13 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.domain;
 
 import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @EqualsAndHashCode
 public class VisaTypeRule implements Serializable {
@@ -34,6 +37,9 @@ public class VisaTypeRule implements Serializable {
     }
 
     public String getVisaType() {
+        if(!isEmpty(visaType.getDescription())){
+            visaType.getDescription();
+        }
         return visaType.getName();
     }
 

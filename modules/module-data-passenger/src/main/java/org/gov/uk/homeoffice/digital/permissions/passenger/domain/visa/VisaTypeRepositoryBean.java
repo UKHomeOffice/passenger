@@ -1,10 +1,7 @@
 package org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa;
 
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaType;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.action.FindAllVisaTypes;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.action.FindVisaTypeById;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.action.RemoveVisaTypeAction;
-import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.action.SaveVisaTypeAction;
+import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.action.*;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,6 +33,11 @@ public class VisaTypeRepositoryBean implements VisaTypeRepository {
     @Override
     public Optional<VisaType> findOneById(final Long id) {
         return jdbi.inTransaction(new FindVisaTypeById(id));
+    }
+
+    @Override
+    public Optional<VisaType> findByName(final String name) {
+        return jdbi.inTransaction(new FindVisaTypeByName(name));
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.domain.CrsRecord;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaRecord;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.CrsRecordRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRuleMatcher;
+import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaTypeRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visarecord.CRSVisaRecordAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,18 +37,22 @@ public class CrsFileUploadService {
 
     private final CrsEmailService crsEmailService;
 
+    private final VisaTypeRepository visaTypeRepository;
+
     public CrsFileUploadService(CrsFileParser crsFileParser,
                                 StorageService storageService,
                                 CrsRecordRepository crsRecordRepository,
                                 VisaRuleMatcher visaRuleMatcher,
                                 CRSVisaRecordAdapter crsVisaRecordAdapter,
-                                CrsEmailService crsEmailService) {
+                                CrsEmailService crsEmailService,
+                                VisaTypeRepository visaTypeRepository) {
         this.crsFileParser = crsFileParser;
         this.storageService = storageService;
         this.crsRecordRepository = crsRecordRepository;
         this.visaRuleMatcher = visaRuleMatcher;
         this.crsVisaRecordAdapter = crsVisaRecordAdapter;
         this.crsEmailService = crsEmailService;
+        this.visaTypeRepository = visaTypeRepository;
     }
 
 
@@ -57,6 +62,7 @@ public class CrsFileUploadService {
         final List<CrsRecord> updatedRecords = parsedResult.getCrsRecords()
                                                     .stream()
                                                     .filter(crsRecord -> visaRuleMatchFound(crsRecord, parsedResult))
+                                                    .peek(crsRecord -> crsRecord.setVisaEndorsementDescription(visaTypeRepository.findByName(crsRecord.getVisaEndorsement())))
                                                     .peek(crsRecord -> crsRecord.setUpdatedBy(username))
                                                     .peek(crsRecord -> save(parsedResult, crsRecord))
                                                     .collect(toList());

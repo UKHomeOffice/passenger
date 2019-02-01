@@ -6,6 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 
 @Data
@@ -33,6 +34,7 @@ public class CrsRecord implements Serializable {
     private String ecType;
     private String entryType;
     private String visaEndorsement;
+    private String visaEndorsementDescription;
     private LocalDate validFrom;
     private LocalDate validTo;
     private LocalDate workUntil;
@@ -62,6 +64,15 @@ public class CrsRecord implements Serializable {
 
     public String getFullName() {
         return (otherName + " " + familyName).trim();
+    }
+
+    public void setVisaEndorsementDescription(Optional<VisaType> visaType){
+        if(visaType != null && visaType.isPresent() &&  visaType.get().getDescription() != null){
+            this.visaEndorsementDescription = visaType.get().getDescription();
+        } else {
+            this.visaEndorsementDescription = this.visaEndorsement;
+        }
+
     }
 
 }

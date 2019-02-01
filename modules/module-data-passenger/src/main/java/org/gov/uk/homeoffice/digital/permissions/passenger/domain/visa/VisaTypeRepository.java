@@ -13,6 +13,8 @@ public interface VisaTypeRepository {
 
     Optional<VisaType> findOneById(Long id);
 
+    Optional<VisaType> findByName(String name);
+
     Collection<VisaType> findAll();
 
 }

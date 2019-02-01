@@ -8,6 +8,7 @@ import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaStatus;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.VisaType;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.crsrecord.CrsRecordRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaRuleMatcher;
+import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visa.VisaTypeRepository;
 import org.gov.uk.homeoffice.digital.permissions.passenger.domain.visarecord.CRSVisaRecordAdapter;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,6 +56,9 @@ public class CrsFileUploadServiceTest {
 
     @InjectMocks
     private CrsFileUploadService testObject;
+
+    @Mock
+    private VisaTypeRepository visaTypeRepository;
 
 
     private final String baseUrl = "base-url";
@@ -104,6 +108,7 @@ public class CrsFileUploadServiceTest {
     @Before
     public void setUp() throws Exception {
         when(file.getName()).thenReturn(TEST_FILE);
+        when(visaTypeRepository.findByName(any())).thenReturn(null);
     }
 
     @Test

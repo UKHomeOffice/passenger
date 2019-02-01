@@ -11,4 +11,5 @@ public interface VisaTypeService {
 
     Tuple<Optional<VisaTypeRule>, List<String>> findVisaTypeRule(VisaRecord visaRecord);
 
+
 }
