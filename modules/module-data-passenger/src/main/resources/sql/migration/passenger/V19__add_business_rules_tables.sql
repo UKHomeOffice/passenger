@@ -32,7 +32,7 @@ INSERT INTO visa_type (id, name, notes) VALUES (6, 'Tier 4 (General (S)) Student
 INSERT INTO visa_type (id, name, notes) VALUES (7, 'Tier 4 (General (S)) Student', 'Studying full-time at degree level and above at a HEI');
 INSERT INTO visa_type (id, name, notes) VALUES (8, 'Tier 4 (General (S)) Student', 'Studying full-time on a course below degree level at a HEI');
 INSERT INTO visa_type (id, name, notes) VALUES (9, 'Tier 4 (General (S)) Student', 'Further Education - any NQF Level');
-INSERT INTO visa_type (id, name, notes) VALUES (10, 'Tier 4 (General) Dependent Partner', ' 9+ Months Study  Degree level');
+INSERT INTO visa_type (id, name, notes) VALUES (10, 'Tier 4 (General) Dependent Partner', '9+ Months Study  Degree level');
 INSERT INTO visa_type (id, name, notes) VALUES (11, 'Tier 4 (General) Dependent Partner', '9- Months Study');
 INSERT INTO visa_type (id, name, notes) VALUES (12, 'Tier 4 (General) Dependent Partner', 'Studying a course below degree level');
 INSERT INTO visa_type (id, name, notes) VALUES (13, 'Tier 4 (General) Dependent Child', 'Studying more than 9 Months at Degreel level and above');
