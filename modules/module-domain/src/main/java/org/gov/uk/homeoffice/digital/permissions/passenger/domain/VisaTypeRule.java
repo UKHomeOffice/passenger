@@ -38,7 +38,7 @@ public class VisaTypeRule implements Serializable {
 
     public String getVisaType() {
         if(!isEmpty(visaType.getDescription())){
-            visaType.getDescription();
+           return visaType.getDescription();
         }
         return visaType.getName();
     }
