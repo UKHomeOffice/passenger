@@ -48,7 +48,7 @@ public class CrsFileParser {
                     .filter(entry -> entry.getValue().size() == 0).findFirst();
             if (optMissingColumn.isPresent()) {
                 return new CrsParsedResult(Collections.emptyList(),
-                        List.of(new CrsParseErrors("1",
+                        List.of(new CrsParseErrors(tempFile.getName(),
                                 List.of(String.format("Invalid CRS file format. Missing column %s",
                                         optMissingColumn.get().getKey())))));
             }
@@ -93,7 +93,7 @@ public class CrsFileParser {
 
             return tpl(of(crsRecord), empty());
         } catch (Exception e) {
-            return new Tuple<>(empty(), of(new CrsParseErrors(row, Collections.singletonList(e.getMessage()))));
+            return new Tuple<>(empty(), of(new CrsParseErrors("Unable to parse ", Collections.singletonList(e.getMessage()))));
         }
     }
 

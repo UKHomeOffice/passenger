@@ -39,7 +39,7 @@ public class CrsEmailService {
                     .map(part -> part.getEmailsSent())
                     .orElse(emptySet());
             if (visaGrantedToBeSend(crsRecord, emailsSent)) {
-                final Optional<SendEmailResponse> response = notifyService.sendVisaGrantedEmail(crsRecord.getGwfRef(), crsRecord.getVisaEndorsement(), crsRecord.getEmailAddress(), crsRecord.getOtherName(), crsRecord.getFamilyName(), baseUrl);
+                final Optional<SendEmailResponse> response = notifyService.sendVisaGrantedEmail(crsRecord.getGwfRef(), crsRecord.getVisaEndorsementDescription(), crsRecord.getEmailAddress(), crsRecord.getOtherName(), crsRecord.getFamilyName(), baseUrl);
                 if (response.isPresent()) {
                     crsRecord.setEmailsSent(add(emailsSent, "GRANTED"));
                     crsRecordRepository.save(crsRecord);

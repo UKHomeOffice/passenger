@@ -84,7 +84,7 @@ public class CrsFileUploadService {
 
     private boolean addErrors(CrsRecord crsRecord, CrsParsedResult parsedResult, List<String> visaRules) {
         return visaRules != null && visaRules.stream().anyMatch(Objects::nonNull) && parsedResult.getParseErrors().add(
-                new CrsParseErrors(crsRecord.toString(), visaRules));
+                new CrsParseErrors(crsRecord.getCrsRowIdentifier(), visaRules));
     }
 
     private void save(CrsParsedResult parsedResult, CrsRecord crsRecord) {

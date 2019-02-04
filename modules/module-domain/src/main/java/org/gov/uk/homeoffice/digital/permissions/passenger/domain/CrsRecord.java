@@ -72,7 +72,12 @@ public class CrsRecord implements Serializable {
         } else {
             this.visaEndorsementDescription = this.visaEndorsement;
         }
-
     }
+
+    public String getCrsRowIdentifier(){
+            return "Passport Number : " + this.passportNumber + ", Date of birth : " + this.getDateOfBirth();
+        }
+
+
 
 }

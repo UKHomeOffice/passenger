@@ -54,6 +54,7 @@ public class CrsEmailServiceTest {
             .status(VisaStatus.ISSUED)
             .gwfRef("GWFRef")
             .visaEndorsement("VisaType")
+            .visaEndorsementDescription("Visa description")
             .emailsSent(Set.of())
             .build();
 
@@ -105,7 +106,7 @@ public class CrsEmailServiceTest {
 
         crsEmailServiceWithEmailEnabled().sendVisaEmail(aValidCrsRecord);
         
-        verify(notifyService).sendVisaGrantedEmail("GWFRef","VisaType","emailAddress", "otherName", "familyName", baseUrl);
+        verify(notifyService).sendVisaGrantedEmail("GWFRef","Visa description","emailAddress", "otherName", "familyName", baseUrl);
         verify(notifyService, never()).sendVisaRevokedEmail(anyString(), anyString(), anyString(), anyString());
     }
 
