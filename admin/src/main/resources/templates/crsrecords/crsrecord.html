@@ -153,14 +153,18 @@
 </div>
 
 <div th:fragment="uploadError (error)">
-    <table class="error">
+    <table class="table">
+        <thead>
         <tr>
             <th>Crs Row</th>
             <td th:text="${error.crsRow}"/>
         </tr>
+        </thead>
+        <tbody>
         <tr th:each="errorMessage : ${error.message}">
-            <th>Error message</th>
-            <td th:text="${errorMessage}"/>
+            <th><font color="red">Error message</font></th>
+            <td th:text="${errorMessage}" />
         </tr>
+        </tbody>
     </table>
 </div>
