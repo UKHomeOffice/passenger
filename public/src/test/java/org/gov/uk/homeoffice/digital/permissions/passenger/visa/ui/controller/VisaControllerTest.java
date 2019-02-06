@@ -112,7 +112,7 @@ public class VisaControllerTest {
         testObject.visaDetails(model, mockAuthentication);
 
         assertThat(model.get("visa"), is(notNullValue()));
-        verify(auditService).auditForPublicUser("action='Check your visa'", "SUCCESS",     "first-name middle-name surname", "email", "passport-number");
+        verify(auditService).auditForPublicUser("action='Check your visa details'", "SUCCESS",     "first-name middle-name surname", "email", "passport-number");
     }
 
     @Test

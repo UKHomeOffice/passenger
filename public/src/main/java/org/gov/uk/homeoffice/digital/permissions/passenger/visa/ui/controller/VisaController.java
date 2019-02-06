@@ -58,7 +58,7 @@ public class VisaController {
         final Optional<VisaRecord> visaRecord = getVisaRecord(authentication);
         if(visaRecord.isPresent() && visaRecord.get().getVisaStatus().equals(VisaStatus.ISSUED)){
             final VisaRecord record = addVisaToModel(model, visaRecord);
-            audit("action='Check your visa'", "SUCCESS", record);
+            audit("action='Check your visa details'", "SUCCESS", record);
             return "check_your_visa_details";
         } else {
             auditService.auditForPublicUser("action='Check your visa'", "FAILURE", null, null, null);
@@ -95,7 +95,7 @@ public class VisaController {
             audit("action='When you arrive in UK'", "SUCCESS", visaRecord.get());
         }, () -> {
             LOGGER.error("Unable to find a valid visa.");
-            auditService.auditForPublicUser("action='Check your visa'", "FAILURE", null, null, null);
+            auditService.auditForPublicUser("action='When you arrive in UK'", "FAILURE", null, null, null);
         });
         return "when_you_arrive_in_uk";
     }
@@ -129,9 +129,10 @@ public class VisaController {
             addVisaToModel(model, visaRecord);
             addPoliceRegistrationMessageAddress(model, visaRecord.get());
             addTravelDates(model, visaRecord.get());
+            audit("action='Print your visa'", "Success", visaRecord.get());
             return "visa_print_complete";
         } else {
-            auditService.auditForPublicUser("action='Check your visa'", "FAILURE", null, null, null);
+            auditService.auditForPublicUser("action='Print your visa'", "FAILURE", null, null, null);
             LOGGER.error("Unable to find a valid visa.");
         }
         return "visa_refused";
@@ -144,7 +145,7 @@ public class VisaController {
             addTravelDates(model, vr);
             audit("action='Travel to the UK'", "SUCCESS", visaRecord.get());
         }, () -> {
-            auditService.auditForPublicUser("action='Check your visa'", "FAILURE", null, null, null);
+            auditService.auditForPublicUser("action='Travel to the UK'", "FAILURE", null, null, null);
             LOGGER.error("Unable to find a valid visa.");
         });
     }
