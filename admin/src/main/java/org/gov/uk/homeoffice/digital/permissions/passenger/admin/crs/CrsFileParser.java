@@ -48,7 +48,7 @@ public class CrsFileParser {
                     .filter(entry -> entry.getValue().size() == 0).findFirst();
             if (optMissingColumn.isPresent()) {
                 return new CrsParsedResult(Collections.emptyList(),
-                        List.of(new CrsParseErrors(tempFile.getName(),
+                        List.of(new CrsParseErrors("Please check the data",
                                 List.of(String.format("Invalid CRS file format. Missing column %s",
                                         optMissingColumn.get().getKey())))));
             }
@@ -138,7 +138,7 @@ public class CrsFileParser {
                     .expectedTravelDate(fieldValue(fieldIndices, csvRecord, CrsField.EXPECTED_TRAVEL_DATE, val -> LocalDate.parse(val.get(0), DateTimeFormatter.ofPattern("dd/MM/yyyy"))))
                     .build();
         } catch (Exception e){
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
 
         return build;

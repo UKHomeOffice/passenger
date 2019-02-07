@@ -178,7 +178,7 @@ public class CrsFileParserTest {
         assertCrsRecords(crsRecord, parsedResult);
 
         assertThat(parsedResult.getParseErrors().get(0).crsRow, equalTo("Unable to parse "));
-        assertThat(parsedResult.getParseErrors().get(0).message.get(0), equalTo("java.time.format.DateTimeParseException: Text '234567891' could not be parsed at index 2"));
+        assertThat(parsedResult.getParseErrors().get(0).message.get(0), equalTo("Text '234567891' could not be parsed at index 2"));
     }
 
     private void assertCrsRecords(CrsRecord crsRecord, CrsParsedResult parsedResult) {

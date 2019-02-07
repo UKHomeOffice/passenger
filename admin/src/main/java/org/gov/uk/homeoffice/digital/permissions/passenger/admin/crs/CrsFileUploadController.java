@@ -64,7 +64,7 @@ public class CrsFileUploadController {
             // Validate file name
             if (fileName == null || !fileName.matches("\\w{5}\\d{2}\\d{2}\\d{4}.csv")) {
                 redirectAttributes.addFlashAttribute("errors", List.of(
-                        new CrsParseErrors("1", List.of("File name is incorrect format. Should be in form 'xxxxxddmmyyyy.csv'"))));
+                        new CrsParseErrors("Please check the data", List.of("File name is incorrect format. Should be in form 'xxxxxddmmyyyy.csv'"))));
                 redirectAttributes.addFlashAttribute("crsRecords", Collections.emptyList());
                 redirectAttributes.addFlashAttribute("crsRecordsSuccessfullyCreated", 0);
                 redirectAttributes.addFlashAttribute("crsRecordsSuccessfullyUpdated", 0);
