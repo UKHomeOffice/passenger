@@ -23,7 +23,7 @@ public class SaveOrUpdateAction implements HandleConsumer<JdbiException> {
 
     @Override
     public void useHandle(final Handle handle) throws JdbiException {
-        final RuntimeException exception = new RuntimeException("CrsRecord " + crsRecord + " could not be saved");
+        final RuntimeException exception = new RuntimeException("CrsRecord identified by Passport " + crsRecord.getPassportNumber() + " DOB " + crsRecord.getDateOfBirth() + " could not be saved. Please check field values.");
         final CrsRecordDAO dao = handle.attach(CrsRecordDAO.class);
         crsRecord.setUpdated(LocalDateTime.now());
         Boolean result = ofNullable(dao.getByPassportNumberAndDateOfBirth(crsRecord.getPassportNumber(), crsRecord.getDateOfBirth()))
