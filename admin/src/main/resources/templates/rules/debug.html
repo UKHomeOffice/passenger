@@ -39,19 +39,38 @@
     </form>
 
 </div>
-
-<div class="container" th:if="${error != null}">
-    <table class="error">
-        <tr>
-            <th>Error</th>
-        </tr>
-        <tr>
-            <td th:text="${error}"/>
-        </tr>
-    </table>
-</div>
+<br>
+<br>
+<br>
+    <div class="container" th:if="${error != null}">
+        <table class="error">
+            <tr>
+                <th>Error</th>
+            </tr>
+            <tr>
+                <td th:text="${error}"/>
+            </tr>
+        </table>
+    </div>
 
 <div class="container" th:if="${record != null}">
+
+    <div class="page-header">
+        <h4>Matching Business Rules (without visa type filter)</h4>
+    </div>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Visa Type</th>
+            <th>Rules</th>
+        </tr>
+        <th:block th:each="match : ${rules}">
+            <tr>
+                <td th:text="${match.getKey().name}"></td>
+                <td th:text="${match.getValue()}"></td>
+            </tr>
+        </th:block>
+    </table>
 
     <div class="page-header">
         <h4>Passenger Data Rules</h4>
@@ -72,22 +91,6 @@
         </th:block>
     </table>
 
-    <div class="page-header">
-        <h4>Matching Business Rules (without visa type filter)</h4>
-    </div>
-
-    <table class="table table-striped">
-        <tr>
-            <th>Visa Type</th>
-            <th>Rules</th>
-        </tr>
-        <th:block th:each="match : ${rules}">
-            <tr>
-                <td th:text="${match.getKey().name}"></td>
-                <td th:text="${match.getValue()}"></td>
-            </tr>
-        </th:block>
-    </table>
 </div>
 </body>
 </html>
